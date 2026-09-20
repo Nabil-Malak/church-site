@@ -1,0 +1,1222 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 24 24%27%3E%3Crect width=%2724%27 height=%2724%27 rx=%275%27 fill=%27%231e3a6e%27/%3E%3Cpath fill=%27%23d9a93f%27 d=%27M9.5 3h5v6H21v5h-6.5v7h-5v-7H3V9h6.5z%27/%3E%3C/svg%3E">
+<title>كنيسة الملاك ميخائيل بدهروط | متابعة الخدمة</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Reem+Kufi:wght@500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#EDF0F6; --surface:#FFFFFF; --surface2:#F5F7FB; --ink:#15213B; --ink2:#586380; --line:#D9DFEB;
+  --primary:#23408E; --primary-ink:#FFFFFF; --primary-soft:#E3E9F8;
+  --gold:#B7862C; --side:#14213F; --side-ink:#DCE3F5; --side-dim:#93A0C4;
+  --p:#2E7D5A; --p-bg:#DDF0E6; --a:#B23A2E; --a-bg:#F8DFDB; --e:#94691A; --e-bg:#F6EACB;
+  --track:#E6EAF3; --shadow:0 1px 2px rgba(20,33,63,.06),0 8px 24px -12px rgba(20,33,63,.18);
+  --font:'IBM Plex Sans Arabic','Segoe UI',Tahoma,Arial,sans-serif; --display:'Reem Kufi','IBM Plex Sans Arabic',Tahoma,sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0D1424; --surface:#161F36; --surface2:#1B2643; --ink:#E8ECF7; --ink2:#9AA6C4; --line:#2A3658;
+    --primary:#8EA8FF; --primary-ink:#0D1424; --primary-soft:#222F55;
+    --gold:#D9A94B; --side:#0A1020; --side-ink:#DCE3F5; --side-dim:#8592B5;
+    --p:#5CC59A; --p-bg:#173A2D; --a:#FF8F82; --a-bg:#4A201C; --e:#E6B95E; --e-bg:#43361A;
+    --track:#222D4B; --shadow:0 1px 2px rgba(0,0,0,.4),0 8px 24px -12px rgba(0,0,0,.6);
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0D1424; --surface:#161F36; --surface2:#1B2643; --ink:#E8ECF7; --ink2:#9AA6C4; --line:#2A3658;
+  --primary:#8EA8FF; --primary-ink:#0D1424; --primary-soft:#222F55;
+  --gold:#D9A94B; --side:#0A1020; --side-ink:#DCE3F5; --side-dim:#8592B5;
+  --p:#5CC59A; --p-bg:#173A2D; --a:#FF8F82; --a-bg:#4A201C; --e:#E6B95E; --e-bg:#43361A;
+  --track:#222D4B; --shadow:0 1px 2px rgba(0,0,0,.4),0 8px 24px -12px rgba(0,0,0,.6);
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font-family:var(--font);font-size:16px;line-height:1.65;-webkit-font-smoothing:antialiased}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:3px solid var(--gold);outline-offset:2px;border-radius:6px}
+h1,h2,h3{font-family:var(--display);font-weight:700;margin:0;line-height:1.3}
+h1{font-size:28px} h2{font-size:20px} h3{font-size:17px}
+small,.muted{color:var(--ink2)}
+.icon{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex:none}
+
+/* layout */
+.app{display:grid;grid-template-columns:260px 1fr;min-height:100vh}
+.side{background:var(--side);color:var(--side-ink);padding:22px 14px;display:flex;flex-direction:column;gap:22px;position:sticky;top:0;height:100vh}
+.brand{display:flex;align-items:center;gap:12px;padding:4px 8px}
+.brand .mark{color:var(--gold);display:grid;place-items:center}
+.brand b{font-family:var(--display);font-size:19px;line-height:1.3;display:block}
+.brand small{color:var(--side-dim);font-size:13px}
+.nav{display:flex;flex-direction:column;gap:2px;flex:1;overflow-y:auto}
+.nav button{display:flex;align-items:center;gap:12px;background:none;border:0;color:var(--side-ink);padding:11px 12px;border-radius:10px;text-align:start;border-inline-start:3px solid transparent;font-weight:500}
+.nav button:hover{background:rgba(255,255,255,.06)}
+.nav button.on{background:rgba(255,255,255,.09);border-inline-start-color:var(--gold);font-weight:700}
+.userbox{border-top:1px solid rgba(255,255,255,.12);padding:14px 8px 2px;display:flex;flex-direction:column;gap:10px}
+.userbox .nm{font-weight:600}
+.userbox .rl{color:var(--side-dim);font-size:13px}
+.userbox .row{display:flex;gap:8px;flex-wrap:wrap}
+.linkbtn{background:none;border:0;color:var(--side-ink);padding:6px 0;display:inline-flex;gap:8px;align-items:center;font-size:14px;opacity:.85}
+.linkbtn:hover{opacity:1;text-decoration:underline}
+.modebadge{font-size:12px;color:var(--side-dim)}
+.main{padding:30px 36px 70px;max-width:1120px;width:100%}
+.mtop{display:none}
+.ph{display:flex;justify-content:space-between;align-items:flex-end;gap:14px;flex-wrap:wrap;margin-bottom:22px}
+.ph p{margin:4px 0 0;color:var(--ink2)}
+.actions{display:flex;gap:10px;flex-wrap:wrap}
+
+/* controls */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:0 18px;border-radius:10px;border:1px solid var(--line);background:var(--surface);font-weight:600}
+.btn:hover{background:var(--surface2)}
+.btn.primary{background:var(--primary);color:var(--primary-ink);border-color:transparent}
+.btn.primary:hover{filter:brightness(1.08)}
+.btn.danger{color:var(--a);border-color:color-mix(in srgb,var(--a) 40%,transparent)}
+.btn.sm{min-height:36px;padding:0 12px;font-size:14px}
+.btn.block{width:100%}
+.icon-btn{background:none;border:0;width:40px;height:40px;border-radius:10px;display:grid;place-items:center;color:var(--ink2)}
+.icon-btn:hover{background:var(--surface2)}
+.fld{display:flex;flex-direction:column;gap:6px;font-weight:600;font-size:14px}
+.fld.inline{flex-direction:row;align-items:center;gap:10px}
+input[type=text],input[type=password],input[type=date],input[type=search],input[type=tel],select,textarea{width:100%;min-height:44px;border:1px solid var(--line);border-radius:10px;background:var(--surface);padding:8px 12px;font-weight:400}
+textarea{min-height:88px;resize:vertical}
+.fld.inline input,.fld.inline select{width:auto}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.stack{display:flex;flex-direction:column;gap:14px}
+.toolbar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:16px}
+.toolbar .grow{flex:1;min-width:200px}
+.toolbar select{width:auto;min-width:150px}
+.searchbox{position:relative}
+.searchbox .icon{position:absolute;inset-inline-start:12px;top:12px;color:var(--ink2)}
+.searchbox input{padding-inline-start:40px}
+
+/* surfaces */
+.card{background:var(--surface);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);padding:18px 20px}
+.card>h2,.card>h3{margin-bottom:12px}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:14px;margin-bottom:22px}
+.stat{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:14px 18px}
+.stat .v{font-family:var(--display);font-size:30px;font-weight:700;line-height:1.2}
+.stat .l{color:var(--ink2);font-size:14px}
+.cols2{display:grid;grid-template-columns:1.1fr .9fr;gap:18px;margin-bottom:18px}
+.tabs{display:flex;gap:4px;border-bottom:1px solid var(--line);margin-bottom:18px;overflow-x:auto}
+.tab{background:none;border:0;padding:10px 16px;font-weight:600;color:var(--ink2);border-bottom:3px solid transparent;margin-bottom:-1px;white-space:nowrap}
+.tab.on{color:var(--ink);border-bottom-color:var(--gold)}
+.empty{border:1.5px dashed var(--line);border-radius:14px;padding:34px 20px;text-align:center;color:var(--ink2);display:flex;flex-direction:column;align-items:center;gap:12px}
+.pill{display:inline-flex;align-items:center;gap:6px;padding:2px 10px;border-radius:99px;font-size:13px;font-weight:600;background:var(--surface2);color:var(--ink2)}
+.pill.good{background:var(--p-bg);color:var(--p)} .pill.mid{background:var(--e-bg);color:var(--e)} .pill.bad{background:var(--a-bg);color:var(--a)}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{background:var(--primary-soft);color:var(--primary);border-radius:8px;padding:1px 9px;font-size:13px;font-weight:500}
+table{width:100%;border-collapse:collapse}
+th,td{text-align:start;padding:11px 12px;border-bottom:1px solid var(--line);vertical-align:middle}
+th{font-size:13px;color:var(--ink2);font-weight:600;background:var(--surface2)}
+tr:last-child td{border-bottom:0}
+.tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:14px;background:var(--surface)}
+.rate{display:flex;align-items:center;gap:10px;min-width:130px}
+.rate .tr{flex:1;height:8px;background:var(--track);border-radius:9px;overflow:hidden}
+.rate .tr i{display:block;height:100%;background:var(--p);border-radius:9px}
+.rate .tr i.mid{background:var(--e)} .rate .tr i.bad{background:var(--a)}
+.rate span{font-weight:600;min-width:42px}
+
+/* member rows */
+.mlist{display:flex;flex-direction:column;gap:8px}
+.mrow{display:flex;align-items:center;gap:14px;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:10px 14px;text-align:start;width:100%}
+.mrow:hover{border-color:var(--primary)}
+.av{width:42px;height:42px;border-radius:50%;background:var(--primary-soft);color:var(--primary);display:grid;place-items:center;font-weight:700;flex:none;font-family:var(--display)}
+.mi{flex:1;min-width:0;display:flex;flex-direction:column}
+.mi b{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mi small{display:flex;gap:10px;flex-wrap:wrap}
+.mr{display:flex;gap:8px;align-items:center;flex-wrap:wrap;justify-content:flex-end}
+
+/* attendance sheet */
+.sheetbar{display:flex;flex-wrap:wrap;gap:10px 18px;align-items:center;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:12px 16px;margin-bottom:14px}
+.cnt{display:flex;gap:8px;flex-wrap:wrap;flex:1}
+.cnt span{display:inline-flex;gap:6px;align-items:baseline;font-weight:600}
+.cnt b{font-family:var(--display);font-size:22px}
+.cnt .p{color:var(--p)} .cnt .a{color:var(--a)} .cnt .e{color:var(--e)} .cnt .n{color:var(--ink2)}
+.prog{height:6px;background:var(--track);border-radius:9px;overflow:hidden;width:100%}
+.prog i{display:block;height:100%;background:var(--primary)}
+.arow{display:flex;align-items:center;justify-content:space-between;gap:12px;background:var(--surface);border:1px solid var(--line);border-inline-start:5px solid var(--line);border-radius:12px;padding:10px 14px}
+.arow.st-p{border-inline-start-color:var(--p)} .arow.st-a{border-inline-start-color:var(--a)} .arow.st-e{border-inline-start-color:var(--e)}
+.arow .who{display:flex;flex-direction:column;min-width:0}
+.arow .who b{font-size:17px}
+.arow .who small{color:var(--a);font-weight:600}
+.seg{display:flex;gap:6px;flex:none}
+.sb{min-width:66px;min-height:46px;padding:0 12px;border-radius:10px;border:1.5px solid var(--line);background:var(--surface);font-weight:600;color:var(--ink2)}
+.sb.p.on{background:var(--p);border-color:var(--p);color:#fff}
+.sb.a.on{background:var(--a);border-color:var(--a);color:#fff}
+.sb.e.on{background:var(--e);border-color:var(--e);color:#fff}
+[data-theme="dark"] .sb.on,:root:not([data-theme="light"]) .sb.on{color:#0D1424}
+.sb:not(.on):hover{border-color:var(--ink2)}
+
+/* charts */
+.cols{display:flex;gap:10px;align-items:flex-end;overflow-x:auto;padding-bottom:4px}
+.col{flex:1;min-width:46px;display:flex;flex-direction:column;align-items:center;gap:4px}
+.col .bar{width:100%;height:130px;display:flex;align-items:flex-end;background:var(--track);border-radius:8px;overflow:hidden}
+.col .bar i{display:block;width:100%;background:var(--primary);border-radius:8px 8px 0 0}
+.col .cv{font-weight:700;font-size:13px}
+.col .cl{font-size:12px;color:var(--ink2);white-space:nowrap}
+.hbars{display:flex;flex-direction:column;gap:12px}
+.hbar{display:grid;grid-template-columns:150px 1fr 52px;gap:12px;align-items:center}
+.hbar .tr{height:14px;background:var(--track);border-radius:9px;overflow:hidden}
+.hbar .tr i{display:block;height:100%;background:var(--primary);border-radius:9px}
+.hbar b{text-align:end}
+.dots{display:flex;gap:6px;flex-wrap:wrap}
+.dot{width:26px;height:26px;border-radius:50%;background:var(--track);display:grid;place-items:center;font-size:11px;color:var(--ink2);font-weight:700}
+.dot.p{background:var(--p);color:#fff} .dot.a{background:var(--a);color:#fff} .dot.e{background:var(--e);color:#fff}
+
+/* stars */
+.crit{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:8px 0;border-bottom:1px solid var(--line)}
+.stars{display:flex;gap:2px}
+.star{background:none;border:0;font-size:30px;line-height:1;color:var(--track);padding:2px 4px;min-width:40px;min-height:44px}
+.star.on{color:var(--gold)}
+.ev{border:1px solid var(--line);border-radius:10px;padding:10px 12px;margin-top:8px;background:var(--surface2)}
+
+/* modal */
+#modal .scrim{position:fixed;inset:0;background:rgba(10,16,32,.55);display:flex;align-items:center;justify-content:center;padding:16px;z-index:50}
+.sheet{background:var(--surface);border-radius:16px;width:100%;max-width:520px;max-height:92vh;display:flex;flex-direction:column;box-shadow:0 20px 60px rgba(0,0,0,.35)}
+.sheet.wide{max-width:680px}
+.sheet-h{display:flex;justify-content:space-between;align-items:center;padding:16px 20px;border-bottom:1px solid var(--line)}
+.sheet-b{padding:18px 20px;overflow-y:auto}
+.sheet-f{padding:14px 20px;border-top:1px solid var(--line);display:flex;gap:10px;justify-content:flex-start;flex-wrap:wrap}
+.checks{display:flex;flex-direction:column;gap:4px}
+.checks .grp{font-weight:700;margin-top:8px;color:var(--ink2);font-size:14px}
+.check{display:flex;gap:10px;align-items:center;min-height:36px;font-weight:400}
+.check input{width:20px;height:20px}
+.kv{display:grid;grid-template-columns:110px 1fr;gap:6px 12px;margin:0}
+.kv dt{color:var(--ink2)} .kv dd{margin:0}
+#toast{position:fixed;inset-inline:0;bottom:24px;display:flex;justify-content:center;pointer-events:none;z-index:80}
+#toast div{background:var(--ink);color:var(--bg);padding:10px 18px;border-radius:10px;font-weight:600;box-shadow:var(--shadow)}
+#toast div.err{background:var(--a);color:#fff}
+
+/* auth */
+.auth{min-height:100vh;display:grid;grid-template-columns:1fr 1fr}
+.auth-l{background:var(--side);color:var(--side-ink);padding:48px;display:flex;flex-direction:column;justify-content:center;gap:16px}
+.auth-l .mark{color:var(--gold)}
+.auth-l h1{font-size:38px;color:#fff}
+.auth-l p{color:var(--side-dim);max-width:34ch;margin:0}
+.auth-r{display:flex;align-items:center;justify-content:center;padding:32px}
+.auth-box{width:100%;max-width:400px;display:flex;flex-direction:column;gap:16px}
+.hint{font-size:14px;color:var(--ink2);margin:0}
+.loading{min-height:100vh;display:grid;place-items:center;color:var(--ink2)}
+
+@media (max-width:860px){
+  .app{grid-template-columns:1fr}
+  .side{position:fixed;inset-inline:0;bottom:0;top:auto;height:auto;flex-direction:row;padding:6px 6px calc(6px + env(safe-area-inset-bottom));gap:0;z-index:20;border-top:1px solid rgba(255,255,255,.1)}
+  .brand,.userbox{display:none}
+  .nav{flex-direction:row;overflow-x:auto;gap:2px}
+  .nav button{flex-direction:column;gap:2px;padding:6px 10px;min-width:70px;font-size:12px;border-inline-start:0;border-top:3px solid transparent;border-radius:8px;justify-content:center;align-items:center;text-align:center}
+  .nav button.on{border-top-color:var(--gold)}
+  .main{padding:16px 14px 100px}
+  .mtop{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;color:var(--ink2);font-size:14px}
+  .mtop .r{display:flex;gap:4px}
+  h1{font-size:24px}
+  .cols2{grid-template-columns:1fr}
+  .grid2{grid-template-columns:1fr}
+  .auth{grid-template-columns:1fr}
+  .auth-l{padding:28px}
+  .auth-l h1{font-size:28px}
+  .hbar{grid-template-columns:100px 1fr 46px}
+  .arow{flex-direction:column;align-items:stretch}
+  .seg .sb{flex:1}
+}
+@media (prefers-reduced-motion:no-preference){
+  .sb,.btn,.mrow{transition:background .15s,border-color .15s}
+}
+</style>
+</head>
+<body>
+<div id="root"></div>
+<div id="modal"></div>
+<div id="toast"></div>
+
+<script src="config.js"></script>
+<script src="supabase.js"></script>
+<script>
+(function(){
+'use strict';
+
+/* ---------- helpers ---------- */
+const $ = (s, el) => (el || document).querySelector(s);
+const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const nf = n => Number(n).toLocaleString('ar-EG');
+const pct = n => (n == null || isNaN(n)) ? '—' : nf(Math.round(n)) + '٪';
+const avgFmt = n => (n == null || isNaN(n)) ? '—' : nf(Math.round(n * 10) / 10);
+const sleep = ms => new Promise(r => setTimeout(r, ms));
+const clone = o => JSON.parse(JSON.stringify(o));
+const norm = s => String(s == null ? '' : s).trim().replace(/[\u064B-\u0652\u0640]/g, '').replace(/[أإآ]/g, 'ا').replace(/ى/g, 'ي').replace(/ة/g, 'ه').replace(/\s+/g, ' ').toLowerCase();
+const pad = n => String(n).padStart(2, '0');
+const ymd = d => d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate());
+const today = () => ymd(new Date());
+const parseD = s => { const p = s.split('-').map(Number); return new Date(p[0], p[1] - 1, p[2]); };
+const fmtDate = s => s ? parseD(s).toLocaleDateString('ar-EG', {weekday:'long', day:'numeric', month:'long'}) : '';
+const fmtShort = s => parseD(s).toLocaleDateString('ar-EG', {day:'numeric', month:'short'});
+const monthOf = s => s.slice(0, 7);
+const uid = p => p + '_' + Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
+const isObj = x => x && typeof x === 'object' && !Array.isArray(x);
+function deepMerge(a, b){
+  const out = isObj(a) ? Object.assign({}, a) : {};
+  for (const k of Object.keys(b)) out[k] = (isObj(b[k]) && isObj(out[k])) ? deepMerge(out[k], b[k]) : (isObj(b[k]) ? deepMerge({}, b[k]) : b[k]);
+  return out;
+}
+const ICONS = {
+  home:'<path d="M3 11l9-8 9 8v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/>',
+  check:'<rect x="6" y="4" width="12" height="17" rx="2"/><path d="M9 4V3h6v1"/><path d="M9 13l2 2 4-4"/>',
+  star:'<path d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1L3.2 9.5l6.1-.9z"/>',
+  users:'<circle cx="9" cy="8" r="3.2"/><path d="M3 20c0-3.3 2.7-5.5 6-5.5s6 2.2 6 5.5"/><circle cx="17.5" cy="9" r="2.4"/><path d="M17 14.6c2.4.2 4 1.9 4 4.4"/>',
+  shield:'<path d="M12 3l8 3v6c0 4.5-3.2 7.8-8 9-4.8-1.2-8-4.5-8-9V6z"/><path d="M9 12l2 2 4-4"/>',
+  layers:'<path d="M12 3l9 5-9 5-9-5z"/><path d="M3 13l9 5 9-5"/>',
+  chart:'<path d="M5 20V11M12 20V4M19 20v-6"/>',
+  settings:'<path d="M4 7h10M18 7h2M4 17h2M10 17h10"/><circle cx="16" cy="7" r="2"/><circle cx="8" cy="17" r="2"/>',
+  logout:'<path d="M9 4H5a1 1 0 0 0-1 1v14a1 1 0 0 0 1 1h4"/><path d="M16 8l4 4-4 4M20 12H9"/>',
+  plus:'<path d="M12 5v14M5 12h14"/>',
+  search:'<circle cx="11" cy="11" r="6"/><path d="M20 20l-4-4"/>',
+  edit:'<path d="M4 20h4L19 9l-4-4L4 16z"/>',
+  trash:'<path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13"/>',
+  download:'<path d="M12 4v11M7 11l5 5 5-5M5 20h14"/>',
+  x:'<path d="M6 6l12 12M18 6L6 18"/>',
+  key:'<circle cx="8" cy="15" r="4"/><path d="M11 12l9-9M16 7l3 3"/>'
+};
+const icon = n => `<svg class="icon" viewBox="0 0 24 24" aria-hidden="true">${ICONS[n] || ''}</svg>`;
+const logo = s => `<svg width="${s || 30}" height="${s || 30}" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M9.5 2h5v6.5H21v5h-6.5V22h-5v-8.5H3v-5h6.5z"/></svg>`;
+
+/* ---------- storage layer (Supabase) ---------- */
+const COLS = ['config','services','classes','servants','members','att','ev'];
+const S = {}; COLS.forEach(c => S[c] = {});
+const CFG = window.CHURCH_CONFIG || {};
+const sb = (CFG.SUPABASE_URL && CFG.SUPABASE_ANON_KEY && window.supabase)
+  ? window.supabase.createClient(CFG.SUPABASE_URL, CFG.SUPABASE_ANON_KEY, {auth:{persistSession:true, autoRefreshToken:true, storageKey:'church-auth'}})
+  : null;
+const dl = true;
+const EMAIL_DOMAIN = '@church.local';
+async function sha256(s){
+  const b = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(s));
+  return Array.from(new Uint8Array(b)).map(x => x.toString(16).padStart(2, '0')).join('');
+}
+async function emailFor(name){ return 'u' + (await sha256(norm(name))).slice(0, 32) + EMAIL_DOMAIN; }
+
+async function rpc(name, args){ const r = await sb.rpc(name, args || {}); if (r.error) throw r.error; return r.data; }
+const chk = r => { if (r.error) throw r.error; return r; };
+function errText(e){
+  const m = String((e && (e.message || e.details || e.hint)) || e || '');
+  if (/duplicate_name|duplicate key|already exists/i.test(m)) return 'الاسم ده مستخدم بالفعل. أضف حرف أو اسم تاني للتمييز';
+  if (/weak_password/.test(m)) return 'كلمة المرور لازم تكون ٦ أحرف على الأقل';
+  if (/wrong_password/.test(m)) return 'كلمة المرور الحالية غير صحيحة';
+  if (/already_setup/.test(m)) return 'النظام اتجهّز قبل كده. سجّل دخول بالاسم وكلمة المرور';
+  if (/not_allowed|row-level security|permission denied|42501/i.test(m)) return 'ليس لديك صلاحية لتنفيذ ده';
+  if (/Failed to fetch|NetworkError|network|Load failed/i.test(m)) return 'مفيش اتصال بالإنترنت. حاول تاني';
+  return 'حصل خطأ: ' + m.slice(0, 90);
+}
+
+/* ---- reading ---- */
+const PAGE = 1000;
+async function fetchAll(table, cols, orders){
+  let out = [], from = 0;
+  for (;;) {
+    let q = sb.from(table).select(cols);
+    orders.forEach(o => { q = q.order(o); });
+    const r = await q.range(from, from + PAGE - 1);
+    if (r.error) throw r.error;
+    out = out.concat(r.data || []);
+    if (!r.data || r.data.length < PAGE) break;
+    from += PAGE;
+  }
+  return out;
+}
+const byMonth = (rows, dayKey, add) => { const docs = {}; rows.forEach(r => { const m = String(r[dayKey]).slice(0, 7); add(docs[m] = docs[m] || {}, r); }); return Object.keys(docs).map(k => ({id:k, data:docs[k]})); };
+const LOAD = {
+  config: async () => (await fetchAll('config', 'key,data', ['key'])).map(r => ({id:r.key, data:r.data})),
+  services: async () => (await fetchAll('services', 'id,data', ['id'])).map(r => ({id:r.id, data:r.data})),
+  classes: async () => (await fetchAll('classes', 'id,data', ['id'])).map(r => ({id:r.id, data:r.data})),
+  members: async () => (await fetchAll('members', 'id,data', ['id'])).map(r => ({id:r.id, data:r.data})),
+  servants: async () => (await fetchAll('profiles', 'id,name,phone,role,active,class_ids', ['id'])).filter(p => p.role === 'servant')
+    .map(p => ({id:p.id, data:{name:p.name, phone:p.phone || '', active:p.active, classIds:p.class_ids || []}})),
+  att: async () => byMonth(await fetchAll('attendance', 'person_id,day,status', ['day', 'person_id']), 'day',
+    (d, r) => { d.days = d.days || {}; (d.days[r.day] = d.days[r.day] || {})[r.person_id] = r.status; }),
+  ev: async () => byMonth(await fetchAll('evaluations', 'key,day,data', ['key']), 'day',
+    (d, r) => { d.items = d.items || {}; d.items[r.key] = r.data; })
+};
+
+/* ---- writing ---- */
+const DB = {
+  async set(col, id, d){
+    if (col === 'config') chk(await sb.from('config').upsert({key:id, data:d}));
+    else if (col === 'services' || col === 'classes') chk(await sb.from(col).upsert({id, data:d}));
+    else if (col === 'members') chk(await sb.from('members').upsert({id, class_id:d.classId || null, data:d}));
+    else if (col === 'servants') chk(await sb.from('profiles').update({name:d.name, phone:d.phone || '', class_ids:d.classIds || [], active:d.active !== false}).eq('id', id));
+    else await DB.update(col, id, d);
+  },
+  async update(col, id, p){
+    if (col === 'att') {
+      const ups = [], dels = {};
+      Object.keys(p.days || {}).forEach(day => Object.keys(p.days[day]).forEach(pid => {
+        const st = p.days[day][pid];
+        if (st) ups.push({person_id:pid, day, status:st}); else (dels[day] = dels[day] || []).push(pid);
+      }));
+      if (ups.length) chk(await sb.from('attendance').upsert(ups, {onConflict:'person_id,day'}));
+      for (const day of Object.keys(dels)) chk(await sb.from('attendance').delete().eq('day', day).in('person_id', dels[day]));
+    } else if (col === 'ev') {
+      const ups = [], dels = [];
+      Object.keys(p.items || {}).forEach(key => {
+        const it = p.items[key];
+        if (it.deleted === true) dels.push(key); else ups.push({key, member_id:it.memberId, day:it.date, data:it});
+      });
+      if (ups.length) chk(await sb.from('evaluations').upsert(ups, {onConflict:'key'}));
+      if (dels.length) chk(await sb.from('evaluations').delete().in('key', dels));
+    } else await DB.set(col, id, S[col][id] || p);
+  },
+  async del(col, id){
+    if (col === 'servants') await rpc('admin_delete_account', {p_id:id});
+    else if (col === 'att') chk(await sb.from('attendance').delete().gte('day', id + '-01').lte('day', id + '-31'));
+    else if (col === 'ev') chk(await sb.from('evaluations').delete().gte('day', id + '-01').lte('day', id + '-31'));
+    else if (col === 'config') chk(await sb.from('config').delete().eq('key', id));
+    else chk(await sb.from(col).delete().eq('id', id));
+  }
+};
+
+/* ---- live sync ---- */
+const TABLE2COL = {config:'config', services:'services', classes:'classes', members:'members', profiles:'servants', attendance:'att', evaluations:'ev'};
+const seen = new Set(); const rTimers = {};
+let syncOn = false, chan = null, pollT = null, synced = false;
+function applySnap(col, list){
+  const map = {}; list.forEach(x => { map[x.id] = clone(x.data); });
+  const o = optim[col] || {}; Object.keys(o).forEach(id => { if (o[id].v === null) delete map[id]; else map[id] = o[id].v; });
+  S[col] = map; seen.add(col);
+  if (!synced && seen.size === COLS.length) synced = true;
+  scheduleRender();
+}
+async function refreshCol(col){
+  if (!syncOn) return;
+  try { applySnap(col, await LOAD[col]()); }
+  catch (e) {
+    console.error(e); seen.add(col);
+    if (!synced && seen.size === COLS.length) { synced = true; scheduleRender(); }
+  }
+}
+function scheduleRefresh(col, delay){ clearTimeout(rTimers[col]); rTimers[col] = setTimeout(() => refreshCol(col), delay == null ? 700 : delay); }
+function refreshAll(delay){ COLS.forEach(c => scheduleRefresh(c, delay)); }
+function startSync(){
+  if (syncOn) return; syncOn = true; seen.clear(); synced = false;
+  COLS.forEach(c => refreshCol(c));
+  try {
+    chan = sb.channel('church-live').on('postgres_changes', {event:'*', schema:'public'}, p => { const c = TABLE2COL[p.table]; if (c) scheduleRefresh(c); }).subscribe();
+  } catch (e) { console.error(e); }
+  pollT = setInterval(() => { if (!document.hidden) refreshAll(0); }, 45000);
+}
+function stopSync(){
+  syncOn = false; synced = false; seen.clear();
+  try { if (chan) sb.removeChannel(chan); } catch (e) {}
+  chan = null; clearInterval(pollT);
+  Object.keys(rTimers).forEach(k => clearTimeout(rTimers[k]));
+  COLS.forEach(c => S[c] = {});
+}
+document.addEventListener('visibilitychange', () => { if (!document.hidden && syncOn) refreshAll(0); });
+
+let seq = 0; const optim = {};
+function markOptim(col, id, v){ const s = ++seq; (optim[col] = optim[col] || {})[id] = {v, seq: s}; return s; }
+const wq = []; const pendingMerge = new Map(); let running = false;
+function enqueue(op){
+  const k = op.col + '/' + op.id;
+  if (op.kind === 'merge') {
+    const ex = pendingMerge.get(k);
+    if (ex) { ex.patch = deepMerge(ex.patch, op.patch); ex.seq = op.seq; return; }
+    pendingMerge.set(k, op);
+  } else pendingMerge.delete(k);
+  wq.push(op); pump();
+}
+async function runOp(op, attempt){
+  attempt = attempt || 0;
+  try {
+    if (op.kind === 'set') await DB.set(op.col, op.id, op.data);
+    else if (op.kind === 'del') await DB.del(op.col, op.id);
+    else {
+      try { await DB.update(op.col, op.id, op.patch); }
+      catch (e) { if (e && e.code === 'invalid_argument') await DB.set(op.col, op.id, op.patch); else throw e; }
+    }
+  } catch (e) {
+    if (attempt < 4 && e && (e.code === 'resource_exhausted' || e.code === 'unavailable')) { await sleep(500 * (attempt + 1)); return runOp(op, attempt + 1); }
+    throw e;
+  }
+}
+async function pump(){
+  if (running) return; running = true;
+  while (wq.length) {
+    const op = wq.shift();
+    if (op.kind === 'merge' && pendingMerge.get(op.col + '/' + op.id) === op) pendingMerge.delete(op.col + '/' + op.id);
+    try { await runOp(op); if (syncOn) scheduleRefresh(op.col, 500); }
+    catch (e) { console.error(e); toast(errText(e), 'err'); if (syncOn) refreshAll(300); }
+    const o = optim[op.col] && optim[op.col][op.id];
+    if (o && o.seq === op.seq) delete optim[op.col][op.id];
+    await sleep(30);
+  }
+  running = false;
+}
+function put(col, id, data){ S[col][id] = data; const s = markOptim(col, id, data); enqueue({kind:'set', col, id, data, seq:s}); scheduleRender(); }
+function patch(col, id, p){ const m = deepMerge(S[col][id] || {}, p); S[col][id] = m; const s = markOptim(col, id, m); enqueue({kind:'merge', col, id, patch:p, seq:s}); scheduleRender(); }
+function remove(col, id){ delete S[col][id]; const s = markOptim(col, id, null); enqueue({kind:'del', col, id, seq:s}); scheduleRender(); }
+const idle = async () => { while (running || wq.length) await sleep(50); };
+
+/* ---------- state ---------- */
+let loaded = false, me = null, modalCtx = {}, evDraft = null, fatal = '', pub = {has_admin:false, church:''}, busy = false;
+const ui = {
+  view:'dashboard', attTab:'members', attClass:'', attDate:today(), evClass:'', evDate:today(),
+  q:'', fService:'', fClass:'', showArchived:false,
+  rep:{range:'3m', service:'', cls:'', tab:'members', sort:'low', from:'', to:''}
+};
+const cfg = () => S.config.main || null;
+const arr = col => Object.keys(S[col]).map(id => Object.assign({}, S[col][id], {id}));
+const isAdmin = () => !!me && me.role === 'admin';
+const meServant = () => (me && me.role === 'servant') ? S.servants[me.id] : null;
+const byName = (a, b) => String(a.name).localeCompare(String(b.name), 'ar');
+const byOrder = (a, b) => ((a.order || 0) - (b.order || 0)) || byName(a, b);
+const services = () => arr('services').sort(byOrder);
+const classes = () => {
+  const idx = {}; services().forEach((s, i) => idx[s.id] = i);
+  return arr('classes').sort((a, b) => ((idx[a.serviceId] == null ? 99 : idx[a.serviceId]) - (idx[b.serviceId] == null ? 99 : idx[b.serviceId])) || byOrder(a, b));
+};
+const allowedClasses = () => isAdmin() ? classes() : classes().filter(c => ((meServant() || {}).classIds || []).indexOf(c.id) > -1);
+const allowedClassIds = () => new Set(allowedClasses().map(c => c.id));
+const activeMembers = list => list.filter(m => m.active !== false);
+const membersOf = cid => activeMembers(arr('members').filter(m => m.classId === cid)).sort(byName);
+const allowedMembers = () => { const ids = allowedClassIds(); return arr('members').filter(m => ids.has(m.classId)).sort(byName); };
+const svcName = id => (S.services[id] || {}).name || '';
+const clsName = id => (S.classes[id] || {}).name || 'بدون فصل';
+const clsSvc = id => svcName((S.classes[id] || {}).serviceId);
+const initial = n => String(n || '؟').trim().charAt(0);
+const criteria = () => (cfg() && cfg().criteria) || [];
+function classOptions(list, sel, allLabel){
+  let h = allLabel ? `<option value="">${esc(allLabel)}</option>` : '';
+  services().forEach(s => {
+    const cs = list.filter(c => c.serviceId === s.id);
+    if (cs.length) h += `<optgroup label="${esc(s.name)}">` + cs.map(c => `<option value="${c.id}" ${c.id === sel ? 'selected' : ''}>${esc(c.name)}</option>`).join('') + '</optgroup>';
+  });
+  return h;
+}
+
+/* attendance data */
+const getStatus = (pid, date) => { const m = S.att[monthOf(date)]; return (m && m.days && m.days[date] && m.days[date][pid]) || ''; };
+const setStatus = (pid, date, st) => patch('att', monthOf(date), {days:{[date]:{[pid]:st}}});
+function collect(ids, from, to){
+  const set = new Set(ids), per = {}, perDate = {};
+  ids.forEach(id => per[id] = {p:0, a:0, e:0, dates:{}});
+  Object.keys(S.att).forEach(mk => {
+    const days = S.att[mk].days || {};
+    Object.keys(days).forEach(d => {
+      if ((from && d < from) || (to && d > to)) return;
+      const rec = days[d];
+      Object.keys(rec).forEach(pid => {
+        const st = rec[pid]; if (!st || !set.has(pid)) return;
+        per[pid][st]++; per[pid].dates[d] = st;
+        (perDate[d] = perDate[d] || {p:0, a:0, e:0})[st]++;
+      });
+    });
+  });
+  return {per, perDate, dates: Object.keys(perDate).sort()};
+}
+const rateOf = r => { if (!r) return null; const t = r.p + r.a + r.e; return t ? r.p / t * 100 : null; };
+const rateCls = r => r == null ? '' : r >= 75 ? 'good' : r >= 50 ? 'mid' : 'bad';
+function streakMap(members){
+  const out = {}, byCls = {};
+  members.forEach(m => (byCls[m.classId] = byCls[m.classId] || []).push(m));
+  Object.keys(byCls).forEach(cid => {
+    const peers = membersOf(cid).map(m => m.id);
+    const dates = collect(peers).dates.slice().reverse();
+    byCls[cid].forEach(m => { let n = 0; for (const d of dates) { if (getStatus(m.id, d) === 'a') n++; else break; } out[m.id] = n; });
+  });
+  return out;
+}
+/* evaluations */
+function allEvals(){
+  const out = [];
+  Object.keys(S.ev).forEach(mk => { const it = S.ev[mk].items || {}; Object.keys(it).forEach(k => { if (it[k] && !it[k].deleted) out.push(Object.assign({key:k}, it[k])); }); });
+  return out;
+}
+const evKey = (mid, date) => mid + '__' + date;
+const getEval = (mid, date) => { const m = S.ev[monthOf(date)]; const e = m && m.items && m.items[evKey(mid, date)]; return e && !e.deleted ? e : null; };
+const evAvg = e => { const v = Object.keys(e.scores || {}).map(k => e.scores[k]).filter(x => x > 0); return v.length ? v.reduce((a, b) => a + b, 0) / v.length : null; };
+function evalStats(ids, from, to){
+  const set = new Set(ids), out = {};
+  allEvals().forEach(e => {
+    if (!set.has(e.memberId) || (from && e.date < from) || (to && e.date > to)) return;
+    const o = out[e.memberId] = out[e.memberId] || {n:0, sum:{}, cnt:{}};
+    o.n++;
+    Object.keys(e.scores || {}).forEach(k => { o.sum[k] = (o.sum[k] || 0) + e.scores[k]; o.cnt[k] = (o.cnt[k] || 0) + 1; });
+  });
+  Object.keys(out).forEach(id => { const o = out[id]; let s = 0, c = 0; Object.keys(o.sum).forEach(k => { s += o.sum[k]; c += o.cnt[k]; }); o.avg = c ? s / c : null; });
+  return out;
+}
+
+/* ---------- ui plumbing ---------- */
+let rafPending = false;
+function scheduleRender(){ if (rafPending) return; rafPending = true; setTimeout(() => { rafPending = false; render(); }, 25); }
+let toastTimer;
+function toast(msg, type){
+  const t = $('#toast'); t.innerHTML = `<div class="${type || ''}" role="status">${esc(msg)}</div>`;
+  clearTimeout(toastTimer); toastTimer = setTimeout(() => { t.innerHTML = ''; }, 3200);
+}
+function openModal(title, body, footer, wide){
+  $('#modal').innerHTML = `<div class="scrim" data-a="scrim"><div class="sheet ${wide ? 'wide' : ''}" role="dialog" aria-modal="true" aria-label="${esc(title)}"><div class="sheet-h"><h2>${esc(title)}</h2><button class="icon-btn" data-a="closeModal" aria-label="إغلاق">${icon('x')}</button></div><div class="sheet-b">${body}</div>${footer ? `<div class="sheet-f">${footer}</div>` : ''}</div></div>`;
+  const f = $('#modal input:not([type=checkbox]),#modal textarea'); if (f && !/date/.test(f.type)) setTimeout(() => f.focus(), 30);
+}
+function closeModal(){ $('#modal').innerHTML = ''; modalCtx = {}; evDraft = null; }
+function confirmBox(msg, label, fn){
+  modalCtx = {confirm: fn};
+  openModal('تأكيد', `<p style="margin:0">${msg}</p>`, `<button class="btn danger" data-a="confirmYes">${esc(label)}</button><button class="btn" data-a="closeModal">إلغاء</button>`);
+}
+const V = n => { const el = $('#modal [name="' + n + '"]'); return el ? el.value : ''; };
+const CK = n => { const el = $('#modal [name="' + n + '"]'); return !!(el && el.checked); };
+function emptyBox(msg, btn){ return `<div class="empty"><div>${msg}</div>${btn || ''}</div>`; }
+function pageHead(title, sub, actions){ return `<div class="ph"><div><h1>${esc(title)}</h1>${sub ? `<p>${sub}</p>` : ''}</div>${actions ? `<div class="actions">${actions}</div>` : ''}</div>`; }
+const statCard = (v, l) => `<div class="stat"><div class="v">${v}</div><div class="l">${esc(l)}</div></div>`;
+function columns(points){
+  if (!points.length) return '<p class="muted" style="margin:0">لم تُسجَّل اجتماعات بعد.</p>';
+  return '<div class="cols">' + points.map(p => `<div class="col"><span class="cv">${pct(p.value)}</span><div class="bar"><i style="height:${Math.max(2, Math.round(p.value || 0))}%"></i></div><span class="cl">${esc(p.label)}</span></div>`).join('') + '</div>';
+}
+const rateBar = r => r == null ? '<span class="muted">—</span>' : `<div class="rate"><div class="tr"><i class="${rateCls(r) === 'good' ? '' : rateCls(r)}" style="width:${Math.round(r)}%"></i></div><span>${pct(r)}</span></div>`;
+
+/* ---------- views ---------- */
+function navItems(){
+  return isAdmin()
+    ? [['dashboard','لوحة التحكم','home'],['attendance','الحضور والغياب','check'],['evals','التقييمات','star'],['members','المخدومين','users'],['servants','الخدام','shield'],['structure','الخدمات والفصول','layers'],['reports','التقارير','chart'],['settings','الإعدادات','settings']]
+    : [['dashboard','الرئيسية','home'],['attendance','الحضور','check'],['evals','التقييمات','star'],['members','مخدوميني','users'],['reports','التقارير','chart']];
+}
+function shell(content){
+  const name = isAdmin() ? cfg().admin.name : (meServant() || {}).name;
+  return `<div class="app"><aside class="side"><div class="brand"><span class="mark">${logo(34)}</span><div><b>${esc(cfg().churchName)}</b><small>متابعة الخدمة</small></div></div>
+  <nav class="nav" aria-label="القائمة الرئيسية">${navItems().map(n => `<button class="${ui.view === n[0] ? 'on' : ''}" data-a="nav" data-v="${n[0]}" ${ui.view === n[0] ? 'aria-current="page"' : ''}>${icon(n[2])}<span>${n[1]}</span></button>`).join('')}</nav>
+  <div class="userbox"><div><div class="nm">${esc(name)}</div><div class="rl">${isAdmin() ? 'مسؤول النظام' : 'خادم'}</div></div>
+  <div class="row"><button class="linkbtn" data-a="changePw">${icon('key')}كلمة المرور</button><button class="linkbtn" data-a="logout">${icon('logout')}خروج</button></div>
+  <div class="modebadge">متصل بقاعدة البيانات وبيتحدّث تلقائيًا</div></div></aside>
+  <main id="main" class="main"><div class="mtop"><span>${esc(name)}</span><span class="r"><button class="icon-btn" data-a="changePw" aria-label="تغيير كلمة المرور">${icon('key')}</button><button class="icon-btn" data-a="logout" aria-label="تسجيل الخروج">${icon('logout')}</button></span></div>${content}</main></div>`;
+}
+
+function viewLoading(){ return '<div class="loading">جارٍ تحميل البيانات…</div>'; }
+
+function viewSetup(){
+  return `<div class="auth"><div class="auth-l"><span class="mark">${logo(56)}</span><h1>كنيسة الملاك ميخائيل بدهروط</h1><p>حضور وغياب المخدومين والخدام، وتقييمات، وتقارير لكل خدمة وفصل.</p></div>
+  <div class="auth-r"><div class="auth-box"><h2>إعداد النظام لأول مرة</h2>
+  <label class="fld">اسم الكنيسة<input type="text" id="s_church" value="كنيسة الملاك ميخائيل بدهروط"></label>
+  <label class="fld">اسمك (بتدخل بيه)<input type="text" id="s_user" autocomplete="username"></label>
+  <label class="fld">كلمة المرور (٦ أحرف على الأقل)<input type="password" id="s_pass" autocomplete="new-password" dir="ltr" style="text-align:end"></label>
+  <label class="fld">أعد كتابة كلمة المرور<input type="password" id="s_pass2" autocomplete="new-password" dir="ltr" style="text-align:end" data-enter="setup"></label>
+  <button class="btn primary block" data-a="setup">إنشاء النظام</button>
+  <p class="hint">اكتب كلمة المرور في مكان آمن. مفيش زرار «نسيت كلمة المرور» في الموقع.</p></div></div></div>`;
+}
+function viewLogin(){
+  const ch = (cfg() && cfg().churchName) || pub.church || 'كنيسة الملاك ميخائيل بدهروط';
+  return `<div class="auth"><div class="auth-l"><span class="mark">${logo(56)}</span><h1>${esc(ch)}</h1><p>نظام متابعة الخدمة: الحضور والغياب والتقييمات والتقارير.</p></div>
+  <div class="auth-r"><div class="auth-box"><h2>تسجيل الدخول</h2>
+  <label class="fld">الاسم<input type="text" id="l_user" autocomplete="username" data-enter="login"></label>
+  <label class="fld">كلمة المرور<input type="password" id="l_pass" autocomplete="current-password" dir="ltr" style="text-align:end" data-enter="login"></label>
+  <button class="btn primary block" data-a="login">دخول</button>
+  <p class="hint">حساب الخادم يُنشئه مسؤول النظام.</p></div></div></div>`;
+}
+function viewFatal(kind){
+  const msg = kind === 'config'
+    ? 'الموقع لسه ماتربطش بقاعدة البيانات. افتح ملف <b>config.js</b> واكتب فيه رابط Supabase والمفتاح، ثم ارفع الملفات تاني (الخطوات في ملف التعليمات).'
+    : kind === 'nocfg'
+    ? 'إعدادات الكنيسة مش موجودة في قاعدة البيانات. لو فيه بيانات اتمسحت، اتواصل مع اللي جهّز الموقع.'
+    : 'تعذّر الاتصال بقاعدة البيانات. اتأكد من الإنترنت، ومن إنك شغّلت ملف <b>supabase-setup.sql</b> وكتبت الرابط والمفتاح الصح في <b>config.js</b>.';
+  return `<div class="auth"><div class="auth-l"><span class="mark">${logo(56)}</span><h1>كنيسة الملاك ميخائيل بدهروط</h1></div><div class="auth-r"><div class="auth-box"><h2>الموقع مش جاهز</h2><p>${msg}</p><button class="btn block" data-a="reload">إعادة المحاولة</button></div></div></div>`;
+}
+
+function adminAlerts(servs){
+  const mem = activeMembers(arr('members'));
+  if (!mem.length && !servs.length) return '';
+  const cm = collect(mem.map(m => m.id)), last = cm.dates[cm.dates.length - 1];
+  const items = [];
+  if (last) {
+    const incomplete = classes().filter(k => { const ms = membersOf(k.id); return ms.length && ms.some(m => !getStatus(m.id, last)); }).map(k => k.name);
+    if (incomplete.length) items.push(['mid', 'فصول لم يكتمل تسجيل حضورها (' + fmtShort(last) + ')', incomplete.join('، ')]);
+  } else {
+    items.push(['mid', 'لم يُسجَّل أي اجتماع بعد', 'ابدأ من صفحة الحضور والغياب']);
+  }
+  const cs = collect(servs.map(s => s.id)), lastS = cs.dates[cs.dates.length - 1];
+  if (lastS) {
+    const abs = servs.filter(s => getStatus(s.id, lastS) === 'a').map(s => s.name);
+    if (abs.length) items.push(['bad', 'خدام غايبون في آخر اجتماع (' + fmtShort(lastS) + ')', abs.join('، ')]);
+    const nr = servs.filter(s => !getStatus(s.id, lastS)).map(s => s.name);
+    if (nr.length) items.push(['mid', 'خدام لم يُسجَّل حضورهم', nr.join('، ')]);
+  }
+  const noServant = classes().filter(k => membersOf(k.id).length && !servs.some(s => (s.classIds || []).indexOf(k.id) > -1)).map(k => k.name);
+  if (noServant.length) items.push(['bad', 'فصول بدون خادم', noServant.join('، ')]);
+  const body = items.length
+    ? '<div class="mlist">' + items.map(i => `<div class="mrow" style="cursor:default"><span class="pill ${i[0]}">${i[0] === 'bad' ? 'مهم' : 'تنبيه'}</span><span class="mi"><b>${esc(i[1])}</b><small><span>${esc(i[2])}</span></small></span></div>`).join('') + '</div>'
+    : '<p class="muted" style="margin:0">كل شيء تمام: تسجيل الحضور مكتمل ولا توجد ملاحظات.</p>';
+  return `<div class="card" style="margin-bottom:18px"><div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:12px"><h2 style="margin:0">تنبيهات المتابعة</h2><div class="actions"><button class="btn" data-a="nav" data-v="reports">التقارير</button><button class="btn" data-a="nav" data-v="attendance">الحضور والغياب</button></div></div>${body}</div>`;
+}
+function adminServantsCard(servs){
+  if (!servs.length) return '<h2 style="margin:8px 0 12px">الخدام</h2>' + emptyBox('لا يوجد خدام بعد.', '<button class="btn primary" data-a="nav" data-v="servants">إضافة خادم</button>');
+  const cs = collect(servs.map(s => s.id)), lastS = cs.dates[cs.dates.length - 1];
+  const lab = {p:'حاضر', a:'غايب', e:'معتذر'};
+  const rows = servs.slice().sort(byName).map(s => {
+    const st = lastS ? getStatus(s.id, lastS) : '';
+    const pill = st ? `<span class="pill ${st === 'p' ? 'good' : st === 'e' ? 'mid' : 'bad'}">${lab[st]}</span>` : '<span class="muted">—</span>';
+    const chips = (s.classIds || []).map(id => `<span class="chip">${esc(clsName(id))}</span>`).join('') || '<small>لم يُعيَّن</small>';
+    return `<tr><td><b>${esc(s.name)}</b></td><td><div class="chips">${chips}</div></td><td>${rateBar(rateOf(cs.per[s.id]))}</td><td>${pill}</td></tr>`;
+  }).join('');
+  return `<h2 style="margin:8px 0 12px">حضور الخدام</h2><div class="tablewrap" style="margin-bottom:18px"><table><thead><tr><th>الخادم</th><th>الفصول</th><th>نسبة الحضور</th><th>آخر اجتماع${lastS ? ' (' + esc(fmtShort(lastS)) + ')' : ''}</th></tr></thead><tbody>${rows}</tbody></table></div>`;
+}
+
+function viewDashboard(){
+  const admin = isAdmin(), cls = allowedClasses(), mem = activeMembers(allowedMembers());
+  const streaks = streakMap(mem);
+  const follow = mem.filter(m => (streaks[m.id] || 0) >= 2).sort((a, b) => streaks[b.id] - streaks[a.id]);
+  const c = collect(mem.map(m => m.id)), dates = c.dates, last = dates[dates.length - 1];
+  const lastRate = last ? rateOf(c.perDate[last]) : null;
+  const trend = dates.slice(-8).map(d => ({label: fmtShort(d), value: rateOf(c.perDate[d])}));
+  const servs = arr('servants').filter(s => s.active !== false);
+  let head, stats;
+  const name = admin ? cfg().admin.name : (meServant() || {}).name;
+  head = pageHead('أهلاً ' + name, fmtDate(today()),
+    `<button class="btn primary" data-a="goAtt">${icon('check')}تسجيل الحضور</button>` + (admin ? `<button class="btn" data-a="editMember">${icon('plus')}إضافة مخدوم</button>` : ''));
+  stats = `<div class="stats">${statCard(nf(mem.length), 'مخدوم')}${admin ? statCard(nf(servs.length), 'خادم') : statCard(nf(cls.length), 'فصل مسؤول عنه')}${admin ? statCard(nf(cls.length), 'فصل') : ''}${statCard(pct(lastRate), last ? 'حضور آخر اجتماع' : 'حضور آخر اجتماع')}</div>`;
+  let selfCard = '';
+  if (!admin) {
+    const st = getStatus(me.id, today());
+    selfCard = `<div class="card" style="margin-bottom:18px"><div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap"><div><h3>حضورك اليوم</h3><small>${st ? 'تم تسجيل: ' + ({p:'حاضر',a:'غائب',e:'معتذر'})[st] : 'لم تسجّل حضورك بعد'}</small></div><button class="btn ${st === 'p' ? '' : 'primary'}" data-a="selfPresent">${st === 'p' ? 'تم تسجيل حضورك' : 'سجّل حضوري'}</button></div></div>`;
+  }
+  const followHtml = follow.length ? '<div class="mlist">' + follow.slice(0, 8).map(m => `<button class="mrow" data-a="openMember" data-id="${m.id}"><span class="av">${esc(initial(m.name))}</span><span class="mi"><b>${esc(m.name)}</b><small><span>${esc(clsName(m.classId))}</span>${m.phone ? `<span dir="ltr">${esc(m.phone)}</span>` : ''}</small></span><span class="mr"><span class="pill bad">غايب ${nf(streaks[m.id])} مرات ورا بعض</span></span></button>`).join('') + '</div>'
+    : '<p class="muted" style="margin:0">لا يوجد مخدوم غائب مرتين متتاليتين. ممتاز.</p>';
+  let classTable = '';
+  if (cls.length) {
+    classTable = `<div class="tablewrap"><table><thead><tr><th>الفصل</th><th>الخدمة</th>${admin ? '<th>الخدام</th>' : ''}<th>المخدومين</th><th>آخر اجتماع</th></tr></thead><tbody>` + cls.map(k => {
+      const ms = membersOf(k.id), cc = collect(ms.map(m => m.id)), ld = cc.dates[cc.dates.length - 1];
+      const sv = servs.filter(s => (s.classIds || []).indexOf(k.id) > -1).map(s => s.name);
+      return `<tr><td><b>${esc(k.name)}</b></td><td>${esc(svcName(k.serviceId))}</td>${admin ? `<td>${sv.length ? `<div class="chips">${sv.map(x => `<span class="chip">${esc(x)}</span>`).join('')}</div>` : '<small>لم يُعيَّن</small>'}</td>` : ''}<td>${nf(ms.length)}</td><td>${ld ? rateBar(rateOf(cc.perDate[ld])) : '<small>لا يوجد</small>'}</td></tr>`;
+    }).join('') + '</tbody></table></div>';
+  } else {
+    classTable = emptyBox(admin ? 'ابدأ بإنشاء الخدمات والفصول.' : 'لم يُعيَّن لك أي فصل بعد. تواصل مع مسؤول النظام.', admin ? '<button class="btn primary" data-a="nav" data-v="structure">إدارة الفصول</button>' : '');
+  }
+  return head + stats + selfCard + (admin ? adminAlerts(servs) : '') +
+    `<div class="cols2"><div class="card"><h2>الحضور في آخر الاجتماعات</h2>${columns(trend)}</div><div class="card"><h2>محتاجون افتقاد</h2>${followHtml}</div></div>` +
+    (admin ? adminServantsCard(servs) : '') +
+    `<h2 style="margin:8px 0 12px">${admin ? 'الفصول' : 'فصولي'}</h2>${classTable}`;
+}
+
+function attRow(id, name, sub, st){
+  return `<div class="arow st-${st || 'n'}"><div class="who"><b>${esc(name)}</b>${sub ? `<small>${sub}</small>` : ''}</div><div class="seg" role="group" aria-label="حالة ${esc(name)}">` +
+    [['p','حاضر'],['e','معتذر'],['a','غائب']].map(x => `<button class="sb ${x[0]} ${st === x[0] ? 'on' : ''}" data-a="mark" data-id="${id}" data-st="${x[0]}" aria-pressed="${st === x[0]}">${x[1]}</button>`).join('') + '</div></div>';
+}
+function viewAttendance(){
+  const admin = isAdmin(), cls = allowedClasses();
+  const tabs = [['members','المخدومين']].concat(admin ? [['servants','الخدام']] : [['self','حضوري أنا']]);
+  if (!tabs.some(t => t[0] === ui.attTab)) ui.attTab = 'members';
+  if (!ui.attDate) ui.attDate = today();
+  const date = ui.attDate;
+  let out = pageHead('الحضور والغياب', fmtDate(date));
+  out += '<div class="tabs" role="tablist">' + tabs.map(t => `<button class="tab ${ui.attTab === t[0] ? 'on' : ''}" role="tab" data-a="attTab" data-v="${t[0]}">${t[1]}</button>`).join('') + '</div>';
+  const dateCtl = `<label class="fld inline">التاريخ<input type="date" value="${date}" max="${today()}" data-c="attDate"></label>`;
+  if (ui.attTab === 'self' && !admin) {
+    const st = getStatus(me.id, date);
+    const hist = Object.keys(collect([me.id]).per[me.id].dates).sort().reverse().slice(0, 10);
+    return out + `<div class="toolbar">${dateCtl}</div><div class="card" style="max-width:560px">${attRow(me.id, 'حضوري أنا', '', st)}<h3 style="margin:20px 0 10px">آخر ما سُجّل</h3>${hist.length ? '<div class="dots">' + hist.map(d => `<span class="dot ${getStatus(me.id, d)}" title="${esc(fmtDate(d))}">${nf(parseD(d).getDate())}</span>`).join('') + '</div>' : '<p class="muted" style="margin:0">لا يوجد سجل بعد.</p>'}</div>`;
+  }
+  let list, sel = '', sub = () => '';
+  if (ui.attTab === 'servants') {
+    list = arr('servants').filter(s => s.active !== false).sort(byName);
+    if (!list.length) return out + emptyBox('لا يوجد خدام بعد.', '<button class="btn primary" data-a="nav" data-v="servants">إضافة خادم</button>');
+  } else {
+    if (!cls.length) return out + emptyBox(admin ? 'أنشئ فصلاً أولاً ثم أضف المخدومين.' : 'لم يُعيَّن لك أي فصل بعد.', admin ? '<button class="btn primary" data-a="nav" data-v="structure">إدارة الفصول</button>' : '');
+    if (!cls.some(c => c.id === ui.attClass)) ui.attClass = cls[0].id;
+    list = membersOf(ui.attClass);
+    sel = `<label class="fld inline">الفصل<select data-c="attClass">${classOptions(cls, ui.attClass)}</select></label>`;
+    const sm = streakMap(list);
+    sub = id => sm[id] >= 2 ? `غايب ${nf(sm[id])} مرات ورا بعض` : '';
+    if (!list.length) return out + `<div class="toolbar">${sel}${dateCtl}</div>` + emptyBox('لا يوجد مخدومون في هذا الفصل.', admin ? '<button class="btn primary" data-a="editMember">إضافة مخدوم</button>' : '');
+  }
+  const cnt = {p:0, a:0, e:0, n:0};
+  list.forEach(m => { const s = getStatus(m.id, date); cnt[s || 'n']++; });
+  const done = list.length - cnt.n;
+  out += `<div class="toolbar">${sel}${dateCtl}</div>`;
+  out += `<div class="sheetbar"><div class="cnt"><span class="p"><b>${nf(cnt.p)}</b>حاضر</span><span class="a"><b>${nf(cnt.a)}</b>غائب</span><span class="e"><b>${nf(cnt.e)}</b>معتذر</span><span class="n"><b>${nf(cnt.n)}</b>لم يُسجَّل</span></div>
+    <div class="actions"><button class="btn sm" data-a="markAll" data-st="p">الكل حاضر</button><button class="btn sm" data-a="markAll" data-st="">مسح الكل</button></div>
+    <div class="prog" role="progressbar" aria-valuenow="${done}" aria-valuemax="${list.length}"><i style="width:${list.length ? done / list.length * 100 : 0}%"></i></div></div>`;
+  out += '<div class="mlist">' + list.map(m => attRow(m.id, m.name, sub(m.id), getStatus(m.id, date))).join('') + '</div>';
+  return out;
+}
+
+function viewEvals(){
+  const admin = isAdmin(), cls = allowedClasses();
+  let out = pageHead('التقييمات', 'قيّم كل مخدوم في تاريخ الاجتماع.');
+  if (!cls.length) return out + emptyBox(admin ? 'أنشئ فصلاً أولاً.' : 'لم يُعيَّن لك أي فصل بعد.');
+  if (!cls.some(c => c.id === ui.evClass)) ui.evClass = cls[0].id;
+  if (!ui.evDate) ui.evDate = today();
+  const list = membersOf(ui.evClass);
+  out += `<div class="toolbar"><label class="fld inline">الفصل<select data-c="evClass">${classOptions(cls, ui.evClass)}</select></label><label class="fld inline">التاريخ<input type="date" value="${ui.evDate}" max="${today()}" data-c="evDate"></label></div>`;
+  if (!list.length) return out + emptyBox('لا يوجد مخدومون في هذا الفصل.');
+  out += '<div class="mlist">' + list.map(m => {
+    const e = getEval(m.id, ui.evDate), a = e ? evAvg(e) : null;
+    return `<div class="mrow" style="cursor:default"><span class="av">${esc(initial(m.name))}</span><span class="mi"><b>${esc(m.name)}</b><small>${e ? `<span>تقييم اليوم: ★ ${avgFmt(a)}</span>` : '<span>لم يُقيَّم في هذا التاريخ</span>'}</small></span><span class="mr"><button class="btn sm" data-a="openMember" data-id="${m.id}">الملف</button><button class="btn sm ${e ? '' : 'primary'}" data-a="evaluate" data-id="${m.id}">${e ? 'تعديل التقييم' : 'قيّم'}</button></span></div>`;
+  }).join('') + '</div>';
+  const ids = new Set(list.map(m => m.id));
+  const recent = allEvals().filter(e => ids.has(e.memberId)).sort((a, b) => (b.date.localeCompare(a.date)) || ((b.ts || 0) - (a.ts || 0))).slice(0, 10);
+  out += '<h2 style="margin:26px 0 12px">آخر التقييمات في الفصل</h2>' + (recent.length ? recent.map(e => `<div class="ev"><b>${esc((S.members[e.memberId] || {}).name || '')}</b> <small>${esc(fmtDate(e.date))}</small> <span class="pill mid">★ ${avgFmt(evAvg(e))}</span>${e.note ? `<div style="margin-top:4px">${esc(e.note)}</div>` : ''}</div>`).join('') : '<p class="muted">لا توجد تقييمات بعد.</p>');
+  return out;
+}
+
+function viewMembers(){
+  const admin = isAdmin(), cls = allowedClasses();
+  const all = allowedMembers().filter(m => ui.showArchived || m.active !== false);
+  const svcs = services().filter(s => cls.some(c => c.serviceId === s.id));
+  const fClasses = cls.filter(c => !ui.fService || c.serviceId === ui.fService);
+  if (ui.fClass && !fClasses.some(c => c.id === ui.fClass)) ui.fClass = '';
+  const q = ui.q.trim();
+  const shown = all.filter(m => (!ui.fClass || m.classId === ui.fClass) && (!ui.fService || (S.classes[m.classId] || {}).serviceId === ui.fService) && (!q || String(m.name).indexOf(q) > -1 || String(m.phone || '').indexOf(q) > -1));
+  const sm = streakMap(shown.filter(m => m.active !== false));
+  const rec = collect(shown.map(m => m.id));
+  let out = pageHead(admin ? 'المخدومين' : 'مخدوميني', nf(shown.length) + ' مخدوم', admin ? `<button class="btn primary" data-a="editMember">${icon('plus')}إضافة مخدوم</button>` : '');
+  out += `<div class="toolbar"><div class="searchbox grow">${icon('search')}<input type="search" id="q" placeholder="ابحث بالاسم أو الموبايل" value="${esc(ui.q)}" data-i="q"></div>
+    <select data-c="fService" aria-label="الخدمة"><option value="">كل الخدمات</option>${svcs.map(s => `<option value="${s.id}" ${ui.fService === s.id ? 'selected' : ''}>${esc(s.name)}</option>`).join('')}</select>
+    <select data-c="fClass" aria-label="الفصل">${classOptions(fClasses, ui.fClass, 'كل الفصول')}</select>
+    ${admin ? `<label class="check"><input type="checkbox" data-c="showArchived" ${ui.showArchived ? 'checked' : ''}>إظهار المؤرشفين</label>` : ''}</div>`;
+  if (!shown.length) return out + emptyBox(all.length ? 'لا توجد نتائج مطابقة.' : (admin ? 'لم تضف مخدومين بعد.' : 'لا يوجد مخدومون في فصولك بعد.'), admin && !all.length ? '<button class="btn primary" data-a="editMember">إضافة أول مخدوم</button>' : '');
+  out += '<div class="mlist">' + shown.map(m => {
+    const r = rateOf(rec.per[m.id]);
+    return `<button class="mrow" data-a="openMember" data-id="${m.id}"><span class="av">${esc(initial(m.name))}</span><span class="mi"><b>${esc(m.name)}</b><small><span>${esc(clsName(m.classId))}</span><span>${esc(clsSvc(m.classId))}</span>${m.phone ? `<span dir="ltr">${esc(m.phone)}</span>` : ''}</small></span><span class="mr">${m.active === false ? '<span class="pill">مؤرشف</span>' : ''}${sm[m.id] >= 2 ? `<span class="pill bad">غايب ${nf(sm[m.id])}</span>` : ''}${r != null ? `<span class="pill ${rateCls(r)}">${pct(r)}</span>` : ''}</span></button>`;
+  }).join('') + '</div>';
+  return out;
+}
+
+function viewServants(){
+  const list = arr('servants').sort(byName), rec = collect(list.map(s => s.id));
+  let out = pageHead('الخدام', nf(list.length) + ' خادم', `<button class="btn primary" data-a="editServant">${icon('plus')}إضافة خادم</button>`);
+  if (!list.length) return out + emptyBox('لم تضف خدامًا بعد. كل خادم يحصل على حساب خاص ويرى مخدوميه فقط.', '<button class="btn primary" data-a="editServant">إضافة أول خادم</button>');
+  out += '<div class="tablewrap"><table><thead><tr><th>الخادم</th><th>الفصول المسؤول عنها</th><th>الموبايل</th><th>حضوره</th><th></th></tr></thead><tbody>' + list.map(s => {
+    const cn = (s.classIds || []).filter(id => S.classes[id]).map(id => clsName(id));
+    return `<tr><td><b>${esc(s.name)}</b>${s.active === false ? ' <span class="pill">موقوف</span>' : ''}${s.username && norm(s.username) !== norm(s.name) ? `<br><small dir="ltr">${esc(s.username)}</small>` : ''}</td><td>${cn.length ? `<div class="chips">${cn.map(x => `<span class="chip">${esc(x)}</span>`).join('')}</div>` : '<small>لم يُعيَّن</small>'}</td><td dir="ltr" style="text-align:end">${esc(s.phone || '')}</td><td>${rateBar(rateOf(rec.per[s.id]))}</td><td><button class="btn sm" data-a="editServant" data-id="${s.id}">${icon('edit')}تعديل</button></td></tr>`;
+  }).join('') + '</tbody></table></div>';
+  return out;
+}
+
+function viewStructure(){
+  const svs = services();
+  let out = pageHead('الخدمات والفصول', 'الخدمة تضم عدة فصول، وكل مخدوم يتبع فصلاً.', `<button class="btn primary" data-a="editService">${icon('plus')}إضافة خدمة</button>`);
+  if (!svs.length) return out + emptyBox('لا توجد خدمات.');
+  const servs = arr('servants');
+  out += '<div class="stack">' + svs.map(s => {
+    const cs = classes().filter(c => c.serviceId === s.id);
+    return `<div class="card"><div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:10px"><h2 style="margin:0">${esc(s.name)}</h2><div class="actions"><button class="btn sm" data-a="editClass" data-service="${s.id}">${icon('plus')}فصل جديد</button><button class="icon-btn" data-a="editService" data-id="${s.id}" aria-label="تعديل الخدمة">${icon('edit')}</button><button class="icon-btn" data-a="delService" data-id="${s.id}" aria-label="حذف الخدمة">${icon('trash')}</button></div></div>` +
+      (cs.length ? '<div class="mlist">' + cs.map(c => {
+        const sv = servs.filter(x => (x.classIds || []).indexOf(c.id) > -1).map(x => x.name), n = membersOf(c.id).length;
+        return `<div class="mrow" style="cursor:default"><span class="mi"><b>${esc(c.name)}</b><small>${nf(n)} مخدوم</small></span><span class="mr">${sv.length ? sv.map(x => `<span class="chip">${esc(x)}</span>`).join('') : '<small>بلا خادم</small>'}<button class="icon-btn" data-a="editClass" data-id="${c.id}" aria-label="تعديل الفصل">${icon('edit')}</button><button class="icon-btn" data-a="delClass" data-id="${c.id}" aria-label="حذف الفصل">${icon('trash')}</button></span></div>`;
+      }).join('') + '</div>' : '<p class="muted" style="margin:0">لا توجد فصول في هذه الخدمة.</p>') + '</div>';
+  }).join('') + '</div>';
+  return out;
+}
+
+function repRange(){
+  const r = ui.rep, t = new Date(); let from, to = today();
+  if (r.range === 'month') from = ymd(new Date(t.getFullYear(), t.getMonth(), 1));
+  else if (r.range === 'last') { from = ymd(new Date(t.getFullYear(), t.getMonth() - 1, 1)); to = ymd(new Date(t.getFullYear(), t.getMonth(), 0)); }
+  else if (r.range === '3m') from = ymd(new Date(t.getFullYear(), t.getMonth() - 2, 1));
+  else if (r.range === 'year') from = ymd(new Date(t.getFullYear(), 0, 1));
+  else { from = r.from || ymd(new Date(t.getFullYear(), t.getMonth(), 1)); to = r.to || today(); }
+  return {from, to};
+}
+let lastReport = null;
+function viewReports(){
+  const admin = isAdmin(), r = ui.rep, cls = allowedClasses(), {from, to} = repRange();
+  const svcs = services().filter(s => cls.some(c => c.serviceId === s.id));
+  const fCls = cls.filter(c => (!r.service || c.serviceId === r.service));
+  if (r.cls && !fCls.some(c => c.id === r.cls)) r.cls = '';
+  const scope = fCls.filter(c => !r.cls || c.id === r.cls);
+  const scopeIds = new Set(scope.map(c => c.id));
+  const mem = activeMembers(arr('members').filter(m => scopeIds.has(m.classId))).sort(byName);
+  if (r.tab === 'servants' && !admin) r.tab = 'members';
+  const tabs = [['members','حضور المخدومين']].concat(admin ? [['servants','حضور الخدام']] : []).concat([['evals','التقييمات']]);
+  let out = pageHead('التقارير', 'من ' + fmtDate(from) + ' إلى ' + fmtDate(to), dl ? `<button class="btn" data-a="exportCsv">${icon('download')}تصدير CSV</button>` : '');
+  out += `<div class="toolbar"><label class="fld inline">الفترة<select data-c="repRange"><option value="month" ${r.range === 'month' ? 'selected' : ''}>هذا الشهر</option><option value="last" ${r.range === 'last' ? 'selected' : ''}>الشهر الماضي</option><option value="3m" ${r.range === '3m' ? 'selected' : ''}>آخر ٣ شهور</option><option value="year" ${r.range === 'year' ? 'selected' : ''}>هذه السنة</option><option value="custom" ${r.range === 'custom' ? 'selected' : ''}>فترة محددة</option></select></label>
+    ${r.range === 'custom' ? `<label class="fld inline">من<input type="date" value="${from}" data-c="repFrom"></label><label class="fld inline">إلى<input type="date" value="${to}" data-c="repTo"></label>` : ''}
+    <select data-c="repService" aria-label="الخدمة"><option value="">كل الخدمات</option>${svcs.map(s => `<option value="${s.id}" ${r.service === s.id ? 'selected' : ''}>${esc(s.name)}</option>`).join('')}</select>
+    <select data-c="repCls" aria-label="الفصل">${classOptions(fCls, r.cls, 'كل الفصول')}</select></div>`;
+  out += '<div class="tabs">' + tabs.map(t => `<button class="tab ${r.tab === t[0] ? 'on' : ''}" data-a="repTab" data-v="${t[0]}">${t[1]}</button>`).join('') + '</div>';
+
+  if (r.tab === 'servants') {
+    const sv = arr('servants').filter(s => s.active !== false).sort(byName), c = collect(sv.map(s => s.id), from, to);
+    const rows = sv.map(s => ({s, rec:c.per[s.id], rate:rateOf(c.per[s.id])}));
+    const tp = rows.reduce((a, x) => a + x.rec.p, 0), tt = rows.reduce((a, x) => a + x.rec.p + x.rec.a + x.rec.e, 0);
+    out += `<div class="stats">${statCard(nf(c.dates.length), 'اجتماع مسجّل')}${statCard(pct(tt ? tp / tt * 100 : null), 'متوسط حضور الخدام')}${statCard(nf(sv.length), 'خادم')}</div>`;
+    out += '<div class="card" style="margin-bottom:18px"><h2>الحضور حسب الاجتماع</h2>' + columns(c.dates.slice(-12).map(d => ({label:fmtShort(d), value:rateOf(c.perDate[d])}))) + '</div>';
+    out += '<div class="tablewrap"><table><thead><tr><th>الخادم</th><th>حاضر</th><th>غائب</th><th>معتذر</th><th>نسبة الحضور</th></tr></thead><tbody>' + rows.sort((a, b) => (a.rate == null ? 999 : a.rate) - (b.rate == null ? 999 : b.rate)).map(x => `<tr><td><b>${esc(x.s.name)}</b></td><td>${nf(x.rec.p)}</td><td>${nf(x.rec.a)}</td><td>${nf(x.rec.e)}</td><td>${rateBar(x.rate)}</td></tr>`).join('') + '</tbody></table></div>';
+    lastReport = {name:'servants-attendance', rows:[['الخادم','حاضر','غائب','معتذر','نسبة الحضور %']].concat(rows.map(x => [x.s.name, x.rec.p, x.rec.a, x.rec.e, x.rate == null ? '' : Math.round(x.rate)]))};
+    return out;
+  }
+  const c = collect(mem.map(m => m.id), from, to);
+  if (r.tab === 'evals') {
+    const es = evalStats(mem.map(m => m.id), from, to), crs = criteria();
+    const rows = mem.map(m => ({m, e:es[m.id]})).filter(x => x.e);
+    let tot = 0, cn = 0; rows.forEach(x => { tot += x.e.avg * x.e.n; cn += x.e.n; });
+    out += `<div class="stats">${statCard(nf(cn), 'تقييم مسجّل')}${statCard(avgFmt(cn ? tot / cn : null), 'متوسط التقييم من ٥')}${statCard(nf(rows.length), 'مخدوم تم تقييمه')}</div>`;
+    if (!rows.length) return out + emptyBox('لا توجد تقييمات في هذه الفترة.');
+    out += '<div class="tablewrap"><table><thead><tr><th>المخدوم</th><th>الفصل</th>' + crs.map(k => `<th>${esc(k.name)}</th>`).join('') + '<th>العام</th><th>عدد التقييمات</th></tr></thead><tbody>' + rows.sort((a, b) => a.e.avg - b.e.avg).map(x => `<tr><td><b>${esc(x.m.name)}</b></td><td>${esc(clsName(x.m.classId))}</td>${crs.map(k => `<td>${x.e.cnt[k.id] ? avgFmt(x.e.sum[k.id] / x.e.cnt[k.id]) : '—'}</td>`).join('')}<td><span class="pill mid">★ ${avgFmt(x.e.avg)}</span></td><td>${nf(x.e.n)}</td></tr>`).join('') + '</tbody></table></div>';
+    lastReport = {name:'evaluations', rows:[['المخدوم','الفصل'].concat(crs.map(k => k.name), ['المتوسط العام','عدد التقييمات'])].concat(rows.map(x => [x.m.name, clsName(x.m.classId)].concat(crs.map(k => x.e.cnt[k.id] ? Math.round(x.e.sum[k.id] / x.e.cnt[k.id] * 10) / 10 : ''), [Math.round(x.e.avg * 10) / 10, x.e.n])))};
+    return out;
+  }
+  const rows = mem.map(m => ({m, rec:c.per[m.id], rate:rateOf(c.per[m.id])}));
+  const tp = rows.reduce((a, x) => a + x.rec.p, 0), ta = rows.reduce((a, x) => a + x.rec.a, 0), te = rows.reduce((a, x) => a + x.rec.e, 0), tt = tp + ta + te;
+  out += `<div class="stats">${statCard(nf(c.dates.length), 'اجتماع مسجّل')}${statCard(pct(tt ? tp / tt * 100 : null), 'متوسط الحضور')}${statCard(pct(tt ? ta / tt * 100 : null), 'متوسط الغياب')}${statCard(pct(tt ? te / tt * 100 : null), 'اعتذار')}</div>`;
+  out += '<div class="cols2"><div class="card"><h2>الحضور حسب الاجتماع</h2>' + columns(c.dates.slice(-12).map(d => ({label:fmtShort(d), value:rateOf(c.perDate[d])}))) + '</div>';
+  out += '<div class="card"><h2>الحضور حسب الفصل</h2><div class="hbars">' + (scope.length ? scope.map(k => { const ms = mem.filter(m => m.classId === k.id), agg = {p:0, a:0, e:0}; ms.forEach(m => { agg.p += c.per[m.id].p; agg.a += c.per[m.id].a; agg.e += c.per[m.id].e; }); const rr = rateOf(agg); return `<div class="hbar"><span>${esc(k.name)}</span><div class="tr"><i style="width:${rr || 0}%"></i></div><b>${pct(rr)}</b></div>`; }).join('') : '<p class="muted" style="margin:0">لا توجد فصول.</p>') + '</div></div></div>';
+  if (!rows.length) return out + emptyBox('لا يوجد مخدومون ضمن الفلتر المحدد.');
+  const es = evalStats(mem.map(m => m.id), from, to);
+  const sorted = rows.slice().sort((a, b) => r.sort === 'name' ? byName(a.m, b.m) : r.sort === 'high' ? ((b.rate == null ? -1 : b.rate) - (a.rate == null ? -1 : a.rate)) : ((a.rate == null ? 999 : a.rate) - (b.rate == null ? 999 : b.rate)));
+  out += `<div class="toolbar" style="justify-content:space-between"><h2 style="margin:0">تفاصيل المخدومين</h2><label class="fld inline">الترتيب<select data-c="repSort"><option value="low" ${r.sort === 'low' ? 'selected' : ''}>الأقل حضورًا أولاً</option><option value="high" ${r.sort === 'high' ? 'selected' : ''}>الأعلى حضورًا أولاً</option><option value="name" ${r.sort === 'name' ? 'selected' : ''}>بالاسم</option></select></label></div>`;
+  out += '<div class="tablewrap"><table><thead><tr><th>المخدوم</th><th>الفصل</th><th>حاضر</th><th>غائب</th><th>معتذر</th><th>نسبة الحضور</th><th>التقييم</th></tr></thead><tbody>' + sorted.map(x => `<tr><td><button class="linkbtn" style="color:var(--ink);font-weight:700;font-size:16px" data-a="openMember" data-id="${x.m.id}">${esc(x.m.name)}</button></td><td>${esc(clsName(x.m.classId))}</td><td>${nf(x.rec.p)}</td><td>${nf(x.rec.a)}</td><td>${nf(x.rec.e)}</td><td>${rateBar(x.rate)}</td><td>${es[x.m.id] ? '★ ' + avgFmt(es[x.m.id].avg) : '—'}</td></tr>`).join('') + '</tbody></table></div>';
+  out += '<p class="hint" style="margin-top:10px">نسبة الحضور = عدد مرات الحضور ÷ كل الاجتماعات المسجّلة للمخدوم في الفترة (شاملة الغياب والاعتذار).</p>';
+  lastReport = {name:'attendance', rows:[['المخدوم','الفصل','الخدمة','حاضر','غائب','معتذر','نسبة الحضور %','متوسط التقييم']].concat(sorted.map(x => [x.m.name, clsName(x.m.classId), clsSvc(x.m.classId), x.rec.p, x.rec.a, x.rec.e, x.rate == null ? '' : Math.round(x.rate), es[x.m.id] ? Math.round(es[x.m.id].avg * 10) / 10 : '']))};
+  return out;
+}
+
+function viewSettings(){
+  const crs = criteria();
+  return pageHead('الإعدادات') + `<div class="stack" style="max-width:640px">
+  <div class="card"><h2>بيانات الكنيسة</h2><div class="stack"><label class="fld">اسم الكنيسة<input type="text" id="st_church" value="${esc(cfg().churchName)}"></label>
+  <div><b style="font-size:14px">معايير التقييم (يقيَّم كل معيار من ١ إلى ٥)</b><div class="stack" style="margin-top:8px">${crs.map(k => `<input type="text" data-crit-id="${k.id}" value="${esc(k.name)}" aria-label="معيار التقييم">`).join('')}</div></div>
+  <div><button class="btn primary" data-a="saveSettings">حفظ</button></div></div></div>
+  <div class="card"><h2>حساب المسؤول</h2><div class="stack"><label class="fld">الاسم (بتدخل بيه)<input type="text" id="ad_user" value="${esc(cfg().admin.name)}"></label>
+  <label class="fld">كلمة مرور جديدة (اتركها فارغة للإبقاء على الحالية)<input type="password" id="ad_pass" dir="ltr" style="text-align:end" autocomplete="new-password"></label>
+  <div><button class="btn primary" data-a="saveAdmin">حفظ الحساب</button></div></div></div>
+  <div class="card"><h2>نسخة احتياطية</h2><p class="muted" style="margin-top:0">ملف JSON بكل بيانات النظام.</p>${dl ? `<button class="btn" data-a="exportBackup">${icon('download')}تنزيل نسخة احتياطية</button>` : '<p class="hint">التنزيل غير متاح في هذا العرض.</p>'}</div>
+  <div class="card"><h2>مسح كل البيانات</h2><p class="muted" style="margin-top:0">يحذف الخدمات والفصول والخدام والمخدومين والحضور والتقييمات، ويبقي حساب المسؤول وبيانات الكنيسة. لا يمكن التراجع.</p><button class="btn danger" data-a="wipe">مسح كل شيء</button></div></div>`;
+}
+
+/* ---------- modals ---------- */
+function memberProfile(id){
+  const m = S.members[id]; if (!m) return;
+  const admin = isAdmin(), peers = membersOf(m.classId).map(x => x.id);
+  const cc = collect(peers), rec = collect([id]).per[id], rate = rateOf(rec);
+  const ds = cc.dates.slice(-8);
+  const es = evalStats([id]), e = es[id];
+  const evs = allEvals().filter(x => x.memberId === id).sort((a, b) => b.date.localeCompare(a.date)).slice(0, 4);
+  const age = m.birth ? Math.floor((Date.now() - parseD(m.birth).getTime()) / 31557600000) : null;
+  const body = `<dl class="kv"><dt>الفصل</dt><dd>${esc(clsName(m.classId))} <small>(${esc(clsSvc(m.classId))})</small></dd>
+    ${m.phone ? `<dt>الموبايل</dt><dd dir="ltr" style="text-align:end">${esc(m.phone)}</dd>` : ''}${m.parentPhone ? `<dt>ولي الأمر</dt><dd dir="ltr" style="text-align:end">${esc(m.parentPhone)}</dd>` : ''}
+    ${age != null ? `<dt>السن</dt><dd>${nf(age)} سنة</dd>` : ''}${m.address ? `<dt>العنوان</dt><dd>${esc(m.address)}</dd>` : ''}${m.notes ? `<dt>ملاحظات</dt><dd>${esc(m.notes)}</dd>` : ''}</dl>
+    <h3 style="margin:20px 0 8px">الحضور</h3><div style="display:flex;gap:16px;flex-wrap:wrap;margin-bottom:10px"><span class="pill ${rateCls(rate)}">نسبة الحضور ${pct(rate)}</span><small>حاضر ${nf(rec.p)} · غائب ${nf(rec.a)} · معتذر ${nf(rec.e)}</small></div>
+    ${ds.length ? `<div class="dots">${ds.map(d => `<span class="dot ${getStatus(id, d)}" title="${esc(fmtDate(d))}">${nf(parseD(d).getDate())}</span>`).join('')}</div>` : '<small>لا يوجد سجل حضور.</small>'}
+    <h3 style="margin:20px 0 8px">التقييمات</h3>${e ? `<div style="margin-bottom:6px"><span class="pill mid">★ ${avgFmt(e.avg)}</span> <small>من ${nf(e.n)} تقييم</small></div><div class="chips">${criteria().filter(k => e.cnt[k.id]).map(k => `<span class="chip">${esc(k.name)}: ${avgFmt(e.sum[k.id] / e.cnt[k.id])}</span>`).join('')}</div>` : '<small>لا توجد تقييمات.</small>'}
+    ${evs.map(x => `<div class="ev"><small>${esc(fmtDate(x.date))}</small> <b>★ ${avgFmt(evAvg(x))}</b>${x.note ? `<div>${esc(x.note)}</div>` : ''}</div>`).join('')}`;
+  const foot = `<button class="btn primary" data-a="evaluate" data-id="${id}">قيّم اليوم</button>` + (admin ? `<button class="btn" data-a="editMember" data-id="${id}">${icon('edit')}تعديل</button><button class="btn danger" data-a="delMember" data-id="${id}">${icon('trash')}حذف</button>` : '');
+  openModal(m.name, body, foot, true);
+}
+function memberForm(id){
+  const m = id ? S.members[id] : null, cls = classes();
+  if (!cls.length) return toast('أنشئ فصلاً أولاً من صفحة الخدمات والفصول', 'err');
+  modalCtx = {id};
+  const first = m ? m.classId : (ui.attClass || cls[0].id);
+  openModal(m ? 'تعديل بيانات المخدوم' : 'إضافة مخدوم', `<div class="stack">
+    <label class="fld">الاسم<input type="text" name="name" value="${esc(m ? m.name : '')}"></label>
+    <label class="fld">الفصل<select name="classId">${classOptions(cls, first)}</select></label>
+    <div class="grid2"><label class="fld">الموبايل<input type="tel" name="phone" dir="ltr" style="text-align:end" value="${esc(m ? m.phone : '')}"></label><label class="fld">موبايل ولي الأمر<input type="tel" name="parentPhone" dir="ltr" style="text-align:end" value="${esc(m ? m.parentPhone : '')}"></label></div>
+    <div class="grid2"><label class="fld">تاريخ الميلاد<input type="date" name="birth" value="${esc(m ? m.birth : '')}"></label><label class="fld">العنوان<input type="text" name="address" value="${esc(m ? m.address : '')}"></label></div>
+    <label class="fld">ملاحظات<textarea name="notes">${esc(m ? m.notes : '')}</textarea></label>
+    <label class="check"><input type="checkbox" name="active" ${!m || m.active !== false ? 'checked' : ''}>مُفعّل (أزل العلامة لأرشفة المخدوم)</label></div>`,
+    `<button class="btn primary" data-a="saveMember">حفظ</button><button class="btn" data-a="closeModal">إلغاء</button>`);
+}
+function servantForm(id){
+  const s = id ? S.servants[id] : null; modalCtx = {id};
+  const checks = services().map(sv => { const cs = classes().filter(c => c.serviceId === sv.id); return cs.length ? `<div class="grp">${esc(sv.name)}</div>` + cs.map(c => `<label class="check"><input type="checkbox" name="cls" value="${c.id}" ${s && (s.classIds || []).indexOf(c.id) > -1 ? 'checked' : ''}>${esc(c.name)}</label>`).join('') : ''; }).join('');
+  openModal(s ? 'تعديل الخادم' : 'إضافة خادم', `<div class="stack">
+    <label class="fld">الاسم (بيدخل بيه)<input type="text" name="name" value="${esc(s ? s.name : '')}" autocomplete="off"></label>
+    <label class="fld">الموبايل<input type="tel" name="phone" dir="ltr" style="text-align:end" value="${esc(s ? s.phone : '')}"></label>
+    <label class="fld">${s ? 'كلمة مرور جديدة (اختياري)' : 'كلمة المرور'}<input type="password" name="password" dir="ltr" style="text-align:end" autocomplete="new-password"></label>
+    <div><b style="font-size:14px">الفصول المسؤول عنها</b><div class="checks">${checks || '<small>أنشئ فصولاً أولاً.</small>'}</div></div>
+    <label class="check"><input type="checkbox" name="active" ${!s || s.active !== false ? 'checked' : ''}>الحساب مُفعّل</label></div>`,
+    `<button class="btn primary" data-a="saveServant">حفظ</button><button class="btn" data-a="closeModal">إلغاء</button>${s ? `<button class="btn danger" data-a="delServant" data-id="${id}">حذف</button>` : ''}`, true);
+}
+function evalForm(mid){
+  const m = S.members[mid]; if (!m) return;
+  const date = ui.evDate || today(), ex = getEval(mid, date);
+  evDraft = {memberId:mid, date, scores:Object.assign({}, ex ? ex.scores : {})};
+  openModal('تقييم ' + m.name, `<p class="muted" style="margin-top:0">${esc(fmtDate(date))}</p>` + criteria().map(k => `<div class="crit"><span>${esc(k.name)}</span><div class="stars" role="group" aria-label="${esc(k.name)}">${[1,2,3,4,5].map(v => `<button class="star ${(evDraft.scores[k.id] || 0) >= v ? 'on' : ''}" data-a="star" data-crit="${k.id}" data-v="${v}" aria-label="${nf(v)} من ٥">★</button>`).join('')}</div></div>`).join('') +
+    `<label class="fld" style="margin-top:14px">ملاحظة (اختياري)<textarea name="note">${esc(ex ? ex.note : '')}</textarea></label>`,
+    `<button class="btn primary" data-a="saveEval">حفظ التقييم</button><button class="btn" data-a="closeModal">إلغاء</button>${ex ? '<button class="btn danger" data-a="delEval">حذف التقييم</button>' : ''}`);
+}
+function simpleForm(title, name, extra, action, id){
+  modalCtx = {id};
+  openModal(title, `<div class="stack"><label class="fld">الاسم<input type="text" name="name" value="${esc(name)}" data-enter="${action}"></label>${extra || ''}</div>`, `<button class="btn primary" data-a="${action}">حفظ</button><button class="btn" data-a="closeModal">إلغاء</button>`);
+}
+
+/* ---------- render ---------- */
+function currentView(){
+  switch (ui.view) {
+    case 'attendance': return viewAttendance();
+    case 'evals': return viewEvals();
+    case 'members': return viewMembers();
+    case 'servants': return isAdmin() ? viewServants() : viewDashboard();
+    case 'structure': return isAdmin() ? viewStructure() : viewDashboard();
+    case 'reports': return viewReports();
+    case 'settings': return isAdmin() ? viewSettings() : viewDashboard();
+    default: return viewDashboard();
+  }
+}
+function render(){
+  const root = $('#root'); let html;
+  if (!loaded) html = viewLoading();
+  else if (fatal) html = viewFatal(fatal);
+  else if (!me) html = pub.has_admin ? viewLogin() : viewSetup();
+  else if (!synced) html = viewLoading();
+  else if (!cfg()) html = viewFatal('nocfg');
+  else if (me.role === 'servant' && (!S.servants[me.id] || S.servants[me.id].active === false)) { setTimeout(() => A.logout(), 0); html = viewLoading(); }
+  else html = shell(currentView());
+  const ae = document.activeElement;
+  const fid = ae && ae.id && root.contains(ae) ? ae.id : null;
+  const ss = fid && ae.selectionStart != null ? [ae.selectionStart, ae.selectionEnd] : null;
+  const val = fid && ae.value != null && (ae.tagName === 'INPUT') ? ae.value : null;
+  root.innerHTML = html;
+  if (fid) {
+    const el = document.getElementById(fid);
+    if (el) { if (val != null && /^(s_|l_|st_|ad_)/.test(fid)) el.value = val; el.focus(); if (ss) { try { el.setSelectionRange(ss[0], ss[1]); } catch (e) {} } }
+  }
+}
+
+/* ---------- actions ---------- */
+const canMark = id => isAdmin() || id === (me && me.id) || (S.members[id] && allowedClassIds().has(S.members[id].classId));
+const A = {
+  nav(t){ ui.view = t.dataset.v; ui.q = ''; render(); window.scrollTo(0, 0); },
+  goAtt(){ ui.view = 'attendance'; render(); window.scrollTo(0, 0); },
+  closeModal, scrim(t, e){ if (e.target === t) closeModal(); },
+  confirmYes(){ const f = modalCtx.confirm; closeModal(); if (f) f(); },
+  async logout(){ try { if (sb) await sb.auth.signOut(); } catch (e) {} me = null; stopSync(); render(); },
+  reload(){ location.reload(); },
+  async login(){
+    if (busy) return;
+    const n = $('#l_user').value, p = $('#l_pass').value || '';
+    if (!norm(n) || !p) return toast('اكتب الاسم وكلمة المرور', 'err');
+    busy = true;
+    try {
+      const r = await sb.auth.signInWithPassword({email:await emailFor(n), password:p});
+      if (r.error) { toast(/network|fetch/i.test(String(r.error.message)) ? errText(r.error) : 'الاسم أو كلمة المرور غير صحيحة', 'err'); return; }
+      if (await enterSession(r.data.user.id)) { ui.view = 'dashboard'; render(); window.scrollTo(0, 0); }
+    } catch (e) { toast(errText(e), 'err'); } finally { busy = false; }
+  },
+  async setup(){
+    if (busy) return;
+    const church = $('#s_church').value.trim(), name = $('#s_user').value.trim(), pass = $('#s_pass').value, pass2 = $('#s_pass2').value;
+    if (!church || !name) return toast('أكمل كل الحقول', 'err');
+    if (pass.length < 6) return toast('كلمة المرور ٦ أحرف على الأقل', 'err');
+    if (pass !== pass2) return toast('كلمتا المرور غير متطابقتين', 'err');
+    busy = true;
+    try {
+      const email = await emailFor(name);
+      await rpc('setup_admin', {p_email:email, p_password:pass, p_name:name, p_church:church});
+      await loadPub();
+      const r = await sb.auth.signInWithPassword({email, password:pass});
+      if (r.error) throw r.error;
+      if (await enterSession(r.data.user.id)) { ui.view = 'dashboard'; render(); }
+    } catch (e) { toast(errText(e), 'err'); if (/already_setup/.test(String(e && e.message))) { await loadPub().catch(() => {}); render(); } } finally { busy = false; }
+  },
+  attTab(t){ ui.attTab = t.dataset.v; render(); },
+  mark(t){
+    const id = t.dataset.id, st = t.dataset.st;
+    if (!canMark(id)) return toast('ليس لديك صلاحية لهذا المخدوم', 'err');
+    const cur = getStatus(id, ui.attDate); setStatus(id, ui.attDate, cur === st ? '' : st);
+  },
+  markAll(t){
+    const st = t.dataset.st, p = {};
+    let ids;
+    if (ui.attTab === 'servants') ids = arr('servants').filter(s => s.active !== false).map(s => s.id);
+    else ids = membersOf(ui.attClass).map(m => m.id);
+    ids = ids.filter(canMark); if (!ids.length) return;
+    ids.forEach(id => p[id] = st);
+    patch('att', monthOf(ui.attDate), {days:{[ui.attDate]:p}});
+    toast(st ? 'تم تسجيل الكل حاضرين' : 'تم مسح الحالات');
+  },
+  selfPresent(){ if (me && me.role === 'servant') { setStatus(me.id, today(), 'p'); toast('تم تسجيل حضورك'); } },
+  openMember(t){ memberProfile(t.dataset.id); },
+  editMember(t){ if (isAdmin()) memberForm(t && t.dataset ? t.dataset.id : null); },
+  saveMember(){
+    if (!isAdmin()) return;
+    const name = V('name').trim(), classId = V('classId');
+    if (!name) return toast('اكتب اسم المخدوم', 'err');
+    if (!classId) return toast('اختر الفصل', 'err');
+    const id = modalCtx.id || uid('m'), old = S.members[id] || {};
+    put('members', id, {name, classId, phone:V('phone').trim(), parentPhone:V('parentPhone').trim(), birth:V('birth'), address:V('address').trim(), notes:V('notes').trim(), active:CK('active'), createdAt:old.createdAt || Date.now()});
+    closeModal(); toast('تم حفظ المخدوم');
+  },
+  delMember(t){ const id = t.dataset.id; confirmBox('سيُحذف المخدوم «' + esc((S.members[id] || {}).name) + '». يمكنك بدلاً من ذلك أرشفته من التعديل. هل تريد الحذف؟', 'حذف المخدوم', () => { remove('members', id); toast('تم الحذف'); }); },
+  editServant(t){ if (isAdmin()) servantForm(t && t.dataset ? t.dataset.id : null); },
+  async saveServant(){
+    if (!isAdmin() || busy) return;
+    const name = V('name').trim(), pw = V('password'), phone = V('phone').trim(), active = CK('active');
+    if (!name) return toast('اكتب اسم الخادم', 'err');
+    const id = modalCtx.id, old = id ? S.servants[id] : null, nn = norm(name);
+    const taken = arr('servants').some(s => s.id !== id && norm(s.name) === nn) || norm((cfg().admin || {}).name) === nn;
+    if (taken) return toast('الاسم ده مستخدم بالفعل. أضف حرف أو اسم تاني للتمييز', 'err');
+    if (!old && pw.length < 6) return toast('كلمة المرور ٦ أحرف على الأقل', 'err');
+    if (pw && pw.length < 6) return toast('كلمة المرور ٦ أحرف على الأقل', 'err');
+    const classIds = Array.from(document.querySelectorAll('#modal input[name=cls]:checked')).map(x => x.value);
+    busy = true;
+    try {
+      if (!old) {
+        const nid = await rpc('admin_create_account', {p_email:await emailFor(name), p_password:pw, p_name:name, p_phone:phone, p_class_ids:classIds});
+        put('servants', nid, {name, phone, classIds, active});
+      } else {
+        const changed = norm(old.name) !== nn;
+        if (changed || pw) await rpc('admin_update_account', {p_id:id, p_email:changed ? await emailFor(name) : null, p_password:pw || null});
+        put('servants', id, {name, phone, classIds, active});
+      }
+      closeModal(); toast('تم حفظ الخادم');
+    } catch (e) { toast(errText(e), 'err'); } finally { busy = false; }
+  },
+  delServant(t){ const id = t.dataset.id; confirmBox('سيُحذف حساب الخادم «' + esc((S.servants[id] || {}).name) + '». سجل حضوره القديم لن يظهر بعد ذلك.', 'حذف الخادم', () => { remove('servants', id); toast('تم الحذف'); }); },
+  editService(t){ const id = t && t.dataset ? t.dataset.id : null; simpleForm(id ? 'تعديل الخدمة' : 'إضافة خدمة', id ? S.services[id].name : '', '', 'saveService', id); },
+  saveService(){
+    const name = V('name').trim(); if (!name) return toast('اكتب اسم الخدمة', 'err');
+    const id = modalCtx.id || uid('sv'), old = S.services[id];
+    put('services', id, {name, order: old ? old.order : (services().length + 1) * 10}); closeModal(); toast('تم الحفظ');
+  },
+  delService(t){
+    const id = t.dataset.id;
+    if (classes().some(c => c.serviceId === id)) return toast('احذف فصول هذه الخدمة أو انقلها أولاً', 'err');
+    confirmBox('حذف الخدمة «' + esc(svcName(id)) + '»؟', 'حذف الخدمة', () => { remove('services', id); toast('تم الحذف'); });
+  },
+  editClass(t){
+    const id = t.dataset.id, sid = id ? S.classes[id].serviceId : t.dataset.service;
+    simpleForm(id ? 'تعديل الفصل' : 'إضافة فصل إلى ' + svcName(sid), id ? S.classes[id].name : '', `<label class="fld">الخدمة<select name="serviceId">${services().map(s => `<option value="${s.id}" ${s.id === sid ? 'selected' : ''}>${esc(s.name)}</option>`).join('')}</select></label>`, 'saveClass', id);
+  },
+  saveClass(){
+    const name = V('name').trim(); if (!name) return toast('اكتب اسم الفصل', 'err');
+    const id = modalCtx.id || uid('c'), old = S.classes[id];
+    put('classes', id, {name, serviceId:V('serviceId'), order: old ? old.order : Date.now() % 100000}); closeModal(); toast('تم الحفظ');
+  },
+  delClass(t){
+    const id = t.dataset.id;
+    if (arr('members').some(m => m.classId === id)) return toast('انقل مخدومي هذا الفصل أو احذفهم أولاً', 'err');
+    confirmBox('حذف الفصل «' + esc(clsName(id)) + '»؟', 'حذف الفصل', () => {
+      arr('servants').forEach(s => { if ((s.classIds || []).indexOf(id) > -1) put('servants', s.id, Object.assign({}, S.servants[s.id], {classIds:s.classIds.filter(x => x !== id)})); });
+      remove('classes', id); toast('تم الحذف');
+    });
+  },
+  evaluate(t){ closeModal(); if (!(isAdmin() || (S.members[t.dataset.id] && allowedClassIds().has(S.members[t.dataset.id].classId)))) return; evalForm(t.dataset.id); },
+  star(t){
+    if (!evDraft) return; const k = t.dataset.crit, v = Number(t.dataset.v);
+    evDraft.scores[k] = evDraft.scores[k] === v ? 0 : v;
+    Array.from(t.parentElement.children).forEach((b, i) => b.classList.toggle('on', i < evDraft.scores[k]));
+  },
+  saveEval(){
+    if (!evDraft) return; const m = S.members[evDraft.memberId]; if (!m) return;
+    if (!(isAdmin() || allowedClassIds().has(m.classId))) return toast('ليس لديك صلاحية تقييم هذا المخدوم', 'err');
+    const scores = {}; Object.keys(evDraft.scores).forEach(k => { if (evDraft.scores[k] > 0) scores[k] = evDraft.scores[k]; });
+    if (!Object.keys(scores).length) return toast('اختر تقييمًا واحدًا على الأقل', 'err');
+    const mid = evDraft.memberId, d = evDraft.date, key = evKey(mid, d);
+    patch('ev', monthOf(d), {items:{[key]:{memberId:mid, classId:m.classId, servantId:me.role === 'servant' ? me.id : 'admin', date:d, scores, note:V('note').trim(), ts:Date.now(), deleted:false}}});
+    closeModal(); toast('تم حفظ التقييم');
+  },
+  delEval(){ if (!evDraft) return; const dm = S.members[evDraft.memberId]; if (!dm || !(isAdmin() || allowedClassIds().has(dm.classId))) return; const d = evDraft.date; patch('ev', monthOf(d), {items:{[evKey(evDraft.memberId, d)]:{deleted:true}}}); closeModal(); toast('تم حذف التقييم'); },
+  repTab(t){ ui.rep.tab = t.dataset.v; render(); },
+  changePw(){
+    openModal('تغيير كلمة المرور', `<div class="stack"><label class="fld">كلمة المرور الحالية<input type="password" name="old" dir="ltr" style="text-align:end" autocomplete="current-password"></label><label class="fld">كلمة المرور الجديدة<input type="password" name="new" dir="ltr" style="text-align:end" autocomplete="new-password"></label></div>`, `<button class="btn primary" data-a="savePw">حفظ</button><button class="btn" data-a="closeModal">إلغاء</button>`);
+  },
+  async savePw(){
+    const o = V('old'), n = V('new');
+    if (n.length < 6) return toast('كلمة المرور الجديدة ٦ أحرف على الأقل', 'err');
+    try { await rpc('change_my_password', {p_old:o, p_new:n}); closeModal(); toast('تم تغيير كلمة المرور'); }
+    catch (e) { toast(errText(e), 'err'); }
+  },
+  saveSettings(){
+    const name = $('#st_church').value.trim(); if (!name) return toast('اكتب اسم الكنيسة', 'err');
+    const crs = Array.from(document.querySelectorAll('[data-crit-id]')).map(el => ({id:el.dataset.critId, name:el.value.trim() || 'معيار'}));
+    put('config', 'main', Object.assign({}, cfg(), {churchName:name, criteria:crs})); toast('تم حفظ الإعدادات');
+  },
+  async saveAdmin(){
+    if (!isAdmin() || busy) return;
+    const name = $('#ad_user').value.trim(), pw = $('#ad_pass').value;
+    if (!name) return toast('اكتب الاسم', 'err');
+    if (arr('servants').some(s => norm(s.name) === norm(name))) return toast('الاسم ده مستخدم لخادم آخر', 'err');
+    if (pw && pw.length < 6) return toast('كلمة المرور ٦ أحرف على الأقل', 'err');
+    const c = cfg(), changed = norm(name) !== norm((c.admin || {}).name);
+    busy = true;
+    try {
+      if (changed || pw) await rpc('admin_update_account', {p_id:me.id, p_email:changed ? await emailFor(name) : null, p_password:pw || null});
+      if (changed) { chk(await sb.from('profiles').update({name}).eq('id', me.id)); put('config', 'main', Object.assign({}, c, {admin:{name}})); }
+      const f = $('#ad_pass'); if (f) f.value = '';
+      toast('تم حفظ الحساب');
+    } catch (e) { toast(errText(e), 'err'); } finally { busy = false; }
+  },
+  exportCsv(){
+    if (!lastReport) return;
+    const q = v => '"' + String(v == null ? '' : v).replace(/"/g, '""') + '"';
+    saveFile('report-' + lastReport.name + '.csv', '\ufeff' + lastReport.rows.map(r => r.map(q).join(',')).join('\r\n'));
+  },
+  exportBackup(){ saveFile('church-backup-' + today() + '.json', JSON.stringify({exportedAt:new Date().toISOString(), data:S}, null, 2)); },
+  wipe(){
+    modalCtx = {};
+    openModal('مسح كل البيانات', '<p style="margin-top:0">سيتم حذف كل شيء نهائيًا. للتأكيد اكتب كلمة <b>حذف</b> في الخانة.</p><input type="text" name="word" autocomplete="off">', '<button class="btn danger" data-a="wipeYes">مسح كل شيء</button><button class="btn" data-a="closeModal">إلغاء</button>');
+  },
+  async wipeYes(){
+    if (V('word').trim() !== 'حذف') return toast('اكتب كلمة حذف للتأكيد', 'err');
+    closeModal(); toast('جارٍ مسح البيانات…');
+    try { await rpc('admin_wipe_data'); refreshAll(0); toast('تم مسح كل البيانات'); } catch (e) { toast(errText(e), 'err'); }
+  }
+};
+const CH = {
+  attDate(t){ ui.attDate = t.value || today(); render(); },
+  attClass(t){ ui.attClass = t.value; render(); },
+  evDate(t){ ui.evDate = t.value || today(); render(); },
+  evClass(t){ ui.evClass = t.value; render(); },
+  fService(t){ ui.fService = t.value; ui.fClass = ''; render(); },
+  fClass(t){ ui.fClass = t.value; render(); },
+  showArchived(t){ ui.showArchived = t.checked; render(); },
+  repRange(t){ ui.rep.range = t.value; render(); },
+  repFrom(t){ ui.rep.from = t.value; render(); },
+  repTo(t){ ui.rep.to = t.value; render(); },
+  repService(t){ ui.rep.service = t.value; ui.rep.cls = ''; render(); },
+  repCls(t){ ui.rep.cls = t.value; render(); },
+  repSort(t){ ui.rep.sort = t.value; render(); }
+};
+async function saveFile(name, data){
+  try {
+    const blob = new Blob([data], {type:'text/plain;charset=utf-8'});
+    const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = name;
+    document.body.appendChild(a); a.click();
+    setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 1500);
+  } catch (e) { toast('تعذّر تنزيل الملف', 'err'); }
+}
+document.addEventListener('click', e => {
+  const t = e.target.closest('[data-a]'); if (!t) return;
+  const f = A[t.dataset.a]; if (f) f(t, e);
+});
+document.addEventListener('change', e => { const t = e.target.closest('[data-c]'); if (t && CH[t.dataset.c]) CH[t.dataset.c](t); });
+document.addEventListener('input', e => { const t = e.target.closest('[data-i]'); if (t && t.dataset.i === 'q') { ui.q = t.value; render(); } });
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape' && $('#modal').firstChild) closeModal();
+  if (e.key === 'Enter') { const t = e.target.closest && e.target.closest('[data-enter]'); if (t && A[t.dataset.enter]) { e.preventDefault(); A[t.dataset.enter](t, e); } }
+});
+
+/* ---------- data bootstrap ---------- */
+const DEFAULT_CRITERIA = [{id:'c1', name:'الالتزام والسلوك'}, {id:'c2', name:'المشاركة'}, {id:'c3', name:'الحفظ والاستيعاب'}];
+/* ---------- boot ---------- */
+async function loadPub(){ const d = await rpc('public_info'); pub = {has_admin:!!(d && d.has_admin), church:(d && d.church) || ''}; }
+async function enterSession(userId){
+  const r = await sb.from('profiles').select('id,name,role,active').eq('id', userId).maybeSingle();
+  if (r.error) throw r.error;
+  const prof = r.data;
+  if (!prof || !prof.active) {
+    try { await sb.auth.signOut(); } catch (e) {}
+    toast(prof ? 'الحساب ده موقوف. كلّم مسؤول النظام.' : 'الحساب مش موجود.', 'err');
+    return false;
+  }
+  me = {role:prof.role, id:prof.id}; ui.view = 'dashboard';
+  startSync();
+  return true;
+}
+async function init(){
+  render();
+  if (!sb) { fatal = 'config'; loaded = true; render(); return; }
+  try {
+    sb.auth.onAuthStateChange(ev => { if (ev === 'SIGNED_OUT' && me) { me = null; stopSync(); scheduleRender(); } });
+    await loadPub();
+    const g = await sb.auth.getSession();
+    if (g.data && g.data.session) { try { await enterSession(g.data.session.user.id); } catch (e) { console.error(e); } }
+  } catch (e) { console.error(e); fatal = 'connect'; }
+  loaded = true; render();
+}
+init();
+})();
+</script>
+</body>
+</html>
