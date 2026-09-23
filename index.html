@@ -11,28 +11,28 @@
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Reem+Kufi:wght@500;700&display=swap" rel="stylesheet">
 <style>
 :root{
-  --bg:#EDF0F6; --surface:#FFFFFF; --surface2:#F5F7FB; --ink:#15213B; --ink2:#586380; --line:#D9DFEB;
-  --primary:#23408E; --primary-ink:#FFFFFF; --primary-soft:#E3E9F8;
-  --gold:#B7862C; --side:#14213F; --side-ink:#DCE3F5; --side-dim:#93A0C4;
+  --bg:#F8F3E7; --surface:#FFFFFF; --surface2:#FBF6EA; --ink:#2B2210; --ink2:#6B5B35; --line:#E7D9B6;
+  --primary:#A9761F; --primary-ink:#FFFFFF; --primary-soft:#F3E6C4;
+  --gold:#C9922E; --side:#2B1E08; --side-ink:#F3E6C4; --side-dim:#C3AD7C;
   --p:#2E7D5A; --p-bg:#DDF0E6; --a:#B23A2E; --a-bg:#F8DFDB; --e:#94691A; --e-bg:#F6EACB;
-  --track:#E6EAF3; --shadow:0 1px 2px rgba(20,33,63,.06),0 8px 24px -12px rgba(20,33,63,.18);
+  --track:#EFE1BC; --shadow:0 1px 2px rgba(60,45,10,.08),0 8px 24px -12px rgba(60,45,10,.22);
   --font:'IBM Plex Sans Arabic','Segoe UI',Tahoma,Arial,sans-serif; --display:'Reem Kufi','IBM Plex Sans Arabic',Tahoma,sans-serif;
 }
 @media (prefers-color-scheme: dark){
   :root:not([data-theme="light"]){
-    --bg:#0D1424; --surface:#161F36; --surface2:#1B2643; --ink:#E8ECF7; --ink2:#9AA6C4; --line:#2A3658;
-    --primary:#8EA8FF; --primary-ink:#0D1424; --primary-soft:#222F55;
-    --gold:#D9A94B; --side:#0A1020; --side-ink:#DCE3F5; --side-dim:#8592B5;
+    --bg:#1B1408; --surface:#241C0D; --surface2:#2A210F; --ink:#F3EBD6; --ink2:#C3AD7C; --line:#3E3115;
+    --primary:#D9A94B; --primary-ink:#1B1408; --primary-soft:#3E3115;
+    --gold:#F0C978; --side:#120D04; --side-ink:#F3E6C4; --side-dim:#A3915F;
     --p:#5CC59A; --p-bg:#173A2D; --a:#FF8F82; --a-bg:#4A201C; --e:#E6B95E; --e-bg:#43361A;
-    --track:#222D4B; --shadow:0 1px 2px rgba(0,0,0,.4),0 8px 24px -12px rgba(0,0,0,.6);
+    --track:#3E3115; --shadow:0 1px 2px rgba(0,0,0,.4),0 8px 24px -12px rgba(0,0,0,.6);
   }
 }
 :root[data-theme="dark"]{
-  --bg:#0D1424; --surface:#161F36; --surface2:#1B2643; --ink:#E8ECF7; --ink2:#9AA6C4; --line:#2A3658;
-  --primary:#8EA8FF; --primary-ink:#0D1424; --primary-soft:#222F55;
-  --gold:#D9A94B; --side:#0A1020; --side-ink:#DCE3F5; --side-dim:#8592B5;
+  --bg:#1B1408; --surface:#241C0D; --surface2:#2A210F; --ink:#F3EBD6; --ink2:#C3AD7C; --line:#3E3115;
+  --primary:#D9A94B; --primary-ink:#1B1408; --primary-soft:#3E3115;
+  --gold:#F0C978; --side:#120D04; --side-ink:#F3E6C4; --side-dim:#A3915F;
   --p:#5CC59A; --p-bg:#173A2D; --a:#FF8F82; --a-bg:#4A201C; --e:#E6B95E; --e-bg:#43361A;
-  --track:#222D4B; --shadow:0 1px 2px rgba(0,0,0,.4),0 8px 24px -12px rgba(0,0,0,.6);
+  --track:#3E3115; --shadow:0 1px 2px rgba(0,0,0,.4),0 8px 24px -12px rgba(0,0,0,.6);
 }
 *{box-sizing:border-box}
 html,body{margin:0}
@@ -225,6 +225,20 @@ tr:last-child td{border-bottom:0}
 @media (prefers-reduced-motion:no-preference){
   .sb,.btn,.mrow{transition:background .15s,border-color .15s}
 }
+#printHead{display:none}
+@media print{
+  body.printing *{visibility:hidden}
+  body.printing #printHead, body.printing #printHead *,
+  body.printing #main, body.printing #main *{visibility:visible}
+  body.printing #printHead{display:flex;align-items:center;gap:16px;position:fixed;top:0;inset-inline-start:0;width:100%;padding:10px 0 14px;border-bottom:3px solid var(--gold);margin-bottom:14px}
+  body.printing #printHead .p-logo{flex:none}
+  body.printing #printHead .p-info h1{font-size:20px;margin:0}
+  body.printing #printHead .p-info h2{font-size:15px;margin:2px 0 0;color:var(--gold)}
+  body.printing #printHead .p-info p{font-size:12px;margin:2px 0 0;color:#555}
+  body.printing #main{position:absolute;top:110px;inset-inline-start:0;width:100%;padding:0}
+  body.printing .side,body.printing .mtop,body.printing .toolbar,body.printing .tabs,body.printing .btn,body.printing .icon-btn,body.printing .ph .actions{display:none !important}
+  body.printing .app{display:block}
+}
 </style>
 </head>
 <body>
@@ -280,7 +294,7 @@ const ICONS = {
   key:'<circle cx="8" cy="15" r="4"/><path d="M11 12l9-9M16 7l3 3"/>'
 };
 const icon = n => `<svg class="icon" viewBox="0 0 24 24" aria-hidden="true">${ICONS[n] || ''}</svg>`;
-const logo = s => `<svg width="${s || 30}" height="${s || 30}" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M9.5 2h5v6.5H21v5h-6.5V22h-5v-8.5H3v-5h6.5z"/></svg>`;
+const logo = s => { const c = cfg(); const url = c && c.logoUrl; const sz = s || 30; return url ? `<img src="${url}" alt="شعار الكنيسة" width="${sz}" height="${sz}" style="object-fit:contain;border-radius:4px">` : `<svg width="${sz}" height="${sz}" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M9.5 2h5v6.5H21v5h-6.5V22h-5v-8.5H3v-5h6.5z"/></svg>`; };
 
 /* ---------- storage layer (Supabase) ---------- */
 const COLS = ['config','services','classes','servants','members','att','ev'];
@@ -483,6 +497,7 @@ const membersOf = cid => activeMembers(arr('members').filter(m => m.classId === 
 const allowedMembers = () => { const ids = allowedClassIds(); return arr('members').filter(m => ids.has(m.classId)).sort(byName); };
 const svcName = id => (S.services[id] || {}).name || '';
 const clsName = id => (S.classes[id] || {}).name || 'بدون فصل';
+const servantClassLabel = () => { const sv = meServant(); const ids = (sv && sv.classIds) || []; return ids.length ? ids.map(clsName).join('، ') : 'خادم'; };
 const clsSvc = id => svcName((S.classes[id] || {}).serviceId);
 const initial = n => String(n || '؟').trim().charAt(0);
 const criteria = () => (cfg() && cfg().criteria) || [];
@@ -583,7 +598,7 @@ function navItems(){
     : [['dashboard','الرئيسية','home'],['attendance','الحضور','check'],['evals','التقييمات','star'],['members','مخدوميني','users'],['reports','التقارير','chart']];
 }
 function shell(content){
-  const name = isAdmin() ? cfg().admin.name : (meServant() || {}).name;
+  const name = isAdmin() ? 'المسؤول' : servantClassLabel();
   return `<div class="app"><aside class="side"><div class="brand"><span class="mark">${logo(34)}</span><div><b>${esc(cfg().churchName)}</b><small>متابعة الخدمة</small></div></div>
   <nav class="nav" aria-label="القائمة الرئيسية">${navItems().map(n => `<button class="${ui.view === n[0] ? 'on' : ''}" data-a="nav" data-v="${n[0]}" ${ui.view === n[0] ? 'aria-current="page"' : ''}>${icon(n[2])}<span>${n[1]}</span></button>`).join('')}</nav>
   <div class="userbox"><div><div class="nm">${esc(name)}</div><div class="rl">${isAdmin() ? 'مسؤول النظام' : 'خادم'}</div></div>
@@ -669,15 +684,11 @@ function viewDashboard(){
   const trend = dates.slice(-8).map(d => ({label: fmtShort(d), value: rateOf(c.perDate[d])}));
   const servs = arr('servants').filter(s => s.active !== false);
   let head, stats;
-  const name = admin ? cfg().admin.name : (meServant() || {}).name;
+  const name = admin ? 'المسؤول' : servantClassLabel();
   head = pageHead('أهلاً ' + name, fmtDate(today()),
     `<button class="btn primary" data-a="goAtt">${icon('check')}تسجيل الحضور</button>` + (admin ? `<button class="btn" data-a="editMember">${icon('plus')}إضافة مخدوم</button>` : ''));
   stats = `<div class="stats">${statCard(nf(mem.length), 'مخدوم')}${admin ? statCard(nf(servs.length), 'خادم') : statCard(nf(cls.length), 'فصل مسؤول عنه')}${admin ? statCard(nf(cls.length), 'فصل') : ''}${statCard(pct(lastRate), last ? 'حضور آخر اجتماع' : 'حضور آخر اجتماع')}</div>`;
-  let selfCard = '';
-  if (!admin) {
-    const st = getStatus(me.id, today());
-    selfCard = `<div class="card" style="margin-bottom:18px"><div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap"><div><h3>حضورك اليوم</h3><small>${st ? 'تم تسجيل: ' + ({p:'حاضر',a:'غائب',e:'معتذر'})[st] : 'لم تسجّل حضورك بعد'}</small></div><button class="btn ${st === 'p' ? '' : 'primary'}" data-a="selfPresent">${st === 'p' ? 'تم تسجيل حضورك' : 'سجّل حضوري'}</button></div></div>`;
-  }
+  const selfCard = '';
   const followHtml = follow.length ? '<div class="mlist">' + follow.slice(0, 8).map(m => `<button class="mrow" data-a="openMember" data-id="${m.id}"><span class="av">${esc(initial(m.name))}</span><span class="mi"><b>${esc(m.name)}</b><small><span>${esc(clsName(m.classId))}</span>${m.phone ? `<span dir="ltr">${esc(m.phone)}</span>` : ''}</small></span><span class="mr"><span class="pill bad">غايب ${nf(streaks[m.id])} مرات ورا بعض</span></span></button>`).join('') + '</div>'
     : '<p class="muted" style="margin:0">لا يوجد مخدوم غائب مرتين متتاليتين. ممتاز.</p>';
   let classTable = '';
@@ -702,18 +713,13 @@ function attRow(id, name, sub, st){
 }
 function viewAttendance(){
   const admin = isAdmin(), cls = allowedClasses();
-  const tabs = [['members','المخدومين']].concat(admin ? [['servants','الخدام']] : [['self','حضوري أنا']]);
+  const tabs = [['members','المخدومين']].concat(admin ? [['servants','الخدام']] : []);
   if (!tabs.some(t => t[0] === ui.attTab)) ui.attTab = 'members';
   if (!ui.attDate) ui.attDate = today();
   const date = ui.attDate;
   let out = pageHead('الحضور والغياب', fmtDate(date));
   out += '<div class="tabs" role="tablist">' + tabs.map(t => `<button class="tab ${ui.attTab === t[0] ? 'on' : ''}" role="tab" data-a="attTab" data-v="${t[0]}">${t[1]}</button>`).join('') + '</div>';
   const dateCtl = `<label class="fld inline">التاريخ<input type="date" value="${date}" max="${today()}" data-c="attDate"></label>`;
-  if (ui.attTab === 'self' && !admin) {
-    const st = getStatus(me.id, date);
-    const hist = Object.keys(collect([me.id]).per[me.id].dates).sort().reverse().slice(0, 10);
-    return out + `<div class="toolbar">${dateCtl}</div><div class="card" style="max-width:560px">${attRow(me.id, 'حضوري أنا', '', st)}<h3 style="margin:20px 0 10px">آخر ما سُجّل</h3>${hist.length ? '<div class="dots">' + hist.map(d => `<span class="dot ${getStatus(me.id, d)}" title="${esc(fmtDate(d))}">${nf(parseD(d).getDate())}</span>`).join('') + '</div>' : '<p class="muted" style="margin:0">لا يوجد سجل بعد.</p>'}</div>`;
-  }
   let list, sel = '', sub = () => '';
   if (ui.attTab === 'servants') {
     list = arr('servants').filter(s => s.active !== false).sort(byName);
@@ -827,7 +833,7 @@ function viewReports(){
   const mem = activeMembers(arr('members').filter(m => scopeIds.has(m.classId))).sort(byName);
   if (r.tab === 'servants' && !admin) r.tab = 'members';
   const tabs = [['members','حضور المخدومين']].concat(admin ? [['servants','حضور الخدام']] : []).concat([['evals','التقييمات']]);
-  let out = pageHead('التقارير', 'من ' + fmtDate(from) + ' إلى ' + fmtDate(to), dl ? `<button class="btn" data-a="exportCsv">${icon('download')}تصدير CSV</button>` : '');
+  let out = pageHead('التقارير', 'من ' + fmtDate(from) + ' إلى ' + fmtDate(to), `<button class="btn" data-a="printReport">${icon('download')}تنزيل PDF</button>` + (dl ? `<button class="btn" data-a="exportCsv">${icon('download')}تصدير CSV</button>` : ''));
   out += `<div class="toolbar"><label class="fld inline">الفترة<select data-c="repRange"><option value="month" ${r.range === 'month' ? 'selected' : ''}>هذا الشهر</option><option value="last" ${r.range === 'last' ? 'selected' : ''}>الشهر الماضي</option><option value="3m" ${r.range === '3m' ? 'selected' : ''}>آخر ٣ شهور</option><option value="year" ${r.range === 'year' ? 'selected' : ''}>هذه السنة</option><option value="custom" ${r.range === 'custom' ? 'selected' : ''}>فترة محددة</option></select></label>
     ${r.range === 'custom' ? `<label class="fld inline">من<input type="date" value="${from}" data-c="repFrom"></label><label class="fld inline">إلى<input type="date" value="${to}" data-c="repTo"></label>` : ''}
     <select data-c="repService" aria-label="الخدمة"><option value="">كل الخدمات</option>${svcs.map(s => `<option value="${s.id}" ${r.service === s.id ? 'selected' : ''}>${esc(s.name)}</option>`).join('')}</select>
@@ -876,6 +882,11 @@ function viewSettings(){
   <div class="card"><h2>بيانات الكنيسة</h2><div class="stack"><label class="fld">اسم الكنيسة<input type="text" id="st_church" value="${esc(cfg().churchName)}"></label>
   <div><b style="font-size:14px">معايير التقييم (يقيَّم كل معيار من ١ إلى ٥)</b><div class="stack" style="margin-top:8px">${crs.map(k => `<input type="text" data-crit-id="${k.id}" value="${esc(k.name)}" aria-label="معيار التقييم">`).join('')}</div></div>
   <div><button class="btn primary" data-a="saveSettings">حفظ</button></div></div></div>
+  <div class="card"><h2>شعار الكنيسة</h2><div class="stack">
+  <p class="muted" style="margin:0">يظهر الشعار بدل الصليب في الشريط الجانبي وشاشة الدخول وأعلى التقارير المطبوعة. الأفضل صورة مربعة (PNG أو JPG) أقل من ٥٠٠ كيلوبايت.</p>
+  ${cfg().logoUrl ? `<div style="display:flex;align-items:center;gap:14px"><img src="${cfg().logoUrl}" alt="الشعار الحالي" width="72" height="72" style="object-fit:contain;border:1px solid var(--line);border-radius:8px;background:var(--surface2)"><button class="btn" data-a="removeLogo">إزالة الشعار</button></div>` : ''}
+  <label class="fld">${cfg().logoUrl ? 'استبدال الشعار' : 'رفع الشعار'}<input type="file" id="st_logo" accept="image/*" data-c="logoFile"></label>
+  </div></div>
   <div class="card"><h2>حساب المسؤول</h2><div class="stack"><label class="fld">الاسم (بتدخل بيه)<input type="text" id="ad_user" value="${esc(cfg().admin.name)}"></label>
   <label class="fld">كلمة مرور جديدة (اتركها فارغة للإبقاء على الحالية)<input type="password" id="ad_pass" dir="ltr" style="text-align:end" autocomplete="new-password"></label>
   <div><button class="btn primary" data-a="saveAdmin">حفظ الحساب</button></div></div></div>
@@ -1025,7 +1036,6 @@ const A = {
     patch('att', monthOf(ui.attDate), {days:{[ui.attDate]:p}});
     toast(st ? 'تم تسجيل الكل حاضرين' : 'تم مسح الحالات');
   },
-  selfPresent(){ if (me && me.role === 'servant') { setStatus(me.id, today(), 'p'); toast('تم تسجيل حضورك'); } },
   openMember(t){ memberProfile(t.dataset.id); },
   editMember(t){ if (isAdmin()) memberForm(t && t.dataset ? t.dataset.id : null); },
   saveMember(){
@@ -1117,6 +1127,7 @@ const A = {
     try { await rpc('change_my_password', {p_old:o, p_new:n}); closeModal(); toast('تم تغيير كلمة المرور'); }
     catch (e) { toast(errText(e), 'err'); }
   },
+  removeLogo(){ const c = Object.assign({}, cfg()); delete c.logoUrl; put('config', 'main', c); toast('تمت إزالة الشعار'); },
   saveSettings(){
     const name = $('#st_church').value.trim(); if (!name) return toast('اكتب اسم الكنيسة', 'err');
     const crs = Array.from(document.querySelectorAll('[data-crit-id]')).map(el => ({id:el.dataset.critId, name:el.value.trim() || 'معيار'}));
@@ -1137,6 +1148,16 @@ const A = {
       toast('تم حفظ الحساب');
     } catch (e) { toast(errText(e), 'err'); } finally { busy = false; }
   },
+  printReport(){
+    const head = document.createElement('div');
+    head.id = 'printHead';
+    head.innerHTML = `<div class="p-logo">${logo(52)}</div><div class="p-info"><h1>${esc(cfg().churchName)}</h1><h2>تقرير الحضور والتقييمات</h2><p>${esc($('#main .ph p') ? $('#main .ph p').textContent : '')}</p></div>`;
+    document.body.appendChild(head);
+    document.body.classList.add('printing');
+    const done = () => { document.body.classList.remove('printing'); head.remove(); window.removeEventListener('afterprint', done); };
+    window.addEventListener('afterprint', done);
+    setTimeout(() => window.print(), 50);
+  },
   exportCsv(){
     if (!lastReport) return;
     const q = v => '"' + String(v == null ? '' : v).replace(/"/g, '""') + '"';
@@ -1154,6 +1175,15 @@ const A = {
   }
 };
 const CH = {
+  logoFile(t){
+    const f = t.files && t.files[0]; if (!f) return;
+    if (!/^image\//.test(f.type)) return toast('اختر ملف صورة', 'err');
+    if (f.size > 700 * 1024) return toast('حجم الصورة كبير. اختر صورة أصغر من ٧٠٠ كيلوبايت', 'err');
+    const reader = new FileReader();
+    reader.onload = () => { put('config', 'main', Object.assign({}, cfg(), {logoUrl:reader.result})); toast('تم حفظ الشعار'); };
+    reader.onerror = () => toast('تعذّر قراءة الصورة', 'err');
+    reader.readAsDataURL(f);
+  },
   attDate(t){ ui.attDate = t.value || today(); render(); },
   attClass(t){ ui.attClass = t.value; render(); },
   evDate(t){ ui.evDate = t.value || today(); render(); },
