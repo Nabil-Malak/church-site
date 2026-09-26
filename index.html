@@ -11,18 +11,18 @@
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Reem+Kufi:wght@500;700&display=swap" rel="stylesheet">
 <style>
 :root{
-  --bg:#F8F3E7; --surface:#FFFFFF; --surface2:#FBF6EA; --ink:#2B2210; --ink2:#6B5B35; --line:#E7D9B6;
+  --bg:#FAF6EC; --surface:#FFFFFF; --surface2:#FBF3E2; --ink:#2B1B12; --ink2:#6B5238; --line:#E6D6AF;
   --primary:#A9761F; --primary-ink:#FFFFFF; --primary-soft:#F3E6C4;
-  --gold:#C9922E; --side:#2B1E08; --side-ink:#F3E6C4; --side-dim:#C3AD7C;
+  --gold:#C9922E; --side:#551627; --side-ink:#F3E6C4; --side-dim:#CDA1A8;
   --p:#2E7D5A; --p-bg:#DDF0E6; --a:#B23A2E; --a-bg:#F8DFDB; --e:#94691A; --e-bg:#F6EACB;
-  --track:#EFE1BC; --shadow:0 1px 2px rgba(60,45,10,.08),0 8px 24px -12px rgba(60,45,10,.22);
+  --track:#EFE1BC; --shadow:0 1px 2px rgba(60,20,20,.09),0 8px 24px -12px rgba(60,20,20,.24);
   --font:'IBM Plex Sans Arabic','Segoe UI',Tahoma,Arial,sans-serif; --display:'Reem Kufi','IBM Plex Sans Arabic',Tahoma,sans-serif;
 }
 @media (prefers-color-scheme: dark){
   :root:not([data-theme="light"]){
     --bg:#1B1408; --surface:#241C0D; --surface2:#2A210F; --ink:#F3EBD6; --ink2:#C3AD7C; --line:#3E3115;
     --primary:#D9A94B; --primary-ink:#1B1408; --primary-soft:#3E3115;
-    --gold:#F0C978; --side:#120D04; --side-ink:#F3E6C4; --side-dim:#A3915F;
+    --gold:#F0C978; --side:#2E0B14; --side-ink:#F3E6C4; --side-dim:#B98A8F;
     --p:#5CC59A; --p-bg:#173A2D; --a:#FF8F82; --a-bg:#4A201C; --e:#E6B95E; --e-bg:#43361A;
     --track:#3E3115; --shadow:0 1px 2px rgba(0,0,0,.4),0 8px 24px -12px rgba(0,0,0,.6);
   }
@@ -30,12 +30,14 @@
 :root[data-theme="dark"]{
   --bg:#1B1408; --surface:#241C0D; --surface2:#2A210F; --ink:#F3EBD6; --ink2:#C3AD7C; --line:#3E3115;
   --primary:#D9A94B; --primary-ink:#1B1408; --primary-soft:#3E3115;
-  --gold:#F0C978; --side:#120D04; --side-ink:#F3E6C4; --side-dim:#A3915F;
+  --gold:#F0C978; --side:#2E0B14; --side-ink:#F3E6C4; --side-dim:#B98A8F;
   --p:#5CC59A; --p-bg:#173A2D; --a:#FF8F82; --a-bg:#4A201C; --e:#E6B95E; --e-bg:#43361A;
   --track:#3E3115; --shadow:0 1px 2px rgba(0,0,0,.4),0 8px 24px -12px rgba(0,0,0,.6);
 }
-*{box-sizing:border-box}
+*{box-sizing:border-box;min-width:0}
 html,body{margin:0}
+html{overflow-x:hidden;width:100%}
+body{overflow-x:hidden}
 body{background:var(--bg);color:var(--ink);font-family:var(--font);font-size:16px;line-height:1.65;-webkit-font-smoothing:antialiased}
 button,input,select,textarea{font:inherit;color:inherit}
 button{cursor:pointer}
@@ -595,7 +597,7 @@ const rateBar = r => r == null ? '<span class="muted">—</span>' : `<div class=
 function navItems(){
   return isAdmin()
     ? [['dashboard','لوحة التحكم','home'],['attendance','الحضور والغياب','check'],['evals','التقييمات','star'],['members','المخدومين','users'],['servants','الخدام','shield'],['structure','الخدمات والفصول','layers'],['reports','التقارير','chart'],['settings','الإعدادات','settings']]
-    : [['dashboard','الرئيسية','home'],['attendance','الحضور','check'],['evals','التقييمات','star'],['members','مخدوميني','users'],['reports','التقارير','chart']];
+    : [['dashboard','الرئيسية','home'],['attendance','الحضور','check'],['evals','التقييمات','star'],['members','المخدومين','users'],['reports','التقارير','chart']];
 }
 function shell(content){
   const name = isAdmin() ? 'المسؤول' : servantClassLabel();
@@ -685,7 +687,7 @@ function viewDashboard(){
   const servs = arr('servants').filter(s => s.active !== false);
   let head, stats;
   const name = admin ? 'المسؤول' : servantClassLabel();
-  head = pageHead('أهلاً ' + name, fmtDate(today()),
+  head = pageHead(name, fmtDate(today()),
     `<button class="btn primary" data-a="goAtt">${icon('check')}تسجيل الحضور</button>` + (admin ? `<button class="btn" data-a="editMember">${icon('plus')}إضافة مخدوم</button>` : ''));
   stats = `<div class="stats">${statCard(nf(mem.length), 'مخدوم')}${admin ? statCard(nf(servs.length), 'خادم') : statCard(nf(cls.length), 'فصل مسؤول عنه')}${admin ? statCard(nf(cls.length), 'فصل') : ''}${statCard(pct(lastRate), last ? 'حضور آخر اجتماع' : 'حضور آخر اجتماع')}</div>`;
   const selfCard = '';
@@ -773,7 +775,7 @@ function viewMembers(){
   const shown = all.filter(m => (!ui.fClass || m.classId === ui.fClass) && (!ui.fService || (S.classes[m.classId] || {}).serviceId === ui.fService) && (!q || String(m.name).indexOf(q) > -1 || String(m.phone || '').indexOf(q) > -1));
   const sm = streakMap(shown.filter(m => m.active !== false));
   const rec = collect(shown.map(m => m.id));
-  let out = pageHead(admin ? 'المخدومين' : 'مخدوميني', nf(shown.length) + ' مخدوم', admin ? `<button class="btn primary" data-a="editMember">${icon('plus')}إضافة مخدوم</button>` : '');
+  let out = pageHead('المخدومين', nf(shown.length) + ' مخدوم', admin ? `<button class="btn primary" data-a="editMember">${icon('plus')}إضافة مخدوم</button>` : '');
   out += `<div class="toolbar"><div class="searchbox grow">${icon('search')}<input type="search" id="q" placeholder="ابحث بالاسم أو الموبايل" value="${esc(ui.q)}" data-i="q"></div>
     <select data-c="fService" aria-label="الخدمة"><option value="">كل الخدمات</option>${svcs.map(s => `<option value="${s.id}" ${ui.fService === s.id ? 'selected' : ''}>${esc(s.name)}</option>`).join('')}</select>
     <select data-c="fClass" aria-label="الفصل">${classOptions(fClasses, ui.fClass, 'كل الفصول')}</select>
