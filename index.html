@@ -650,13 +650,6 @@ function adminAlerts(servs){
   } else {
     items.push(['mid', 'لم يُسجَّل أي اجتماع بعد', 'ابدأ من صفحة الحضور والغياب']);
   }
-  const cs = collect(servs.map(s => s.id)), lastS = cs.dates[cs.dates.length - 1];
-  if (lastS) {
-    const abs = servs.filter(s => getStatus(s.id, lastS) === 'a').map(s => s.name);
-    if (abs.length) items.push(['bad', 'خدام غايبون في آخر اجتماع (' + fmtShort(lastS) + ')', abs.join('، ')]);
-    const nr = servs.filter(s => !getStatus(s.id, lastS)).map(s => s.name);
-    if (nr.length) items.push(['mid', 'خدام لم يُسجَّل حضورهم', nr.join('، ')]);
-  }
   const noServant = classes().filter(k => membersOf(k.id).length && !servs.some(s => (s.classIds || []).indexOf(k.id) > -1)).map(k => k.name);
   if (noServant.length) items.push(['bad', 'فصول بدون خادم', noServant.join('، ')]);
   const body = items.length
