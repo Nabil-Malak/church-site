@@ -807,11 +807,11 @@ function viewMembers(){
 
 function viewServants(){
   const list = arr('servants').sort(byName), rec = collect(list.map(s => s.id));
-  let out = pageHead('الخدام', nf(list.length) + ' خادم', `<button class="btn primary" data-a="editServant">${icon('plus')}إضافة خادم</button>`);
-  if (!list.length) return out + emptyBox('لم تضف خدامًا بعد. كل خادم يحصل على حساب خاص ويرى مخدوميه فقط.', '<button class="btn primary" data-a="editServant">إضافة أول خادم</button>');
-  out += '<div class="tablewrap"><table><thead><tr><th>الخادم</th><th>الفصول المسؤول عنها</th><th>الموبايل</th><th>حضوره</th><th></th></tr></thead><tbody>' + list.map(s => {
+  let out = pageHead('الخدام', nf(list.length) + ' حساب فصل', `<button class="btn primary" data-a="editServant">${icon('plus')}إضافة حساب فصل</button>`);
+  if (!list.length) return out + emptyBox('لم تضف حسابات بعد. كل فصل يحصل على حساب خاص بكلمة مرور، يراه خدامه فقط.', '<button class="btn primary" data-a="editServant">إضافة أول حساب</button>');
+  out += '<div class="tablewrap"><table><thead><tr><th>الفصل</th><th>حضوره</th><th></th></tr></thead><tbody>' + list.map(s => {
     const cn = (s.classIds || []).filter(id => S.classes[id]).map(id => clsName(id));
-    return `<tr><td><b>${esc(s.name)}</b>${s.active === false ? ' <span class="pill">موقوف</span>' : ''}${s.username && norm(s.username) !== norm(s.name) ? `<br><small dir="ltr">${esc(s.username)}</small>` : ''}</td><td>${cn.length ? `<div class="chips">${cn.map(x => `<span class="chip">${esc(x)}</span>`).join('')}</div>` : '<small>لم يُعيَّن</small>'}</td><td dir="ltr" style="text-align:end">${esc(s.phone || '')}</td><td>${rateBar(rateOf(rec.per[s.id]))}</td><td><button class="btn sm" data-a="editServant" data-id="${s.id}">${icon('edit')}تعديل</button></td></tr>`;
+    return `<tr><td><b>${esc(s.name)}</b>${s.active === false ? ' <span class="pill">موقوف</span>' : ''}${!cn.length ? ' <small class="muted">(الفصل الأصلي اتحذف)</small>' : ''}</td><td>${rateBar(rateOf(rec.per[s.id]))}</td><td><button class="btn sm" data-a="editServant" data-id="${s.id}">${icon('edit')}تعديل</button></td></tr>`;
   }).join('') + '</tbody></table></div>';
   return out;
 }
@@ -945,14 +945,14 @@ function memberForm(id){
 }
 function servantForm(id){
   const s = id ? S.servants[id] : null; modalCtx = {id};
-  const checks = services().map(sv => { const cs = classes().filter(c => c.serviceId === sv.id); return cs.length ? `<div class="grp">${esc(sv.name)}</div>` + cs.map(c => `<label class="check"><input type="checkbox" name="cls" value="${c.id}" ${s && (s.classIds || []).indexOf(c.id) > -1 ? 'checked' : ''}>${esc(c.name)}</label>`).join('') : ''; }).join('');
-  openModal(s ? 'تعديل الخادم' : 'إضافة خادم', `<div class="stack">
-    <label class="fld">الاسم (بيدخل بيه)<input type="text" name="name" value="${esc(s ? s.name : '')}" autocomplete="off"></label>
-    <label class="fld">الموبايل<input type="tel" name="phone" dir="ltr" style="text-align:end" value="${esc(s ? s.phone : '')}"></label>
+  const cls = classes();
+  const curClass = s ? (s.classIds || [])[0] : (ui.attClass || '');
+  openModal(s ? 'تعديل حساب الفصل' : 'إضافة حساب فصل', `<div class="stack">
+    ${cls.length ? `<label class="fld">الفصل<select name="classId">${classOptions(cls, curClass)}</select></label>` : '<p class="hint" style="margin:0">أنشئ فصلاً أولاً من صفحة الخدمات والفصول.</p>'}
     <label class="fld">${s ? 'كلمة مرور جديدة (اختياري)' : 'كلمة المرور'}<input type="password" name="password" dir="ltr" style="text-align:end" autocomplete="new-password"></label>
-    <div><b style="font-size:14px">الفصول المسؤول عنها</b><div class="checks">${checks || '<small>أنشئ فصولاً أولاً.</small>'}</div></div>
-    <label class="check"><input type="checkbox" name="active" ${!s || s.active !== false ? 'checked' : ''}>الحساب مُفعّل</label></div>`,
-    `<button class="btn primary" data-a="saveServant">حفظ</button><button class="btn" data-a="closeModal">إلغاء</button>${s ? `<button class="btn danger" data-a="delServant" data-id="${id}">حذف</button>` : ''}`, true);
+    <label class="check"><input type="checkbox" name="active" ${!s || s.active !== false ? 'checked' : ''}>الحساب مُفعّل</label>
+    <p class="hint" style="margin:0">اسم الحساب هيبقى نفس اسم الفصل، وهو اللي يدخل بيه الخدام مع كلمة المرور دي.</p></div>`,
+    `<button class="btn primary" data-a="saveServant">حفظ</button><button class="btn" data-a="closeModal">إلغاء</button>${s ? `<button class="btn danger" data-a="delServant" data-id="${id}">حذف</button>` : ''}`);
 }
 function evalForm(mid){
   const m = S.members[mid]; if (!m) return;
@@ -1080,25 +1080,28 @@ const A = {
   editServant(t){ if (isAdmin()) servantForm(t && t.dataset ? t.dataset.id : null); },
   async saveServant(){
     if (!isAdmin() || busy) return;
-    const name = V('name').trim(), pw = V('password'), phone = V('phone').trim(), active = CK('active');
-    if (!name) return toast('اكتب اسم الخادم', 'err');
-    const id = modalCtx.id, old = id ? S.servants[id] : null, nn = norm(name);
+    const classId = V('classId'), pw = V('password'), active = CK('active');
+    if (!classId) return toast('اختر الفصل', 'err');
+    const classObj = S.classes[classId]; if (!classObj) return toast('اختر فصل صحيح', 'err');
+    const name = classObj.name, id = modalCtx.id, old = id ? S.servants[id] : null, nn = norm(name);
+    const dupClass = arr('servants').some(s => s.id !== id && (s.classIds || []).indexOf(classId) > -1);
+    if (dupClass) return toast('الفصل ده له حساب بالفعل. عدّل الحساب الموجود بدل إنشاء واحد جديد', 'err');
     const taken = arr('servants').some(s => s.id !== id && norm(s.name) === nn) || norm((cfg().admin || {}).name) === nn;
-    if (taken) return toast('الاسم ده مستخدم بالفعل. أضف حرف أو اسم تاني للتمييز', 'err');
+    if (taken) return toast('في حساب تاني بنفس الاسم. غيّر اسم الفصل من صفحة الخدمات والفصول الأول', 'err');
     if (!old && pw.length < 6) return toast('كلمة المرور ٦ أحرف على الأقل', 'err');
     if (pw && pw.length < 6) return toast('كلمة المرور ٦ أحرف على الأقل', 'err');
-    const classIds = Array.from(document.querySelectorAll('#modal input[name=cls]:checked')).map(x => x.value);
+    const classIds = [classId];
     busy = true;
     try {
       if (!old) {
-        const nid = await rpc('admin_create_account', {p_email:await emailFor(name), p_password:pw, p_name:name, p_phone:phone, p_class_ids:classIds});
-        put('servants', nid, {name, phone, classIds, active});
+        const nid = await rpc('admin_create_account', {p_email:await emailFor(name), p_password:pw, p_name:name, p_phone:'', p_class_ids:classIds});
+        put('servants', nid, {name, phone:'', classIds, active});
       } else {
         const changed = norm(old.name) !== nn;
         if (changed || pw) await rpc('admin_update_account', {p_id:id, p_email:changed ? await emailFor(name) : null, p_password:pw || null});
-        put('servants', id, {name, phone, classIds, active});
+        put('servants', id, {name, phone:'', classIds, active});
       }
-      closeModal(); toast('تم حفظ الخادم');
+      closeModal(); toast('تم حفظ الحساب');
     } catch (e) { toast(errText(e), 'err'); } finally { busy = false; }
   },
   delServant(t){ const id = t.dataset.id; confirmBox('سيُحذف حساب الخادم «' + esc((S.servants[id] || {}).name) + '». سجل حضوره القديم لن يظهر بعد ذلك.', 'حذف الخادم', () => { remove('servants', id); toast('تم الحذف'); }); },
