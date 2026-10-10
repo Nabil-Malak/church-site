@@ -108,7 +108,7 @@ textarea{min-height:88px;resize:vertical}
 .tab.on{color:var(--ink);border-bottom-color:var(--gold)}
 .empty{border:1.5px dashed var(--line);border-radius:14px;padding:34px 20px;text-align:center;color:var(--ink2);display:flex;flex-direction:column;align-items:center;gap:12px}
 .pill{display:inline-flex;align-items:center;gap:6px;padding:2px 10px;border-radius:99px;font-size:13px;font-weight:600;background:var(--surface2);color:var(--ink2)}
-.pill.good{background:var(--p-bg);color:var(--p)} .pill.mid{background:var(--e-bg);color:var(--e)} .pill.bad{background:var(--a-bg);color:var(--a)}
+.pill.good{background:var(--p-bg);color:var(--p)} .pill.mid{background:var(--e-bg);color:var(--e)} .pill.bad{background:var(--a-bg);color:var(--a)} .pill.late{background:var(--primary-soft);color:var(--primary)}
 .chips{display:flex;flex-wrap:wrap;gap:6px}
 .chip{background:var(--primary-soft);color:var(--primary);border-radius:8px;padding:1px 9px;font-size:13px;font-weight:500}
 table{width:100%;border-collapse:collapse}
@@ -141,7 +141,7 @@ tr:last-child td{border-bottom:0}
 .prog{height:6px;background:var(--track);border-radius:9px;overflow:hidden;width:100%}
 .prog i{display:block;height:100%;background:var(--primary)}
 .arow{display:flex;align-items:center;justify-content:space-between;gap:12px;background:var(--surface);border:1px solid var(--line);border-inline-start:5px solid var(--line);border-radius:12px;padding:10px 14px;flex-wrap:wrap}
-.arow.st-p{border-inline-start-color:var(--p)} .arow.st-a{border-inline-start-color:var(--a)} .arow.st-e{border-inline-start-color:var(--e)}
+.arow.st-p{border-inline-start-color:var(--p)} .arow.st-a{border-inline-start-color:var(--a)} .arow.st-e{border-inline-start-color:var(--e)} .arow.st-l{border-inline-start-color:var(--primary)}
 .arow .who{display:flex;flex-direction:column;min-width:0}
 .arow .who b{font-size:17px}
 .arow .who small{color:var(--a);font-weight:600}
@@ -150,6 +150,7 @@ tr:last-child td{border-bottom:0}
 .sb.p.on{background:var(--p);border-color:var(--p);color:#fff}
 .sb.a.on{background:var(--a);border-color:var(--a);color:#fff}
 .sb.e.on{background:var(--e);border-color:var(--e);color:#fff}
+.sb.l.on{background:var(--primary);border-color:var(--primary);color:var(--primary-ink)}
 [data-theme="dark"] .sb.on,:root:not([data-theme="light"]) .sb.on{color:#0D1424}
 .sb:not(.on):hover{border-color:var(--ink2)}
 .timefld{display:flex;align-items:center;gap:6px;font-size:13px;color:var(--ink2);flex:none}
@@ -271,6 +272,7 @@ const today = () => ymd(new Date());
 const parseD = s => { const p = s.split('-').map(Number); return new Date(p[0], p[1] - 1, p[2]); };
 const fmtDate = s => s ? parseD(s).toLocaleDateString('ar-EG', {weekday:'long', day:'numeric', month:'long'}) : '';
 const fmtShort = s => parseD(s).toLocaleDateString('ar-EG', {day:'numeric', month:'short'});
+const nowHM = () => { const n = new Date(); return pad(n.getHours()) + ':' + pad(n.getMinutes()); };
 const monthOf = s => s.slice(0, 7);
 const uid = p => p + '_' + Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
 const isObj = x => x && typeof x === 'object' && !Array.isArray(x);
@@ -524,7 +526,7 @@ const getTime = (pid, date) => { const m = S.att[monthOf(date)]; return (m && m.
 const setTime = (pid, date, tm) => patch('att', monthOf(date), {days:{[date]:{[pid]:getStatus(pid, date)}}, times:{[date]:{[pid]:tm}}});
 function collect(ids, from, to){
   const set = new Set(ids), per = {}, perDate = {};
-  ids.forEach(id => per[id] = {p:0, a:0, e:0, dates:{}});
+  ids.forEach(id => per[id] = {p:0, a:0, e:0, l:0, dates:{}});
   Object.keys(S.att).forEach(mk => {
     const days = S.att[mk].days || {};
     Object.keys(days).forEach(d => {
@@ -533,13 +535,13 @@ function collect(ids, from, to){
       Object.keys(rec).forEach(pid => {
         const st = rec[pid]; if (!st || !set.has(pid)) return;
         per[pid][st]++; per[pid].dates[d] = st;
-        (perDate[d] = perDate[d] || {p:0, a:0, e:0})[st]++;
+        (perDate[d] = perDate[d] || {p:0, a:0, e:0, l:0})[st]++;
       });
     });
   });
   return {per, perDate, dates: Object.keys(perDate).sort()};
 }
-const rateOf = r => { if (!r) return null; const t = r.p + r.a + r.e; return t ? r.p / t * 100 : null; };
+const rateOf = r => { if (!r) return null; const t = r.p + r.a + r.e + (r.l || 0); return t ? r.p / t * 100 : null; };
 const rateCls = r => r == null ? '' : r >= 75 ? 'good' : r >= 50 ? 'mid' : 'bad';
 function streakMap(members){
   const out = {}, byCls = {};
@@ -667,10 +669,10 @@ function adminAlerts(servs){
 function adminServantsCard(servs){
   if (!servs.length) return '<h2 style="margin:8px 0 12px">الخدام</h2>' + emptyBox('لا يوجد خدام بعد.', '<button class="btn primary" data-a="nav" data-v="servants">إضافة خادم</button>');
   const cs = collect(servs.map(s => s.id)), lastS = cs.dates[cs.dates.length - 1];
-  const lab = {p:'حاضر', a:'غايب', e:'معتذر'};
+  const lab = {p:'حاضر', a:'غايب', e:'معتذر', l:'متأخر'};
   const rows = servs.slice().sort(byName).map(s => {
     const st = lastS ? getStatus(s.id, lastS) : '';
-    const pill = st ? `<span class="pill ${st === 'p' ? 'good' : st === 'e' ? 'mid' : 'bad'}">${lab[st]}</span>` : '<span class="muted">—</span>';
+    const pill = st ? `<span class="pill ${st === 'p' ? 'good' : st === 'l' ? 'late' : st === 'e' ? 'mid' : 'bad'}">${lab[st]}</span>` : '<span class="muted">—</span>';
     const chips = (s.classIds || []).map(id => `<span class="chip">${esc(clsName(id))}</span>`).join('') || '<small>لم يُعيَّن</small>';
     return `<tr><td><b>${esc(s.name)}</b></td><td><div class="chips">${chips}</div></td><td>${rateBar(rateOf(cs.per[s.id]))}</td><td>${pill}</td></tr>`;
   }).join('');
@@ -715,8 +717,8 @@ function attRow(id, name, sub, st){
 }
 function attRowServant(id, name, st, tm){
   return `<div class="arow st-${st || 'n'}"><div class="who"><b>${esc(name)}</b></div><div class="seg" role="group" aria-label="حالة ${esc(name)}">` +
-    [['p','حاضر'],['e','معتذر'],['a','غائب']].map(x => `<button class="sb ${x[0]} ${st === x[0] ? 'on' : ''}" data-a="mark" data-id="${id}" data-st="${x[0]}" aria-pressed="${st === x[0]}">${x[1]}</button>`).join('') + '</div>' +
-    (st === 'p' ? `<label class="timefld">معاد الحضور<input type="time" data-a-time="${id}" value="${esc(tm || '')}"></label>` : '') + '</div>';
+    [['p','حاضر'],['l','متأخر'],['e','معتذر'],['a','غائب']].map(x => `<button class="sb ${x[0]} ${st === x[0] ? 'on' : ''}" data-a="mark" data-id="${id}" data-st="${x[0]}" aria-pressed="${st === x[0]}">${x[1]}</button>`).join('') + '</div>' +
+    ((st === 'p' || st === 'l') ? `<label class="timefld">معاد الحضور<input type="time" data-a-time="${id}" value="${esc(tm || '')}"></label>` : '') + '</div>';
 }
 function viewAttendance(){
   const admin = isAdmin(), cls = allowedClasses();
@@ -733,10 +735,10 @@ function viewAttendance(){
       const list = arr('servants').filter(s => s.active !== false).sort(byName);
       if (!list.length) return out + emptyBox('لا يوجد خدام بعد.', '<button class="btn primary" data-a="nav" data-v="servants">إضافة خادم</button>');
       out += `<div class="toolbar">${dateCtl}</div>`;
-      const cnt = {p:0, a:0, e:0, n:0};
+      const cnt = {p:0, a:0, e:0, l:0, n:0};
       list.forEach(s => { const st = getStatus(s.id, date); cnt[st || 'n']++; });
       const done = list.length - cnt.n;
-      out += `<div class="sheetbar"><div class="cnt"><span class="p"><b>${nf(cnt.p)}</b>حاضر</span><span class="a"><b>${nf(cnt.a)}</b>غائب</span><span class="e"><b>${nf(cnt.e)}</b>معتذر</span><span class="n"><b>${nf(cnt.n)}</b>لم يُسجَّل</span></div>
+      out += `<div class="sheetbar"><div class="cnt"><span class="p"><b>${nf(cnt.p)}</b>حاضر</span><span class="e"><b>${nf(cnt.l)}</b>متأخر</span><span class="a"><b>${nf(cnt.a)}</b>غائب</span><span class="e"><b>${nf(cnt.e)}</b>معتذر</span><span class="n"><b>${nf(cnt.n)}</b>لم يُسجَّل</span></div>
         <div class="actions"><button class="btn sm" data-a="markAll" data-st="p">الكل حاضر</button><button class="btn sm" data-a="markAll" data-st="">مسح الكل</button></div>
         <div class="prog" role="progressbar" aria-valuenow="${done}" aria-valuemax="${list.length}"><i style="width:${list.length ? done / list.length * 100 : 0}%"></i></div></div>`;
       out += '<div class="mlist">' + list.map(s => attRowServant(s.id, s.name, getStatus(s.id, date), getTime(s.id, date))).join('') + '</div>';
@@ -860,11 +862,11 @@ function viewReports(){
   if (r.tab === 'servants') {
     const sv = arr('servants').filter(s => s.active !== false).sort(byName), c = collect(sv.map(s => s.id), from, to);
     const rows = sv.map(s => ({s, rec:c.per[s.id], rate:rateOf(c.per[s.id])}));
-    const tp = rows.reduce((a, x) => a + x.rec.p, 0), tt = rows.reduce((a, x) => a + x.rec.p + x.rec.a + x.rec.e, 0);
+    const tp = rows.reduce((a, x) => a + x.rec.p, 0), tt = rows.reduce((a, x) => a + x.rec.p + x.rec.a + x.rec.e + x.rec.l, 0);
     out += `<div class="stats">${statCard(nf(c.dates.length), 'اجتماع مسجّل')}${statCard(pct(tt ? tp / tt * 100 : null), 'متوسط حضور الخدام')}${statCard(nf(sv.length), 'خادم')}</div>`;
     out += '<div class="card" style="margin-bottom:18px"><h2>الحضور حسب الاجتماع</h2>' + columns(c.dates.slice(-12).map(d => ({label:fmtShort(d), value:rateOf(c.perDate[d])}))) + '</div>';
-    out += '<div class="tablewrap"><table><thead><tr><th>الخادم</th><th>حاضر</th><th>غائب</th><th>معتذر</th><th>نسبة الحضور</th></tr></thead><tbody>' + rows.sort((a, b) => (a.rate == null ? 999 : a.rate) - (b.rate == null ? 999 : b.rate)).map(x => `<tr><td><b>${esc(x.s.name)}</b></td><td>${nf(x.rec.p)}</td><td>${nf(x.rec.a)}</td><td>${nf(x.rec.e)}</td><td>${rateBar(x.rate)}</td></tr>`).join('') + '</tbody></table></div>';
-    lastReport = {name:'servants-attendance', rows:[['الخادم','حاضر','غائب','معتذر','نسبة الحضور %']].concat(rows.map(x => [x.s.name, x.rec.p, x.rec.a, x.rec.e, x.rate == null ? '' : Math.round(x.rate)]))};
+    out += '<div class="tablewrap"><table><thead><tr><th>الخادم</th><th>حاضر</th><th>متأخر</th><th>غائب</th><th>معتذر</th><th>نسبة الحضور</th></tr></thead><tbody>' + rows.sort((a, b) => (a.rate == null ? 999 : a.rate) - (b.rate == null ? 999 : b.rate)).map(x => `<tr><td><b>${esc(x.s.name)}</b></td><td>${nf(x.rec.p)}</td><td>${nf(x.rec.l)}</td><td>${nf(x.rec.a)}</td><td>${nf(x.rec.e)}</td><td>${rateBar(x.rate)}</td></tr>`).join('') + '</tbody></table></div>';
+    lastReport = {name:'servants-attendance', rows:[['الخادم','حاضر','متأخر','غائب','معتذر','نسبة الحضور %']].concat(rows.map(x => [x.s.name, x.rec.p, x.rec.l, x.rec.a, x.rec.e, x.rate == null ? '' : Math.round(x.rate)]))};
     return out;
   }
   const c = collect(mem.map(m => m.id), from, to);
@@ -1043,7 +1045,10 @@ const A = {
     const cur = getStatus(id, ui.attDate);
     const next = cur === st ? '' : st;
     setStatus(id, ui.attDate, next);
-    if (isServantTarget && next !== 'p') setTime(id, ui.attDate, '');
+    if (isServantTarget) {
+      if (next === 'p' || next === 'l') setTime(id, ui.attDate, nowHM());
+      else if (next !== cur) setTime(id, ui.attDate, '');
+    }
   },
   setTime(t){
     const id = t.dataset.aTime;
