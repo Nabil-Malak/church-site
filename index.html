@@ -303,7 +303,7 @@ const icon = n => `<svg class="icon" viewBox="0 0 24 24" aria-hidden="true">${IC
 const logo = s => { const c = cfg(); const url = c && c.logoUrl; const sz = s || 30; return url ? `<img src="${url}" alt="شعار الكنيسة" width="${sz}" height="${sz}" style="object-fit:contain;border-radius:4px">` : `<svg width="${sz}" height="${sz}" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M9.5 2h5v6.5H21v5h-6.5V22h-5v-8.5H3v-5h6.5z"/></svg>`; };
 
 /* ---------- storage layer (Supabase) ---------- */
-const COLS = ['config','services','classes','servants','members','att','ev'];
+const COLS = ['config','services','classes','servants','members','roster','att','ev'];
 const S = {}; COLS.forEach(c => S[c] = {});
 const CFG = window.CHURCH_CONFIG || {};
 const sb = (CFG.SUPABASE_URL && CFG.SUPABASE_ANON_KEY && window.supabase)
@@ -351,6 +351,7 @@ const LOAD = {
   services: async () => (await fetchAll('services', 'id,data', ['id'])).map(r => ({id:r.id, data:r.data})),
   classes: async () => (await fetchAll('classes', 'id,data', ['id'])).map(r => ({id:r.id, data:r.data})),
   members: async () => (await fetchAll('members', 'id,data', ['id'])).map(r => ({id:r.id, data:r.data})),
+  roster: async () => (await fetchAll('roster', 'id,data', ['id'])).map(r => ({id:r.id, data:r.data})),
   servants: async () => (await fetchAll('profiles', 'id,name,phone,role,active,class_ids', ['id'])).filter(p => p.role === 'servant')
     .map(p => ({id:p.id, data:{name:p.name, phone:p.phone || '', active:p.active, classIds:p.class_ids || []}})),
   att: async () => byMonth(await fetchAll('attendance', 'person_id,day,status,arrival_time', ['day', 'person_id']), 'day',
@@ -365,6 +366,7 @@ const DB = {
     if (col === 'config') chk(await sb.from('config').upsert({key:id, data:d}));
     else if (col === 'services' || col === 'classes') chk(await sb.from(col).upsert({id, data:d}));
     else if (col === 'members') chk(await sb.from('members').upsert({id, class_id:d.classId || null, data:d}));
+    else if (col === 'roster') chk(await sb.from('roster').upsert({id, data:d}));
     else if (col === 'servants') chk(await sb.from('profiles').update({name:d.name, phone:d.phone || '', class_ids:d.classIds || [], active:d.active !== false}).eq('id', id));
     else await DB.update(col, id, d);
   },
@@ -400,7 +402,7 @@ const DB = {
 };
 
 /* ---- live sync ---- */
-const TABLE2COL = {config:'config', services:'services', classes:'classes', members:'members', profiles:'servants', attendance:'att', evaluations:'ev'};
+const TABLE2COL = {config:'config', services:'services', classes:'classes', members:'members', roster:'roster', profiles:'servants', attendance:'att', evaluations:'ev'};
 const seen = new Set(); const rTimers = {};
 let syncOn = false, chan = null, pollT = null, synced = false;
 function applySnap(col, list){
@@ -484,7 +486,7 @@ const idle = async () => { while (running || wq.length) await sleep(50); };
 /* ---------- state ---------- */
 let loaded = false, me = null, modalCtx = {}, evDraft = null, fatal = '', pub = {has_admin:false, church:''}, busy = false;
 const ui = {
-  view:'dashboard', attTab:'members', attClass:'', attDate:today(), evClass:'', evDate:today(),
+  view:'dashboard', attTab:'members', attClass:'', attDate:today(), evClass:'', evDate:today(), servTab:'roster',
   q:'', fService:'', fClass:'', showArchived:false,
   rep:{range:'3m', service:'', cls:'', tab:'members', sort:'low', from:'', to:''}
 };
@@ -806,8 +808,18 @@ function viewMembers(){
 }
 
 function viewServants(){
+  const tabs = [['roster','أسماء الخدام'],['accounts','حسابات الفصول']];
+  if (!tabs.some(t => t[0] === ui.servTab)) ui.servTab = 'roster';
+  let out = pageHead('الخدام', ui.servTab === 'roster' ? 'سجّل اسم كل خادم والفصل اللي بيخدم فيه.' : 'حساب دخول بكلمة مرور لكل فصل، يشاركه خدامه.',
+    ui.servTab === 'roster' ? `<button class="btn primary" data-a="editRoster">${icon('plus')}إضافة خادم</button>` : `<button class="btn primary" data-a="editServant">${icon('plus')}إضافة حساب فصل</button>`);
+  out += '<div class="tabs" role="tablist">' + tabs.map(t => `<button class="tab ${ui.servTab === t[0] ? 'on' : ''}" role="tab" data-a="servTab" data-v="${t[0]}">${t[1]}</button>`).join('') + '</div>';
+  if (ui.servTab === 'roster') {
+    const list = arr('roster').sort(byName);
+    if (!list.length) return out + emptyBox('لسه مافيش خدام متسجلين. سجّل اسم كل خادم والفصل اللي بيخدم فيه.', '<button class="btn primary" data-a="editRoster">إضافة أول خادم</button>');
+    out += '<div class="tablewrap"><table><thead><tr><th>الاسم</th><th>الفصل</th><th></th></tr></thead><tbody>' + list.map(r => `<tr><td><b>${esc(r.name)}</b></td><td>${S.classes[r.classId] ? esc(clsName(r.classId)) : '<small class="muted">(الفصل الأصلي اتحذف)</small>'}</td><td><button class="btn sm" data-a="editRoster" data-id="${r.id}">${icon('edit')}تعديل</button><button class="btn sm danger" data-a="delRoster" data-id="${r.id}">${icon('trash')}حذف</button></td></tr>`).join('') + '</tbody></table></div>';
+    return out;
+  }
   const list = arr('servants').sort(byName), rec = collect(list.map(s => s.id));
-  let out = pageHead('الخدام', nf(list.length) + ' حساب فصل', `<button class="btn primary" data-a="editServant">${icon('plus')}إضافة حساب فصل</button>`);
   if (!list.length) return out + emptyBox('لم تضف حسابات بعد. كل فصل يحصل على حساب خاص بكلمة مرور، يراه خدامه فقط.', '<button class="btn primary" data-a="editServant">إضافة أول حساب</button>');
   out += '<div class="tablewrap"><table><thead><tr><th>الفصل</th><th>حضوره</th><th></th></tr></thead><tbody>' + list.map(s => {
     const cn = (s.classIds || []).filter(id => S.classes[id]).map(id => clsName(id));
@@ -943,6 +955,16 @@ function memberForm(id){
     <label class="check"><input type="checkbox" name="active" ${!m || m.active !== false ? 'checked' : ''}>مُفعّل (أزل العلامة لأرشفة المخدوم)</label></div>`,
     `<button class="btn primary" data-a="saveMember">حفظ</button><button class="btn" data-a="closeModal">إلغاء</button>`);
 }
+function rosterForm(id){
+  const r = id ? S.roster[id] : null, cls = classes();
+  if (!cls.length) return toast('أنشئ فصلاً أولاً من صفحة الخدمات والفصول', 'err');
+  modalCtx = {id};
+  const first = r ? r.classId : (ui.attClass || cls[0].id);
+  openModal(r ? 'تعديل بيانات الخادم' : 'إضافة خادم', `<div class="stack">
+    <label class="fld">الاسم<input type="text" name="name" value="${esc(r ? r.name : '')}"></label>
+    <label class="fld">الفصل اللي بيخدم فيه<select name="classId">${classOptions(cls, first)}</select></label></div>`,
+    `<button class="btn primary" data-a="saveRoster">حفظ</button><button class="btn" data-a="closeModal">إلغاء</button>${r ? `<button class="btn danger" data-a="delRoster" data-id="${id}">حذف</button>` : ''}`);
+}
 function servantForm(id){
   const s = id ? S.servants[id] : null; modalCtx = {id};
   const cls = classes();
@@ -1077,6 +1099,18 @@ const A = {
     closeModal(); toast('تم حفظ المخدوم');
   },
   delMember(t){ const id = t.dataset.id; confirmBox('سيُحذف المخدوم «' + esc((S.members[id] || {}).name) + '». يمكنك بدلاً من ذلك أرشفته من التعديل. هل تريد الحذف؟', 'حذف المخدوم', () => { remove('members', id); toast('تم الحذف'); }); },
+  servTab(t){ ui.servTab = t.dataset.v; render(); },
+  editRoster(t){ if (isAdmin()) rosterForm(t && t.dataset ? t.dataset.id : null); },
+  saveRoster(){
+    if (!isAdmin()) return;
+    const name = V('name').trim(), classId = V('classId');
+    if (!name) return toast('اكتب اسم الخادم', 'err');
+    if (!classId) return toast('اختر الفصل', 'err');
+    const id = modalCtx.id || uid('r');
+    put('roster', id, {name, classId});
+    closeModal(); toast('تم حفظ الخادم');
+  },
+  delRoster(t){ const id = t.dataset.id; confirmBox('سيُحذف الخادم «' + esc((S.roster[id] || {}).name) + '» من القائمة.', 'حذف', () => { remove('roster', id); toast('تم الحذف'); }); },
   editServant(t){ if (isAdmin()) servantForm(t && t.dataset ? t.dataset.id : null); },
   async saveServant(){
     if (!isAdmin() || busy) return;
