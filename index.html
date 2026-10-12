@@ -821,9 +821,11 @@ function viewServants(){
   }
   const list = arr('servants').sort(byName), rec = collect(list.map(s => s.id));
   if (!list.length) return out + emptyBox('لم تضف حسابات بعد. كل فصل يحصل على حساب خاص بكلمة مرور، يراه خدامه فقط.', '<button class="btn primary" data-a="editServant">إضافة أول حساب</button>');
-  out += '<div class="tablewrap"><table><thead><tr><th>الفصل</th><th>حضوره</th><th></th></tr></thead><tbody>' + list.map(s => {
+  const rosterByClass = {}; arr('roster').forEach(r => { (rosterByClass[r.classId] = rosterByClass[r.classId] || []).push(r.name); });
+  out += '<div class="tablewrap"><table><thead><tr><th>الفصل</th><th>الخدام</th><th>حضوره</th><th></th></tr></thead><tbody>' + list.map(s => {
     const cn = (s.classIds || []).filter(id => S.classes[id]).map(id => clsName(id));
-    return `<tr><td><b>${esc(s.name)}</b>${s.active === false ? ' <span class="pill">موقوف</span>' : ''}${!cn.length ? ' <small class="muted">(الفصل الأصلي اتحذف)</small>' : ''}</td><td>${rateBar(rateOf(rec.per[s.id]))}</td><td><button class="btn sm" data-a="editServant" data-id="${s.id}">${icon('edit')}تعديل</button></td></tr>`;
+    const names = (s.classIds || []).reduce((acc, id) => acc.concat(rosterByClass[id] || []), []);
+    return `<tr><td><b>${esc(s.name)}</b>${s.active === false ? ' <span class="pill">موقوف</span>' : ''}${!cn.length ? ' <small class="muted">(الفصل الأصلي اتحذف)</small>' : ''}</td><td>${names.length ? `<div class="chips">${names.map(n => `<span class="chip">${esc(n)}</span>`).join('')}</div>` : '<small class="muted">لم يُسجَّل اسم بعد</small>'}</td><td>${rateBar(rateOf(rec.per[s.id]))}</td><td><button class="btn sm" data-a="editServant" data-id="${s.id}">${icon('edit')}تعديل</button></td></tr>`;
   }).join('') + '</tbody></table></div>';
   return out;
 }
