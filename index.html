@@ -668,17 +668,17 @@ function adminAlerts(servs){
     : '<p class="muted" style="margin:0">كل شيء تمام: تسجيل الحضور مكتمل ولا توجد ملاحظات.</p>';
   return `<div class="card" style="margin-bottom:18px"><div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:12px"><h2 style="margin:0">تنبيهات المتابعة</h2><div class="actions"><button class="btn" data-a="nav" data-v="reports">التقارير</button><button class="btn" data-a="nav" data-v="attendance">الحضور والغياب</button></div></div>${body}</div>`;
 }
-function adminServantsCard(servs){
-  if (!servs.length) return '<h2 style="margin:8px 0 12px">الخدام</h2>' + emptyBox('لا يوجد خدام بعد.', '<button class="btn primary" data-a="nav" data-v="servants">إضافة خادم</button>');
-  const cs = collect(servs.map(s => s.id)), lastS = cs.dates[cs.dates.length - 1];
+function adminServantsCard(roster){
+  if (!roster.length) return '<h2 style="margin:8px 0 12px">الخدام</h2>' + emptyBox('لا يوجد خدام بعد.', '<button class="btn primary" data-a="nav" data-v="servants">إضافة خادم</button>');
+  const cs = collect(roster.map(s => s.id)), lastS = cs.dates[cs.dates.length - 1];
   const lab = {p:'حاضر', a:'غايب', e:'معتذر', l:'متأخر'};
-  const rows = servs.slice().sort(byName).map(s => {
+  const rows = roster.slice().sort(byName).map(s => {
     const st = lastS ? getStatus(s.id, lastS) : '';
     const pill = st ? `<span class="pill ${st === 'p' ? 'good' : st === 'l' ? 'late' : st === 'e' ? 'mid' : 'bad'}">${lab[st]}</span>` : '<span class="muted">—</span>';
-    const chips = (s.classIds || []).map(id => `<span class="chip">${esc(clsName(id))}</span>`).join('') || '<small>لم يُعيَّن</small>';
-    return `<tr><td><b>${esc(s.name)}</b></td><td><div class="chips">${chips}</div></td><td>${rateBar(rateOf(cs.per[s.id]))}</td><td>${pill}</td></tr>`;
+    const chip = S.classes[s.classId] ? `<span class="chip">${esc(clsName(s.classId))}</span>` : '<small>لم يُعيَّن</small>';
+    return `<tr><td><b>${esc(s.name)}</b></td><td><div class="chips">${chip}</div></td><td>${rateBar(rateOf(cs.per[s.id]))}</td><td>${pill}</td></tr>`;
   }).join('');
-  return `<h2 style="margin:8px 0 12px">حضور الخدام</h2><div class="tablewrap" style="margin-bottom:18px"><table><thead><tr><th>الخادم</th><th>الفصول</th><th>نسبة الحضور</th><th>آخر اجتماع${lastS ? ' (' + esc(fmtShort(lastS)) + ')' : ''}</th></tr></thead><tbody>${rows}</tbody></table></div>`;
+  return `<h2 style="margin:8px 0 12px">حضور الخدام</h2><div class="tablewrap" style="margin-bottom:18px"><table><thead><tr><th>الخادم</th><th>الفصل</th><th>نسبة الحضور</th><th>آخر اجتماع${lastS ? ' (' + esc(fmtShort(lastS)) + ')' : ''}</th></tr></thead><tbody>${rows}</tbody></table></div>`;
 }
 
 function viewDashboard(){
@@ -688,7 +688,7 @@ function viewDashboard(){
   const c = collect(mem.map(m => m.id)), dates = c.dates, last = dates[dates.length - 1];
   const lastRate = last ? rateOf(c.perDate[last]) : null;
   const trend = dates.slice(-8).map(d => ({label: fmtShort(d), value: rateOf(c.perDate[d])}));
-  const servs = arr('servants').filter(s => s.active !== false);
+  const servs = arr('roster');
   let head, stats;
   const name = admin ? 'المسؤول' : servantClassLabel();
   head = pageHead(name, fmtDate(today()),
@@ -701,7 +701,7 @@ function viewDashboard(){
   if (cls.length) {
     classTable = `<div class="tablewrap"><table><thead><tr><th>الفصل</th><th>الخدمة</th>${admin ? '<th>الخدام</th>' : ''}<th>المخدومين</th><th>آخر اجتماع</th></tr></thead><tbody>` + cls.map(k => {
       const ms = membersOf(k.id), cc = collect(ms.map(m => m.id)), ld = cc.dates[cc.dates.length - 1];
-      const sv = servs.filter(s => (s.classIds || []).indexOf(k.id) > -1).map(s => s.name);
+      const sv = servs.filter(s => s.classId === k.id).map(s => s.name);
       return `<tr><td><b>${esc(k.name)}</b></td><td>${esc(svcName(k.serviceId))}</td>${admin ? `<td>${sv.length ? `<div class="chips">${sv.map(x => `<span class="chip">${esc(x)}</span>`).join('')}</div>` : '<small>لم يُعيَّن</small>'}</td>` : ''}<td>${nf(ms.length)}</td><td>${ld ? rateBar(rateOf(cc.perDate[ld])) : '<small>لا يوجد</small>'}</td></tr>`;
     }).join('') + '</tbody></table></div>';
   } else {
@@ -734,7 +734,7 @@ function viewAttendance(){
   if (ui.attTab === 'servants') {
     if (!admin) { ui.attTab = 'members'; }
     else {
-      const list = arr('servants').filter(s => s.active !== false).sort(byName);
+      const list = arr('roster').sort(byName);
       if (!list.length) return out + emptyBox('لا يوجد خدام بعد.', '<button class="btn primary" data-a="nav" data-v="servants">إضافة خادم</button>');
       out += `<div class="toolbar">${dateCtl}</div>`;
       const cnt = {p:0, a:0, e:0, l:0, n:0};
@@ -819,13 +819,13 @@ function viewServants(){
     out += '<div class="tablewrap"><table><thead><tr><th>الاسم</th><th>الفصل</th><th></th></tr></thead><tbody>' + list.map(r => `<tr><td><b>${esc(r.name)}</b></td><td>${S.classes[r.classId] ? esc(clsName(r.classId)) : '<small class="muted">(الفصل الأصلي اتحذف)</small>'}</td><td><button class="btn sm" data-a="editRoster" data-id="${r.id}">${icon('edit')}تعديل</button><button class="btn sm danger" data-a="delRoster" data-id="${r.id}">${icon('trash')}حذف</button></td></tr>`).join('') + '</tbody></table></div>';
     return out;
   }
-  const list = arr('servants').sort(byName), rec = collect(list.map(s => s.id));
+  const list = arr('servants').sort(byName);
   if (!list.length) return out + emptyBox('لم تضف حسابات بعد. كل فصل يحصل على حساب خاص بكلمة مرور، يراه خدامه فقط.', '<button class="btn primary" data-a="editServant">إضافة أول حساب</button>');
   const rosterByClass = {}; arr('roster').forEach(r => { (rosterByClass[r.classId] = rosterByClass[r.classId] || []).push(r.name); });
-  out += '<div class="tablewrap"><table><thead><tr><th>الفصل</th><th>الخدام</th><th>حضوره</th><th></th></tr></thead><tbody>' + list.map(s => {
+  out += '<div class="tablewrap"><table><thead><tr><th>الفصل</th><th>الخدام</th><th></th></tr></thead><tbody>' + list.map(s => {
     const cn = (s.classIds || []).filter(id => S.classes[id]).map(id => clsName(id));
     const names = (s.classIds || []).reduce((acc, id) => acc.concat(rosterByClass[id] || []), []);
-    return `<tr><td><b>${esc(s.name)}</b>${s.active === false ? ' <span class="pill">موقوف</span>' : ''}${!cn.length ? ' <small class="muted">(الفصل الأصلي اتحذف)</small>' : ''}</td><td>${names.length ? `<div class="chips">${names.map(n => `<span class="chip">${esc(n)}</span>`).join('')}</div>` : '<small class="muted">لم يُسجَّل اسم بعد</small>'}</td><td>${rateBar(rateOf(rec.per[s.id]))}</td><td><button class="btn sm" data-a="editServant" data-id="${s.id}">${icon('edit')}تعديل</button></td></tr>`;
+    return `<tr><td><b>${esc(s.name)}</b>${s.active === false ? ' <span class="pill">موقوف</span>' : ''}${!cn.length ? ' <small class="muted">(الفصل الأصلي اتحذف)</small>' : ''}</td><td>${names.length ? `<div class="chips">${names.map(n => `<span class="chip">${esc(n)}</span>`).join('')}</div>` : '<small class="muted">لم يُسجَّل اسم بعد</small>'}</td><td><button class="btn sm" data-a="editServant" data-id="${s.id}">${icon('edit')}تعديل</button></td></tr>`;
   }).join('') + '</tbody></table></div>';
   return out;
 }
@@ -834,12 +834,12 @@ function viewStructure(){
   const svs = services();
   let out = pageHead('الخدمات والفصول', 'الخدمة تضم عدة فصول، وكل مخدوم يتبع فصلاً.', `<button class="btn primary" data-a="editService">${icon('plus')}إضافة خدمة</button>`);
   if (!svs.length) return out + emptyBox('لا توجد خدمات.');
-  const servs = arr('servants');
+  const servs = arr('roster');
   out += '<div class="stack">' + svs.map(s => {
     const cs = classes().filter(c => c.serviceId === s.id);
     return `<div class="card"><div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:10px"><h2 style="margin:0">${esc(s.name)}</h2><div class="actions"><button class="btn sm" data-a="editClass" data-service="${s.id}">${icon('plus')}فصل جديد</button><button class="icon-btn" data-a="editService" data-id="${s.id}" aria-label="تعديل الخدمة">${icon('edit')}</button><button class="icon-btn" data-a="delService" data-id="${s.id}" aria-label="حذف الخدمة">${icon('trash')}</button></div></div>` +
       (cs.length ? '<div class="mlist">' + cs.map(c => {
-        const sv = servs.filter(x => (x.classIds || []).indexOf(c.id) > -1).map(x => x.name), n = membersOf(c.id).length;
+        const sv = servs.filter(x => x.classId === c.id).map(x => x.name), n = membersOf(c.id).length;
         return `<div class="mrow" style="cursor:default"><span class="mi"><b>${esc(c.name)}</b><small>${nf(n)} مخدوم</small></span><span class="mr">${sv.length ? sv.map(x => `<span class="chip">${esc(x)}</span>`).join('') : '<small>بلا خادم</small>'}<button class="icon-btn" data-a="editClass" data-id="${c.id}" aria-label="تعديل الفصل">${icon('edit')}</button><button class="icon-btn" data-a="delClass" data-id="${c.id}" aria-label="حذف الفصل">${icon('trash')}</button></span></div>`;
       }).join('') + '</div>' : '<p class="muted" style="margin:0">لا توجد فصول في هذه الخدمة.</p>') + '</div>';
   }).join('') + '</div>';
@@ -874,7 +874,7 @@ function viewReports(){
   out += '<div class="tabs">' + tabs.map(t => `<button class="tab ${r.tab === t[0] ? 'on' : ''}" data-a="repTab" data-v="${t[0]}">${t[1]}</button>`).join('') + '</div>';
 
   if (r.tab === 'servants') {
-    const sv = arr('servants').filter(s => s.active !== false).sort(byName), c = collect(sv.map(s => s.id), from, to);
+    const sv = arr('roster').sort(byName), c = collect(sv.map(s => s.id), from, to);
     const rows = sv.map(s => ({s, rec:c.per[s.id], rate:rateOf(c.per[s.id])}));
     const tp = rows.reduce((a, x) => a + x.rec.p, 0), tt = rows.reduce((a, x) => a + x.rec.p + x.rec.a + x.rec.e + x.rec.l, 0);
     out += `<div class="stats">${statCard(nf(c.dates.length), 'اجتماع مسجّل')}${statCard(pct(tt ? tp / tt * 100 : null), 'متوسط حضور الخدام')}${statCard(nf(sv.length), 'خادم')}</div>`;
@@ -1063,7 +1063,7 @@ const A = {
   attTab(t){ ui.attTab = t.dataset.v; render(); },
   mark(t){
     const id = t.dataset.id, st = t.dataset.st;
-    const isServantTarget = !!S.servants[id];
+    const isServantTarget = !!S.roster[id];
     if (isServantTarget) { if (!isAdmin()) return toast('حضور الخدام يسجّله مسؤول النظام فقط', 'err'); }
     else if (!canMark(id)) return toast('ليس لديك صلاحية لهذا المخدوم', 'err');
     const cur = getStatus(id, ui.attDate);
@@ -1076,13 +1076,13 @@ const A = {
   },
   setTime(t){
     const id = t.dataset.aTime;
-    if (!isAdmin() || !S.servants[id]) return;
+    if (!isAdmin() || !S.roster[id]) return;
     setTime(id, ui.attDate, t.value || '');
   },
   markAll(t){
     const st = t.dataset.st, p = {};
     let ids, servantsTab = ui.attTab === 'servants';
-    if (servantsTab) { if (!isAdmin()) return; ids = arr('servants').filter(s => s.active !== false).map(s => s.id); }
+    if (servantsTab) { if (!isAdmin()) return; ids = arr('roster').map(s => s.id); }
     else { ids = membersOf(ui.attClass).map(m => m.id); ids = ids.filter(canMark); }
     if (!ids.length) return;
     ids.forEach(id => p[id] = st);
