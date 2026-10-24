@@ -170,7 +170,7 @@ tr:last-child td{border-bottom:0}
 .hbar b{text-align:end}
 .dots{display:flex;gap:6px;flex-wrap:wrap}
 .dot{width:26px;height:26px;border-radius:50%;background:var(--track);display:grid;place-items:center;font-size:11px;color:var(--ink2);font-weight:700}
-.dot.p{background:var(--p);color:#fff} .dot.a{background:var(--a);color:#fff} .dot.e{background:var(--e);color:#fff}
+.dot.l{background:var(--primary);color:var(--primary-ink)} .dot.p{background:var(--p);color:#fff} .dot.a{background:var(--a);color:#fff} .dot.e{background:var(--e);color:#fff}
 
 /* stars */
 .crit{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:8px 0;border-bottom:1px solid var(--line)}
@@ -714,15 +714,12 @@ function viewDashboard(){
     `<h2 style="margin:8px 0 12px">${admin ? 'الفصول' : 'فصولي'}</h2>${classTable}`;
 }
 
-function attRow(id, name, sub, st){
+function attRow(id, name, sub, st, tm){
   return `<div class="arow st-${st || 'n'}"><div class="who"><b>${esc(name)}</b>${sub ? `<small>${sub}</small>` : ''}</div><div class="seg" role="group" aria-label="حالة ${esc(name)}">` +
-    [['p','حاضر'],['e','معتذر'],['a','غائب']].map(x => `<button class="sb ${x[0]} ${st === x[0] ? 'on' : ''}" data-a="mark" data-id="${id}" data-st="${x[0]}" aria-pressed="${st === x[0]}">${x[1]}</button>`).join('') + '</div></div>';
-}
-function attRowServant(id, name, st, tm){
-  return `<div class="arow st-${st || 'n'}"><div class="who"><b>${esc(name)}</b></div><div class="seg" role="group" aria-label="حالة ${esc(name)}">` +
     [['p','حاضر'],['l','متأخر'],['e','معتذر'],['a','غائب']].map(x => `<button class="sb ${x[0]} ${st === x[0] ? 'on' : ''}" data-a="mark" data-id="${id}" data-st="${x[0]}" aria-pressed="${st === x[0]}">${x[1]}</button>`).join('') + '</div>' +
     ((st === 'p' || st === 'l') ? `<label class="timefld">معاد الحضور<input type="time" data-a-time="${id}" value="${esc(tm || '')}"></label>` : '') + '</div>';
 }
+const attRowServant = (id, name, st, tm) => attRow(id, name, '', st, tm);
 function viewAttendance(){
   const admin = isAdmin(), cls = allowedClasses();
   const tabs = [['members','المخدومين']].concat(admin ? [['servants','الخدام']] : []);
@@ -755,14 +752,14 @@ function viewAttendance(){
   const sm = streakMap(list);
   const sub = id => sm[id] >= 2 ? `غايب ${nf(sm[id])} مرات ورا بعض` : '';
   if (!list.length) return out + `<div class="toolbar">${sel}${dateCtl}</div>` + emptyBox('لا يوجد مخدومون في هذا الفصل.', admin ? '<button class="btn primary" data-a="editMember">إضافة مخدوم</button>' : '');
-  const cnt = {p:0, a:0, e:0, n:0};
+  const cnt = {p:0, a:0, e:0, l:0, n:0};
   list.forEach(m => { const s = getStatus(m.id, date); cnt[s || 'n']++; });
   const done = list.length - cnt.n;
   out += `<div class="toolbar">${sel}${dateCtl}</div>`;
-  out += `<div class="sheetbar"><div class="cnt"><span class="p"><b>${nf(cnt.p)}</b>حاضر</span><span class="a"><b>${nf(cnt.a)}</b>غائب</span><span class="e"><b>${nf(cnt.e)}</b>معتذر</span><span class="n"><b>${nf(cnt.n)}</b>لم يُسجَّل</span></div>
+  out += `<div class="sheetbar"><div class="cnt"><span class="p"><b>${nf(cnt.p)}</b>حاضر</span><span class="e"><b>${nf(cnt.l)}</b>متأخر</span><span class="a"><b>${nf(cnt.a)}</b>غائب</span><span class="e"><b>${nf(cnt.e)}</b>معتذر</span><span class="n"><b>${nf(cnt.n)}</b>لم يُسجَّل</span></div>
     <div class="actions"><button class="btn sm" data-a="markAll" data-st="p">الكل حاضر</button><button class="btn sm" data-a="markAll" data-st="">مسح الكل</button></div>
     <div class="prog" role="progressbar" aria-valuenow="${done}" aria-valuemax="${list.length}"><i style="width:${list.length ? done / list.length * 100 : 0}%"></i></div></div>`;
-  out += '<div class="mlist">' + list.map(m => attRow(m.id, m.name, sub(m.id), getStatus(m.id, date))).join('') + '</div>';
+  out += '<div class="mlist">' + list.map(m => attRow(m.id, m.name, sub(m.id), getStatus(m.id, date), getTime(m.id, date))).join('') + '</div>';
   return out;
 }
 
@@ -896,17 +893,17 @@ function viewReports(){
     return out;
   }
   const rows = mem.map(m => ({m, rec:c.per[m.id], rate:rateOf(c.per[m.id])}));
-  const tp = rows.reduce((a, x) => a + x.rec.p, 0), ta = rows.reduce((a, x) => a + x.rec.a, 0), te = rows.reduce((a, x) => a + x.rec.e, 0), tt = tp + ta + te;
+  const tp = rows.reduce((a, x) => a + x.rec.p, 0), ta = rows.reduce((a, x) => a + x.rec.a, 0), te = rows.reduce((a, x) => a + x.rec.e, 0), tl = rows.reduce((a, x) => a + x.rec.l, 0), tt = tp + ta + te + tl;
   out += `<div class="stats">${statCard(nf(c.dates.length), 'اجتماع مسجّل')}${statCard(pct(tt ? tp / tt * 100 : null), 'متوسط الحضور')}${statCard(pct(tt ? ta / tt * 100 : null), 'متوسط الغياب')}${statCard(pct(tt ? te / tt * 100 : null), 'اعتذار')}</div>`;
   out += '<div class="cols2"><div class="card"><h2>الحضور حسب الاجتماع</h2>' + columns(c.dates.slice(-12).map(d => ({label:fmtShort(d), value:rateOf(c.perDate[d])}))) + '</div>';
-  out += '<div class="card"><h2>الحضور حسب الفصل</h2><div class="hbars">' + (scope.length ? scope.map(k => { const ms = mem.filter(m => m.classId === k.id), agg = {p:0, a:0, e:0}; ms.forEach(m => { agg.p += c.per[m.id].p; agg.a += c.per[m.id].a; agg.e += c.per[m.id].e; }); const rr = rateOf(agg); return `<div class="hbar"><span>${esc(k.name)}</span><div class="tr"><i style="width:${rr || 0}%"></i></div><b>${pct(rr)}</b></div>`; }).join('') : '<p class="muted" style="margin:0">لا توجد فصول.</p>') + '</div></div></div>';
+  out += '<div class="card"><h2>الحضور حسب الفصل</h2><div class="hbars">' + (scope.length ? scope.map(k => { const ms = mem.filter(m => m.classId === k.id), agg = {p:0, a:0, e:0, l:0}; ms.forEach(m => { agg.p += c.per[m.id].p; agg.a += c.per[m.id].a; agg.e += c.per[m.id].e; agg.l += c.per[m.id].l; }); const rr = rateOf(agg); return `<div class="hbar"><span>${esc(k.name)}</span><div class="tr"><i style="width:${rr || 0}%"></i></div><b>${pct(rr)}</b></div>`; }).join('') : '<p class="muted" style="margin:0">لا توجد فصول.</p>') + '</div></div></div>';
   if (!rows.length) return out + emptyBox('لا يوجد مخدومون ضمن الفلتر المحدد.');
   const es = evalStats(mem.map(m => m.id), from, to);
   const sorted = rows.slice().sort((a, b) => r.sort === 'name' ? byName(a.m, b.m) : r.sort === 'high' ? ((b.rate == null ? -1 : b.rate) - (a.rate == null ? -1 : a.rate)) : ((a.rate == null ? 999 : a.rate) - (b.rate == null ? 999 : b.rate)));
   out += `<div class="toolbar" style="justify-content:space-between"><h2 style="margin:0">تفاصيل المخدومين</h2><label class="fld inline">الترتيب<select data-c="repSort"><option value="low" ${r.sort === 'low' ? 'selected' : ''}>الأقل حضورًا أولاً</option><option value="high" ${r.sort === 'high' ? 'selected' : ''}>الأعلى حضورًا أولاً</option><option value="name" ${r.sort === 'name' ? 'selected' : ''}>بالاسم</option></select></label></div>`;
-  out += '<div class="tablewrap"><table><thead><tr><th>المخدوم</th><th>الفصل</th><th>حاضر</th><th>غائب</th><th>معتذر</th><th>نسبة الحضور</th><th>التقييم</th></tr></thead><tbody>' + sorted.map(x => `<tr><td><button class="linkbtn" style="color:var(--ink);font-weight:700;font-size:16px" data-a="openMember" data-id="${x.m.id}">${esc(x.m.name)}</button></td><td>${esc(clsName(x.m.classId))}</td><td>${nf(x.rec.p)}</td><td>${nf(x.rec.a)}</td><td>${nf(x.rec.e)}</td><td>${rateBar(x.rate)}</td><td>${es[x.m.id] ? '★ ' + avgFmt(es[x.m.id].avg) : '—'}</td></tr>`).join('') + '</tbody></table></div>';
+  out += '<div class="tablewrap"><table><thead><tr><th>المخدوم</th><th>الفصل</th><th>حاضر</th><th>متأخر</th><th>غائب</th><th>معتذر</th><th>نسبة الحضور</th><th>التقييم</th></tr></thead><tbody>' + sorted.map(x => `<tr><td><button class="linkbtn" style="color:var(--ink);font-weight:700;font-size:16px" data-a="openMember" data-id="${x.m.id}">${esc(x.m.name)}</button></td><td>${esc(clsName(x.m.classId))}</td><td>${nf(x.rec.p)}</td><td>${nf(x.rec.l)}</td><td>${nf(x.rec.a)}</td><td>${nf(x.rec.e)}</td><td>${rateBar(x.rate)}</td><td>${es[x.m.id] ? '★ ' + avgFmt(es[x.m.id].avg) : '—'}</td></tr>`).join('') + '</tbody></table></div>';
   out += '<p class="hint" style="margin-top:10px">نسبة الحضور = عدد مرات الحضور ÷ كل الاجتماعات المسجّلة للمخدوم في الفترة (شاملة الغياب والاعتذار).</p>';
-  lastReport = {name:'attendance', rows:[['المخدوم','الفصل','الخدمة','حاضر','غائب','معتذر','نسبة الحضور %','متوسط التقييم']].concat(sorted.map(x => [x.m.name, clsName(x.m.classId), clsSvc(x.m.classId), x.rec.p, x.rec.a, x.rec.e, x.rate == null ? '' : Math.round(x.rate), es[x.m.id] ? Math.round(es[x.m.id].avg * 10) / 10 : '']))};
+  lastReport = {name:'attendance', rows:[['المخدوم','الفصل','الخدمة','حاضر','متأخر','غائب','معتذر','نسبة الحضور %','متوسط التقييم']].concat(sorted.map(x => [x.m.name, clsName(x.m.classId), clsSvc(x.m.classId), x.rec.p, x.rec.l, x.rec.a, x.rec.e, x.rate == null ? '' : Math.round(x.rate), es[x.m.id] ? Math.round(es[x.m.id].avg * 10) / 10 : '']))};
   return out;
 }
 
@@ -940,7 +937,7 @@ function memberProfile(id){
   const body = `<dl class="kv"><dt>الفصل</dt><dd>${esc(clsName(m.classId))} <small>(${esc(clsSvc(m.classId))})</small></dd>
     ${m.phone ? `<dt>الموبايل</dt><dd dir="ltr" style="text-align:end">${esc(m.phone)}</dd>` : ''}${m.parentPhone ? `<dt>ولي الأمر</dt><dd dir="ltr" style="text-align:end">${esc(m.parentPhone)}</dd>` : ''}
     ${age != null ? `<dt>السن</dt><dd>${nf(age)} سنة</dd>` : ''}${m.address ? `<dt>العنوان</dt><dd>${esc(m.address)}</dd>` : ''}${m.notes ? `<dt>ملاحظات</dt><dd>${esc(m.notes)}</dd>` : ''}</dl>
-    <h3 style="margin:20px 0 8px">الحضور</h3><div style="display:flex;gap:16px;flex-wrap:wrap;margin-bottom:10px"><span class="pill ${rateCls(rate)}">نسبة الحضور ${pct(rate)}</span><small>حاضر ${nf(rec.p)} · غائب ${nf(rec.a)} · معتذر ${nf(rec.e)}</small></div>
+    <h3 style="margin:20px 0 8px">الحضور</h3><div style="display:flex;gap:16px;flex-wrap:wrap;margin-bottom:10px"><span class="pill ${rateCls(rate)}">نسبة الحضور ${pct(rate)}</span><small>حاضر ${nf(rec.p)} · متأخر ${nf(rec.l)} · غائب ${nf(rec.a)} · معتذر ${nf(rec.e)}</small></div>
     ${ds.length ? `<div class="dots">${ds.map(d => `<span class="dot ${getStatus(id, d)}" title="${esc(fmtDate(d))}">${nf(parseD(d).getDate())}</span>`).join('')}</div>` : '<small>لا يوجد سجل حضور.</small>'}
     <h3 style="margin:20px 0 8px">التقييمات</h3>${e ? `<div style="margin-bottom:6px"><span class="pill mid">★ ${avgFmt(e.avg)}</span> <small>من ${nf(e.n)} تقييم</small></div><div class="chips">${criteria().filter(k => e.cnt[k.id]).map(k => `<span class="chip">${esc(k.name)}: ${avgFmt(e.sum[k.id] / e.cnt[k.id])}</span>`).join('')}</div>` : '<small>لا توجد تقييمات.</small>'}
     ${evs.map(x => `<div class="ev"><small>${esc(fmtDate(x.date))}</small> <b>★ ${avgFmt(evAvg(x))}</b>${x.note ? `<div>${esc(x.note)}</div>` : ''}</div>`).join('')}`;
@@ -1070,14 +1067,12 @@ const A = {
     const cur = getStatus(id, ui.attDate);
     const next = cur === st ? '' : st;
     setStatus(id, ui.attDate, next);
-    if (isServantTarget) {
-      if (next === 'p' || next === 'l') setTime(id, ui.attDate, nowHM());
-      else if (next !== cur) setTime(id, ui.attDate, '');
-    }
+    if (next === 'p' || next === 'l') { if (ui.attDate === today()) setTime(id, ui.attDate, nowHM()); }
+    else if (next !== cur) setTime(id, ui.attDate, '');
   },
   setTime(t){
     const id = t.dataset.aTime;
-    if (!isAdmin() || !S.roster[id]) return;
+    if (S.roster[id] ? !isAdmin() : !canMark(id)) return;
     setTime(id, ui.attDate, t.value || '');
   },
   markAll(t){
@@ -1087,7 +1082,12 @@ const A = {
     else { ids = membersOf(ui.attClass).map(m => m.id); ids = ids.filter(canMark); }
     if (!ids.length) return;
     ids.forEach(id => p[id] = st);
-    patch('att', monthOf(ui.attDate), {days:{[ui.attDate]:p}});
+    const patchObj = {days:{[ui.attDate]:p}};
+    if (st === 'p' && ui.attDate === today()) {
+      const tm = {}; ids.forEach(id => { const c = getStatus(id, ui.attDate); if (!((c === 'p' || c === 'l') && getTime(id, ui.attDate))) tm[id] = nowHM(); });
+      if (Object.keys(tm).length) patchObj.times = {[ui.attDate]:tm};
+    }
+    patch('att', monthOf(ui.attDate), patchObj);
     toast(st ? 'تم تسجيل الكل حاضرين' : 'تم مسح الحالات');
   },
   openMember(t){ memberProfile(t.dataset.id); },
