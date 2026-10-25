@@ -170,6 +170,7 @@ tr:last-child td{border-bottom:0}
 .hbar b{text-align:end}
 .dots{display:flex;gap:6px;flex-wrap:wrap}
 .dot{width:26px;height:26px;border-radius:50%;background:var(--track);display:grid;place-items:center;font-size:11px;color:var(--ink2);font-weight:700}
+.grp-row td{background:var(--primary-soft);color:var(--ink);padding:8px 12px;font-weight:600}
 .dot.l{background:var(--primary);color:var(--primary-ink)} .dot.p{background:var(--p);color:#fff} .dot.a{background:var(--a);color:#fff} .dot.e{background:var(--e);color:#fff}
 
 /* stars */
@@ -231,18 +232,23 @@ tr:last-child td{border-bottom:0}
   .sb,.btn,.mrow{transition:background .15s,border-color .15s}
 }
 #printHead{display:none}
+@page{size:A4;margin:12mm}
 @media print{
-  body.printing *{visibility:hidden}
-  body.printing #printHead, body.printing #printHead *,
-  body.printing #main, body.printing #main *{visibility:visible}
-  body.printing #printHead{display:flex;align-items:center;gap:16px;position:fixed;top:0;inset-inline-start:0;width:100%;padding:10px 0 14px;border-bottom:3px solid var(--gold);margin-bottom:14px}
-  body.printing #printHead .p-logo{flex:none}
-  body.printing #printHead .p-info h1{font-size:20px;margin:0}
-  body.printing #printHead .p-info h2{font-size:15px;margin:2px 0 0;color:var(--gold)}
-  body.printing #printHead .p-info p{font-size:12px;margin:2px 0 0;color:#555}
-  body.printing #main{position:absolute;top:110px;inset-inline-start:0;width:100%;padding:0}
-  body.printing .side,body.printing .mtop,body.printing .toolbar,body.printing .tabs,body.printing .btn,body.printing .icon-btn,body.printing .ph .actions{display:none !important}
+  body.printing{--bg:#fff;--surface:#fff;--surface2:#F8F2E2;--ink:#1d1409;--ink2:#5b4a2e;--line:#D8C79B;--primary:#A9761F;--primary-ink:#fff;--primary-soft:#F3E6C4;--gold:#8A6210;--p:#2E7D5A;--p-bg:#DDF0E6;--a:#B23A2E;--a-bg:#F8DFDB;--e:#94691A;--e-bg:#F6EACB;--track:#EFE1BC;--shadow:none;background:#fff;color:#1d1409;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  body.printing .side,body.printing .mtop,body.printing .toolbar,body.printing .tabs,body.printing .btn,body.printing .icon-btn,body.printing .ph,body.printing #toast,body.printing #modal{display:none !important}
   body.printing .app{display:block}
+  body.printing .main{padding:0;max-width:none;width:100%}
+  body.printing #printHead{display:flex;align-items:center;gap:18px;padding:0 0 12px;margin:0 0 18px;border-bottom:3px solid var(--gold)}
+  body.printing #printHead .p-logo{flex:none;line-height:0}
+  body.printing #printHead .p-info{flex:1;min-width:0}
+  body.printing #printHead .p-info h1{font-size:22px;line-height:1.5;margin:0}
+  body.printing #printHead .p-info h2{font-size:16px;line-height:1.5;margin:2px 0 0;color:var(--gold)}
+  body.printing #printHead .p-info p{font-size:13px;line-height:1.5;margin:2px 0 0;color:#555}
+  body.printing .card,body.printing .stat{box-shadow:none;break-inside:avoid}
+  body.printing .tablewrap{overflow:visible;border-radius:0}
+  body.printing thead{display:table-header-group}
+  body.printing tr{break-inside:avoid}
+  body.printing .grp-row{break-after:avoid}
 }
 </style>
 </head>
@@ -489,7 +495,7 @@ let loaded = false, me = null, modalCtx = {}, evDraft = null, fatal = '', pub = 
 const ui = {
   view:'dashboard', attTab:'members', attClass:'', attDate:today(), evClass:'', evDate:today(), servTab:'roster',
   q:'', fService:'', fClass:'', showArchived:false,
-  rep:{range:'3m', service:'', cls:'', tab:'members', sort:'low', from:'', to:''}
+  rep:{range:'3m', service:'', cls:'', tab:'members', sort:'class', from:'', to:''}
 };
 const cfg = () => S.config.main || null;
 const arr = col => Object.keys(S[col]).map(id => Object.assign({}, S[col][id], {id}));
@@ -498,9 +504,15 @@ const meServant = () => (me && me.role === 'servant') ? S.servants[me.id] : null
 const byName = (a, b) => String(a.name).localeCompare(String(b.name), 'ar');
 const byOrder = (a, b) => ((a.order || 0) - (b.order || 0)) || byName(a, b);
 const services = () => arr('services').sort(byOrder);
+const classRank = name => {
+  const n = norm(name);
+  const stage = /شباب/.test(n) ? 3 : /ثانوي/.test(n) ? 2 : /اعدادي/.test(n) ? 1 : 0;
+  const g = /حضان|روض/.test(n) ? 0 : /اول/.test(n) ? 1 : /تاني|ثاني(?!و)/.test(n) ? 2 : /تالت|ثالث/.test(n) ? 3 : /رابع/.test(n) ? 4 : /خامس/.test(n) ? 5 : /سادس/.test(n) ? 6 : 20;
+  return stage * 100 + g;
+};
 const classes = () => {
   const idx = {}; services().forEach((s, i) => idx[s.id] = i);
-  return arr('classes').sort((a, b) => ((idx[a.serviceId] == null ? 99 : idx[a.serviceId]) - (idx[b.serviceId] == null ? 99 : idx[b.serviceId])) || byOrder(a, b));
+  return arr('classes').sort((a, b) => ((idx[a.serviceId] == null ? 99 : idx[a.serviceId]) - (idx[b.serviceId] == null ? 99 : idx[b.serviceId])) || (classRank(a.name) - classRank(b.name)) || byOrder(a, b));
 };
 const allowedClasses = () => isAdmin() ? classes() : classes().filter(c => ((meServant() || {}).classIds || []).indexOf(c.id) > -1);
 const allowedClassIds = () => new Set(allowedClasses().map(c => c.id));
@@ -861,6 +873,7 @@ function viewReports(){
   if (r.cls && !fCls.some(c => c.id === r.cls)) r.cls = '';
   const scope = fCls.filter(c => !r.cls || c.id === r.cls);
   const scopeIds = new Set(scope.map(c => c.id));
+  const cIdx = {}; scope.forEach((k, i) => { cIdx[k.id] = i; }); const cOrd = id => cIdx[id] == null ? 999 : cIdx[id];
   const mem = activeMembers(arr('members').filter(m => scopeIds.has(m.classId))).sort(byName);
   if (r.tab === 'servants' && !admin) r.tab = 'members';
   const tabs = [['members','حضور المخدومين']].concat(admin ? [['servants','حضور الخدام']] : []).concat([['evals','التقييمات']]);
@@ -872,13 +885,13 @@ function viewReports(){
   out += '<div class="tabs">' + tabs.map(t => `<button class="tab ${r.tab === t[0] ? 'on' : ''}" data-a="repTab" data-v="${t[0]}">${t[1]}</button>`).join('') + '</div>';
 
   if (r.tab === 'servants') {
-    const sv = arr('roster').sort(byName), c = collect(sv.map(s => s.id), from, to);
+    const sv = arr('roster').filter(x => (!r.service && !r.cls) || scopeIds.has(x.classId)).sort((a, b) => (cOrd(a.classId) - cOrd(b.classId)) || byName(a, b)), c = collect(sv.map(s => s.id), from, to);
     const rows = sv.map(s => ({s, rec:c.per[s.id], rate:rateOf(c.per[s.id])}));
     const tp = rows.reduce((a, x) => a + x.rec.p, 0), tt = rows.reduce((a, x) => a + x.rec.p + x.rec.a + x.rec.e + x.rec.l, 0);
     out += `<div class="stats">${statCard(nf(c.dates.length), 'اجتماع مسجّل')}${statCard(pct(tt ? tp / tt * 100 : null), 'متوسط حضور الخدام')}${statCard(nf(sv.length), 'خادم')}</div>`;
     out += '<div class="card" style="margin-bottom:18px"><h2>الحضور حسب الاجتماع</h2>' + columns(c.dates.slice(-12).map(d => ({label:fmtShort(d), value:rateOf(c.perDate[d])}))) + '</div>';
-    out += '<div class="tablewrap"><table><thead><tr><th>الخادم</th><th>حاضر</th><th>متأخر</th><th>غائب</th><th>معتذر</th><th>نسبة الحضور</th></tr></thead><tbody>' + rows.sort((a, b) => (a.rate == null ? 999 : a.rate) - (b.rate == null ? 999 : b.rate)).map(x => `<tr><td><b>${esc(x.s.name)}</b></td><td>${nf(x.rec.p)}</td><td>${nf(x.rec.l)}</td><td>${nf(x.rec.a)}</td><td>${nf(x.rec.e)}</td><td>${rateBar(x.rate)}</td></tr>`).join('') + '</tbody></table></div>';
-    lastReport = {name:'servants-attendance', rows:[['الخادم','حاضر','متأخر','غائب','معتذر','نسبة الحضور %']].concat(rows.map(x => [x.s.name, x.rec.p, x.rec.l, x.rec.a, x.rec.e, x.rate == null ? '' : Math.round(x.rate)]))};
+    out += '<div class="tablewrap"><table><thead><tr><th>الخادم</th><th>الفصل</th><th>حاضر</th><th>متأخر</th><th>غائب</th><th>معتذر</th><th>نسبة الحضور</th></tr></thead><tbody>' + rows.map(x => `<tr><td><b>${esc(x.s.name)}</b></td><td>${S.classes[x.s.classId] ? esc(clsName(x.s.classId)) : '—'}</td><td>${nf(x.rec.p)}</td><td>${nf(x.rec.l)}</td><td>${nf(x.rec.a)}</td><td>${nf(x.rec.e)}</td><td>${rateBar(x.rate)}</td></tr>`).join('') + '</tbody></table></div>';
+    lastReport = {name:'servants-attendance', rows:[['الخادم','الفصل','حاضر','متأخر','غائب','معتذر','نسبة الحضور %']].concat(rows.map(x => [x.s.name, clsName(x.s.classId), x.rec.p, x.rec.l, x.rec.a, x.rec.e, x.rate == null ? '' : Math.round(x.rate)]))};
     return out;
   }
   const c = collect(mem.map(m => m.id), from, to);
@@ -888,7 +901,7 @@ function viewReports(){
     let tot = 0, cn = 0; rows.forEach(x => { tot += x.e.avg * x.e.n; cn += x.e.n; });
     out += `<div class="stats">${statCard(nf(cn), 'تقييم مسجّل')}${statCard(avgFmt(cn ? tot / cn : null), 'متوسط التقييم من ٥')}${statCard(nf(rows.length), 'مخدوم تم تقييمه')}</div>`;
     if (!rows.length) return out + emptyBox('لا توجد تقييمات في هذه الفترة.');
-    out += '<div class="tablewrap"><table><thead><tr><th>المخدوم</th><th>الفصل</th>' + crs.map(k => `<th>${esc(k.name)}</th>`).join('') + '<th>العام</th><th>عدد التقييمات</th></tr></thead><tbody>' + rows.sort((a, b) => a.e.avg - b.e.avg).map(x => `<tr><td><b>${esc(x.m.name)}</b></td><td>${esc(clsName(x.m.classId))}</td>${crs.map(k => `<td>${x.e.cnt[k.id] ? avgFmt(x.e.sum[k.id] / x.e.cnt[k.id]) : '—'}</td>`).join('')}<td><span class="pill mid">★ ${avgFmt(x.e.avg)}</span></td><td>${nf(x.e.n)}</td></tr>`).join('') + '</tbody></table></div>';
+    out += '<div class="tablewrap"><table><thead><tr><th>المخدوم</th><th>الفصل</th>' + crs.map(k => `<th>${esc(k.name)}</th>`).join('') + '<th>العام</th><th>عدد التقييمات</th></tr></thead><tbody>' + rows.sort((a, b) => (cOrd(a.m.classId) - cOrd(b.m.classId)) || byName(a.m, b.m)).map(x => `<tr><td><b>${esc(x.m.name)}</b></td><td>${esc(clsName(x.m.classId))}</td>${crs.map(k => `<td>${x.e.cnt[k.id] ? avgFmt(x.e.sum[k.id] / x.e.cnt[k.id]) : '—'}</td>`).join('')}<td><span class="pill mid">★ ${avgFmt(x.e.avg)}</span></td><td>${nf(x.e.n)}</td></tr>`).join('') + '</tbody></table></div>';
     lastReport = {name:'evaluations', rows:[['المخدوم','الفصل'].concat(crs.map(k => k.name), ['المتوسط العام','عدد التقييمات'])].concat(rows.map(x => [x.m.name, clsName(x.m.classId)].concat(crs.map(k => x.e.cnt[k.id] ? Math.round(x.e.sum[k.id] / x.e.cnt[k.id] * 10) / 10 : ''), [Math.round(x.e.avg * 10) / 10, x.e.n])))};
     return out;
   }
@@ -899,9 +912,9 @@ function viewReports(){
   out += '<div class="card"><h2>الحضور حسب الفصل</h2><div class="hbars">' + (scope.length ? scope.map(k => { const ms = mem.filter(m => m.classId === k.id), agg = {p:0, a:0, e:0, l:0}; ms.forEach(m => { agg.p += c.per[m.id].p; agg.a += c.per[m.id].a; agg.e += c.per[m.id].e; agg.l += c.per[m.id].l; }); const rr = rateOf(agg); return `<div class="hbar"><span>${esc(k.name)}</span><div class="tr"><i style="width:${rr || 0}%"></i></div><b>${pct(rr)}</b></div>`; }).join('') : '<p class="muted" style="margin:0">لا توجد فصول.</p>') + '</div></div></div>';
   if (!rows.length) return out + emptyBox('لا يوجد مخدومون ضمن الفلتر المحدد.');
   const es = evalStats(mem.map(m => m.id), from, to);
-  const sorted = rows.slice().sort((a, b) => r.sort === 'name' ? byName(a.m, b.m) : r.sort === 'high' ? ((b.rate == null ? -1 : b.rate) - (a.rate == null ? -1 : a.rate)) : ((a.rate == null ? 999 : a.rate) - (b.rate == null ? 999 : b.rate)));
-  out += `<div class="toolbar" style="justify-content:space-between"><h2 style="margin:0">تفاصيل المخدومين</h2><label class="fld inline">الترتيب<select data-c="repSort"><option value="low" ${r.sort === 'low' ? 'selected' : ''}>الأقل حضورًا أولاً</option><option value="high" ${r.sort === 'high' ? 'selected' : ''}>الأعلى حضورًا أولاً</option><option value="name" ${r.sort === 'name' ? 'selected' : ''}>بالاسم</option></select></label></div>`;
-  out += '<div class="tablewrap"><table><thead><tr><th>المخدوم</th><th>الفصل</th><th>حاضر</th><th>متأخر</th><th>غائب</th><th>معتذر</th><th>نسبة الحضور</th><th>التقييم</th></tr></thead><tbody>' + sorted.map(x => `<tr><td><button class="linkbtn" style="color:var(--ink);font-weight:700;font-size:16px" data-a="openMember" data-id="${x.m.id}">${esc(x.m.name)}</button></td><td>${esc(clsName(x.m.classId))}</td><td>${nf(x.rec.p)}</td><td>${nf(x.rec.l)}</td><td>${nf(x.rec.a)}</td><td>${nf(x.rec.e)}</td><td>${rateBar(x.rate)}</td><td>${es[x.m.id] ? '★ ' + avgFmt(es[x.m.id].avg) : '—'}</td></tr>`).join('') + '</tbody></table></div>';
+  const sorted = rows.slice().sort((a, b) => r.sort === 'class' ? ((cOrd(a.m.classId) - cOrd(b.m.classId)) || byName(a.m, b.m)) : r.sort === 'name' ? byName(a.m, b.m) : r.sort === 'high' ? ((b.rate == null ? -1 : b.rate) - (a.rate == null ? -1 : a.rate)) : ((a.rate == null ? 999 : a.rate) - (b.rate == null ? 999 : b.rate)));
+  out += `<div class="toolbar" style="justify-content:space-between"><h2 style="margin:0">تفاصيل المخدومين</h2><label class="fld inline">الترتيب<select data-c="repSort"><option value="class" ${r.sort === 'class' ? 'selected' : ''}>بالفصل (من الحضانة للشباب)</option><option value="low" ${r.sort === 'low' ? 'selected' : ''}>الأقل حضورًا أولاً</option><option value="high" ${r.sort === 'high' ? 'selected' : ''}>الأعلى حضورًا أولاً</option><option value="name" ${r.sort === 'name' ? 'selected' : ''}>بالاسم</option></select></label></div>`;
+  out += '<div class="tablewrap"><table><thead><tr><th>المخدوم</th><th>الفصل</th><th>حاضر</th><th>متأخر</th><th>غائب</th><th>معتذر</th><th>نسبة الحضور</th><th>التقييم</th></tr></thead><tbody>' + (() => { let lastC = null; return sorted.map(x => { let gh = ''; if (r.sort === 'class' && x.m.classId !== lastC) { lastC = x.m.classId; const grp = sorted.filter(y => y.m.classId === x.m.classId), agg = {p:0, a:0, e:0, l:0}; grp.forEach(y => { agg.p += y.rec.p; agg.a += y.rec.a; agg.e += y.rec.e; agg.l += y.rec.l; }); gh = `<tr class="grp-row"><td colspan="8"><b>${esc(clsName(x.m.classId))}</b> <small>${esc(clsSvc(x.m.classId))} · ${nf(grp.length)} مخدوم · حضور ${pct(rateOf(agg))}</small></td></tr>`; } return gh + `<tr><td><button class="linkbtn" style="color:var(--ink);font-weight:700;font-size:16px" data-a="openMember" data-id="${x.m.id}">${esc(x.m.name)}</button></td><td>${esc(clsName(x.m.classId))}</td><td>${nf(x.rec.p)}</td><td>${nf(x.rec.l)}</td><td>${nf(x.rec.a)}</td><td>${nf(x.rec.e)}</td><td>${rateBar(x.rate)}</td><td>${es[x.m.id] ? '★ ' + avgFmt(es[x.m.id].avg) : '—'}</td></tr>`; }).join(''); })() + '</tbody></table></div>';
   out += '<p class="hint" style="margin-top:10px">نسبة الحضور = عدد مرات الحضور ÷ كل الاجتماعات المسجّلة للمخدوم في الفترة (شاملة الغياب والاعتذار).</p>';
   lastReport = {name:'attendance', rows:[['المخدوم','الفصل','الخدمة','حاضر','متأخر','غائب','معتذر','نسبة الحضور %','متوسط التقييم']].concat(sorted.map(x => [x.m.name, clsName(x.m.classId), clsSvc(x.m.classId), x.rec.p, x.rec.l, x.rec.a, x.rec.e, x.rate == null ? '' : Math.round(x.rate), es[x.m.id] ? Math.round(es[x.m.id].avg * 10) / 10 : '']))};
   return out;
@@ -1160,7 +1173,7 @@ const A = {
   saveClass(){
     const name = V('name').trim(); if (!name) return toast('اكتب اسم الفصل', 'err');
     const id = modalCtx.id || uid('c'), old = S.classes[id];
-    put('classes', id, {name, serviceId:V('serviceId'), order: old ? old.order : Date.now() % 100000}); closeModal(); toast('تم الحفظ');
+    put('classes', id, {name, serviceId:V('serviceId'), order: old ? old.order : Date.now()}); closeModal(); toast('تم الحفظ');
   },
   delClass(t){
     const id = t.dataset.id;
@@ -1218,10 +1231,13 @@ const A = {
     } catch (e) { toast(errText(e), 'err'); } finally { busy = false; }
   },
   printReport(){
+    const main = $('#main'); if (!main) return;
+    const period = $('#main .ph p') ? $('#main .ph p').textContent : '';
+    const titles = {members:'تقرير حضور المخدومين', servants:'تقرير حضور الخدام', evals:'تقرير التقييمات'};
     const head = document.createElement('div');
     head.id = 'printHead';
-    head.innerHTML = `<div class="p-logo">${logo(52)}</div><div class="p-info"><h1>${esc(cfg().churchName)}</h1><h2>تقرير الحضور والتقييمات</h2><p>${esc($('#main .ph p') ? $('#main .ph p').textContent : '')}</p></div>`;
-    document.body.appendChild(head);
+    head.innerHTML = `<div class="p-logo">${logo(64)}</div><div class="p-info"><h1>${esc(cfg().churchName)}</h1><h2>${esc(titles[ui.rep.tab] || 'تقرير الحضور والتقييمات')}</h2><p>${esc(period)}</p></div>`;
+    main.insertBefore(head, main.firstChild);
     document.body.classList.add('printing');
     const done = () => { document.body.classList.remove('printing'); head.remove(); window.removeEventListener('afterprint', done); };
     window.addEventListener('afterprint', done);
